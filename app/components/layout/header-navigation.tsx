@@ -3,7 +3,9 @@ import type { Location } from "@remix-run/react"
 import {
   CalendarIcon,
   DashboardIcon,
+  EnvelopeClosedIcon,
   HomeIcon,
+  LetterCaseCapitalizeIcon,
   MagicWandIcon,
   MagnifyingGlassIcon,
   PersonIcon,
@@ -26,11 +28,7 @@ const navPublicItems: NavItem[] = [
     text: "Home",
     icon: <HomeIcon className="icon" />,
   },
-  {
-    to: "/search",
-    text: "Search",
-    icon: <MagnifyingGlassIcon className="icon" />,
-  },
+
   {
     to: "/artworks",
     text: "Artworks",
@@ -45,6 +43,21 @@ const navPublicItems: NavItem[] = [
     to: "/exhibitions",
     text: "Exhibitions",
     icon: <CalendarIcon className="icon" />,
+  },
+  {
+    to: "/search",
+    text: "Search",
+    icon: <MagnifyingGlassIcon className="icon" />,
+  },
+  {
+    to: "/about",
+    text: "About",
+    icon: <LetterCaseCapitalizeIcon className="icon" />,
+  },
+  {
+    to: "/contact",
+    text: "Contact",
+    icon: <EnvelopeClosedIcon className="icon" />,
   },
 ]
 

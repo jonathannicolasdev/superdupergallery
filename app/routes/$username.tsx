@@ -51,15 +51,10 @@ export default function Route() {
   const { userSession } = useRootLoaderData()
   const { user } = useLoaderData<typeof loader>()
 
-  const defaultCoverImageURL = `https://images.unsplash.com/photo-1571745544682-143ea663cf2c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80`
-
   if (!user) {
     return (
       <Layout className="px-4 sm:px-8">
         <section className="flex flex-col items-center justify-center pt-4">
-          <Link to="/" className="hover-opacity">
-            <img src="/favicon.png" alt="Bear" className="h-12" />
-          </Link>
           <div className="flex max-w-md flex-col justify-center space-y-4 pt-24 text-center">
             <img
               src="/images/bear-fox.png"
@@ -88,16 +83,6 @@ export default function Route() {
 
   return (
     <Layout className="flex flex-col items-center">
-      <section className="flex justify-center sm:px-2">
-        <img
-          className="h-32 object-cover sm:h-48 sm:rounded-b-lg md:h-60"
-          alt="User Cover"
-          src={defaultCoverImageURL}
-          height={240}
-          width={1440}
-        />
-      </section>
-
       <section className="w-full max-w-3xl space-y-8 px-4 sm:px-8">
         <header className="-mt-16 flex flex-wrap items-end justify-between">
           <div>

@@ -8,8 +8,8 @@ type NavItem = {
 
 const navPublicItems: NavItem[] = [
   {
-    to: "/",
-    text: "Home",
+    to: "/about",
+    text: "About",
   },
   {
     to: "/search",
@@ -26,6 +26,10 @@ const navPublicItems: NavItem[] = [
   {
     to: "/exhibitions",
     text: "Exhibitions",
+  },
+  {
+    to: "/contact",
+    text: "Contact",
   },
 ]
 
