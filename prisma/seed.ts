@@ -24,8 +24,8 @@ const enabledItems = [
   "userRoles",
   "userTags",
   "users",
-  "artworks",
   "artists",
+  "artworks",
   "exhibitions",
 ]
 
@@ -34,8 +34,8 @@ async function main() {
     userRoles: seedUserRoles,
     userTags: seedUserTags,
     users: seedUsers,
-    artworks: seedArtworks,
     artists: seedArtists,
+    artworks: seedArtworks,
     exhibitions: seedExhibitions,
   }
 

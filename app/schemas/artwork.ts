@@ -1,27 +1,19 @@
 import { z } from "zod"
 
-const id = z.string().min(1, "Existing id is required")
+const userId = z.string().min(1, "User id is required")
+
+const id = z.string().min(1, "Existing id is required").optional()
 
 const title = z.string().max(50, "Title limited to 50 characters")
 
-const description = z.string().max(200, "Description limited to 200 characters")
+const medium = z.string().max(50, "Medium limited to 50 characters")
 
-const body = z
-  .string()
-  .max(1000, "Artwork body message limited to 1000 characters")
-
-const link = z.object({
-  value: z.string().url({ message: "Please enter a valid URL." }),
-  text: z.string().optional(),
-  sequence: z.number().int().optional(),
-})
-
-const links = z.array(link).optional()
+const size = z.string().max(50, "size limited to 50 characters")
 
 export const schemaArtwork = z.object({
+  userId,
   id,
   title,
-  description,
-  body,
-  links,
+  medium,
+  size,
 })

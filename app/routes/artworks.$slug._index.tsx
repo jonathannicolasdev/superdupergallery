@@ -33,9 +33,7 @@ export async function loader({ request, params }: LoaderArgs) {
 export default function ArtworksRoute() {
   const { artwork } = useLoaderData<typeof loader>()
 
-  if (!artwork) {
-    return null
-  }
+  if (!artwork) return null
 
   return (
     <Layout className="flex justify-center pt-10">
@@ -43,9 +41,11 @@ export default function ArtworksRoute() {
         <header className="space-y-2">
           <h1 className="flex">
             <Link to={`/artworks/${artwork.slug}`} className="hover-opacity">
-              {artwork.title}
+              {artwork.title || "Unknown Title"}
             </Link>
           </h1>
+          <p>Medium: {artwork.medium || "Unknown Medium"}</p>
+          <p>Size: {artwork.size || "Unknown Size"}</p>
         </header>
       </div>
     </Layout>
