@@ -21,9 +21,9 @@ import dataUsersCredentials from "~/data/users-credentials.json"
 
 // Enable and disable by commenting in/out the enabled items
 const enabledItems = [
-  // "userRoles",
-  // "userTags",
-  // "users",
+  "userRoles",
+  "userTags",
+  "users",
   "exhibitions",
   "artists",
   "artworks",
