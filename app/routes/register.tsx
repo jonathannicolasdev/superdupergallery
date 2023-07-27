@@ -14,7 +14,7 @@ export const meta: V2_MetaFunction = () => {
     { title: formatTitle("Register") },
     {
       name: "description",
-      content: "Create your new 🐻 SuperDuperGallery user account.",
+      content: "Create your new 🐈 Super Duper Gallery user account.",
     },
   ]
 }
@@ -51,7 +51,7 @@ export default function Route() {
 
         <section>
           <p className="text-muted-foreground">
-            Already a SuperDuperGallery user?{" "}
+            Already a Super Duper Gallery user?{" "}
             <Link to={`/login`} className="hover-opacity font-bold text-brand">
               Login to your account
             </Link>

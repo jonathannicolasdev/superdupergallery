@@ -1,41 +1,21 @@
-# 🐻 SuperDuperGallery
+# 🐈 Super Duper Gallery
 
-> Brilliant mentoring
-
-The open mentoring platform for people and organization. Open source, free to
-use, with premium options. 🐻 SuperDuperGallery is a place for tech and creating
-professionals to mentor each others.
+> The Contemporarty Artworks Gallery
 
 Check out:
 
 - Web: <https://superdupergallery.com>
 - Repo: <https://github.com/superdupergallery>
-- Progress: <https://github.com/orgs/superdupergallery/projects/2>
 
-> 🚧 Still in early and active development
-
-![SuperDuperGallery](public/images/superdupergallery.png)
+![Super Duper Gallery](public/images/superdupergallery.png)
 
 ## Concept
 
-> men·tor·ship (noun): the guidance provided by a mentor, especially an
-> experienced person in a company or educational institution.
+🐈 Super Duper Gallery allow to:
 
-A true mentorship should enable to teach, guide, and share that can be for long
-term growth.
-
-🐻 SuperDuperGallery allow to:
-
-- Connect to people, rospective mentors and mentees
-- Explore various learning programs- Filter out for serious commitment
-- Design custom mentorship experience
-- Set achievable goals
-- Get paid to mentor people
-- Adjust mentor compensation rate, public or private
-- Prefer between live/sync or recorded/async communication
-- Link social profiles, portfolios, projects, products, and more
-
-[Read more about the features]()
+- Discover artworks
+- Get to know the artists
+- See available pieces on sale
 
 ## Getting Started
 

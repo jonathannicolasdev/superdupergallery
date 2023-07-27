@@ -87,7 +87,7 @@ export function UserEmailForm({ user }: { user: Pick<User, "id" | "email"> }) {
           />
           <FormDescription>
             Please enter your most active email address, to use to log in with
-            SuperDuperGallery.
+            Super Duper Gallery.
           </FormDescription>
           {email.error && (
             <Alert variant="destructive" id={email.errorId}>

@@ -1,3 +1,3 @@
 export function formatTitle(text: string) {
-  return `${text} — 🐻 SuperDuperGallery`
+  return `${text} — 🐈 Super Duper Gallery`
 }

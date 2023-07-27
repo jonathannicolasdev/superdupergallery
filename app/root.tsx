@@ -33,7 +33,7 @@ import styles from "./globals.css"
 export const links: LinksFunction = () => [
   {
     rel: "shortcut icon",
-    href: "https://fav.farm/🐻",
+    href: "https://fav.farm/🐈",
   },
   {
     rel: "shortcut icon",
@@ -64,7 +64,7 @@ export const links: LinksFunction = () => [
 
 export const meta: V2_MetaFunction = () => {
   return [
-    { title: "SuperDuperGallery" },
+    { title: "Super Duper Gallery" },
     {
       name: "description",
       content: "Brilliant mentoring platform for people and organization.",

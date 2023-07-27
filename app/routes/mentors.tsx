@@ -12,7 +12,7 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   if (!query) {
     return [
       { title: formatTitle(`All mentors`) },
-      { name: "description", content: `All mentors in SuperDuperGallery.` },
+      { name: "description", content: `All mentors in Super Duper Gallery.` },
     ]
   }
 

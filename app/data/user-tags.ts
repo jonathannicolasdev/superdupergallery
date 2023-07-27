@@ -25,7 +25,7 @@ export const dataUserTags: DataUserTag[] = [
     symbol: "COLLABORATOR",
     name: "Collaborator",
     sequence: 1,
-    description: "Core SuperDuperGallery team members.",
+    description: "Core Super Duper Gallery team members.",
   },
   {
     symbol: "MENTOR",

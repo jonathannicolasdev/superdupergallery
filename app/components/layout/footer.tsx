@@ -23,7 +23,7 @@ export function Footer({ className }: Props) {
         <p>
           <span>&copy; {today.getFullYear()} </span>
           <Anchor href="https://github.com/superdupergallery">
-            🐻 SuperDuperGallery
+            🐈 Super Duper Gallery
           </Anchor>
         </p>
 

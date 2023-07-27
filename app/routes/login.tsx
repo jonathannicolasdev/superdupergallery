@@ -10,7 +10,7 @@ export const meta: V2_MetaFunction = () => {
     { title: formatTitle("Login") },
     {
       name: "description",
-      content: "Login to your 🐻 SuperDuperGallery user account.",
+      content: "Login to your 🐈 Super Duper Gallery user account.",
     },
   ]
 }
@@ -30,7 +30,7 @@ export default function Route() {
             <div className="flex flex-col space-y-2">
               <h2>Login</h2>
               <p className="text-muted-foreground">
-                New to SuperDuperGallery?{" "}
+                New to Super Duper Gallery?{" "}
                 <Link
                   to={`/register`}
                   className="hover-opacity font-bold text-brand"
@@ -48,14 +48,14 @@ export default function Route() {
           <Link to="/" className="hidden lg:block">
             <h1 className="flex items-center gap-2 text-2xl">
               <img src="/images/bear-rounded.png" alt="Bear" className="h-10" />
-              <span className="text-brand">SuperDuperGallery</span>
+              <span className="text-brand">Super Duper Gallery</span>
             </h1>
           </Link>
 
           <div className="relative z-20 mt-auto">
             <blockquote className="space-y-2 text-right">
               <p className="text-lg font-semibold">
-                &ldquo;The mentors from 🐻 SuperDuperGallery are helpful
+                &ldquo;The mentors from 🐈 Super Duper Gallery are helpful
                 professionals.&rdquo;
               </p>
               <footer>— Somebody</footer>
