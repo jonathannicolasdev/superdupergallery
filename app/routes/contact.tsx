@@ -13,13 +13,11 @@ export const meta: V2_MetaFunction = () => [
 
 export default function RouteComponent() {
   return (
-    <Layout className="flex justify-center p-4">
-      <div className="space-y-4">
+    <Layout className="flex flex-col items-center p-4">
+      <div className="w-full max-w-xl space-y-4">
         <h1>Contact</h1>
 
-        <section>
-          <ContactForm />
-        </section>
+        <ContactForm />
       </div>
     </Layout>
   )

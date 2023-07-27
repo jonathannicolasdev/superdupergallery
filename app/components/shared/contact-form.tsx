@@ -32,25 +32,25 @@ export function ContactForm() {
           <div className="grid grid-cols-2 gap-4">
             <div className="grid gap-2">
               <Label htmlFor="area">Area</Label>
-              <Select defaultValue="billing">
+              <Select defaultValue="exhibition">
                 <SelectTrigger id="area">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="team">Team</SelectItem>
-                  <SelectItem value="billing">Billing</SelectItem>
-                  <SelectItem value="account">Account</SelectItem>
-                  <SelectItem value="deployments">Deployments</SelectItem>
+                  <SelectItem value="artist">Artist</SelectItem>
+                  <SelectItem value="artwork">Artwork</SelectItem>
+                  <SelectItem value="exhibition">Exhibition</SelectItem>
                   <SelectItem value="support">Support</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div className="grid gap-2">
               <Label htmlFor="priority-level">Priority Level</Label>
-              <Select defaultValue="2">
+              <Select defaultValue="3">
                 <SelectTrigger
                   id="priority-level"
-                  className="line-clamp-1 w-[160px] truncate"
+                  className="line-clamp-1 w-full truncate"
                 >
                   <SelectValue placeholder="Expected priority" />
                 </SelectTrigger>
@@ -72,6 +72,8 @@ export function ContactForm() {
             <Textarea
               id="description"
               placeholder="Please include all information relevant to your issue."
+              className="min-h-[200px]"
+              rows={10}
             />
           </div>
         </CardContent>
