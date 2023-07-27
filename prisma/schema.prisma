@@ -136,6 +136,7 @@ model Artwork {
   year   Int?
   medium String // canvas, acrylic
   size   String // width, height, length
+  price  Int?
 
   images ArtworkImage[]
 
