@@ -6,7 +6,14 @@ import invariant from "tiny-invariant"
 
 import { prisma } from "~/libs"
 import { createCacheHeaders } from "~/utils"
-import { Button, Layout } from "~/components"
+import {
+  Button,
+  Card,
+  CardHeader,
+  CardTitle,
+  Image,
+  Layout,
+} from "~/components"
 
 export async function loader({ request, params }: LoaderArgs) {
   invariant(params.slug, "Artist slug not found")
@@ -15,7 +22,13 @@ export async function loader({ request, params }: LoaderArgs) {
     where: { slug: params.slug },
     include: {
       image: true,
-      artworks: true,
+      artworks: {
+        include: {
+          images: {
+            select: { url: true },
+          },
+        },
+      },
     },
   })
   if (!artist) return notFound({ artist: null })
@@ -51,8 +64,8 @@ export default function ArtistsRoute() {
   }
 
   return (
-    <Layout className="flex justify-center pt-10">
-      <div className="flex w-full max-w-xl flex-wrap gap-10">
+    <Layout className="flex justify-center p-10">
+      <div className="space-y-10">
         {artist.image?.url && (
           <img
             src={`${artist.image.url}`}
@@ -61,14 +74,47 @@ export default function ArtistsRoute() {
           />
         )}
 
-        <header className="space-y-2">
+        <header className="flex flex-col items-center space-y-2">
           <h1 className="flex">
             <Link to={`/artists/${artist.slug}`} className="hover-opacity">
               {artist.name || "Unknown Title"}
             </Link>
           </h1>
-          <p>{artist.bio}</p>
+          <p>{artist.bio || "(Artist has no bio)"}</p>
         </header>
+
+        <section>
+          {artist.artworks.length > 0 && (
+            <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
+              {artist.artworks.map(artwork => {
+                return (
+                  <li key={artwork.id} className="w-full">
+                    <Link to={`/artworks/${artwork.slug}`}>
+                      <Card className="hover-opacity h-full space-y-2">
+                        <CardHeader className="flex flex-col items-center space-y-2 p-4">
+                          {artwork.images?.length > 0 &&
+                            artwork.images[0]?.url && (
+                              <Image
+                                src={`${artwork.images[0].url}`}
+                                alt={`${artwork.title}`}
+                                className="h-60 w-60 object-contain"
+                              />
+                            )}
+
+                          <div className="flex-grow" />
+
+                          <CardTitle className="text-center text-2xl">
+                            {artwork.title}
+                          </CardTitle>
+                        </CardHeader>
+                      </Card>
+                    </Link>
+                  </li>
+                )
+              })}
+            </ul>
+          )}
+        </section>
       </div>
     </Layout>
   )

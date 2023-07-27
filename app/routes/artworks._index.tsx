@@ -113,7 +113,7 @@ export default function ArtworksRoute() {
 
                           <div className="flex-grow" />
 
-                          <CardTitle className="text-2xl">
+                          <CardTitle className="text-center text-2xl">
                             {artwork.title}
                           </CardTitle>
 
