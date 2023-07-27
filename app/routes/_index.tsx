@@ -6,37 +6,21 @@ import arrayShuffle from "array-shuffle"
 import { prisma } from "~/libs"
 import { createCacheHeaders } from "~/utils"
 import { useRootLoaderData } from "~/hooks"
-import { AvatarAuto, Button, Layout, UserCard } from "~/components"
+import { ArtworkCard, Button, Layout } from "~/components"
 
 export async function loader({ request }: LoaderArgs) {
-  const mentors = await prisma.user.findMany({
-    where: { tags: { some: { symbol: "MENTOR" } } },
+  const artworks = await prisma.artwork.findMany({
     orderBy: { createdAt: "asc" },
-    take: 12,
-    select: {
-      id: true,
-      name: true,
-      username: true,
-      avatars: { select: { url: true } },
-      tags: { select: { id: true, symbol: true, name: true } },
-      profiles: { select: { headline: true, links: true } },
-    },
-  })
-
-  const mentees = await prisma.user.findMany({
-    where: { tags: { some: { symbol: "MENTEE" } } },
-    orderBy: { createdAt: "asc" },
-    take: 24,
-    select: {
-      id: true,
-      name: true,
-      username: true,
-      avatars: { select: { url: true } },
+    take: 10,
+    include: {
+      images: true,
+      artist: true,
+      exhibition: true,
     },
   })
 
   return json(
-    { mentors: arrayShuffle(mentors), mentees: arrayShuffle(mentees) },
+    { artworks: arrayShuffle(artworks) },
     { headers: createCacheHeaders(request, 60) },
   )
 }
@@ -45,8 +29,7 @@ export default function Index() {
   return (
     <Layout className="flex flex-col items-center justify-center gap-20 px-4 sm:px-8">
       <LandingHero />
-      <LandingMentors />
-      <LandingMentees />
+      <LandingArtworks />
       <LandingDevelopment />
     </Layout>
   )
@@ -83,71 +66,27 @@ export function LandingHero() {
   )
 }
 
-export function LandingMentors() {
-  const { mentors } = useLoaderData<typeof loader>()
+export function LandingArtworks() {
+  const { artworks } = useLoaderData<typeof loader>()
 
-  if (mentors.length <= 0) {
+  if (artworks.length <= 0) {
     return null
   }
 
   return (
     <article className="w-full max-w-7xl space-y-4">
       <header className="space-y-1">
-        <Link to="/mentors">
-          <h2 className="hover-opacity text-brand">Available Mentors</h2>
+        <Link to="/artworks">
+          <h2 className="hover-opacity text-brand">Available Artworks</h2>
         </Link>
         <p>In randomized order</p>
       </header>
       <ul className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        {mentors.map(user => {
+        {artworks.map(artwork => {
           return (
-            <li key={user.id} className="w-full">
-              <Link to={`/${user.username}`} className="block">
-                <UserCard user={user as any} />
-              </Link>
-            </li>
-          )
-        })}
-      </ul>
-    </article>
-  )
-}
-
-export function LandingMentees() {
-  const { mentees } = useLoaderData<typeof loader>()
-
-  if (mentees.length <= 0) {
-    return null
-  }
-
-  return (
-    <article className="w-full max-w-7xl space-y-4">
-      <header className="space-y-1">
-        <Link to="/mentees">
-          <h2 className="hover-opacity text-brand">Featured Mentees</h2>
-        </Link>
-        <p>In randomized order</p>
-      </header>
-      <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {mentees.map(user => {
-          return (
-            <li key={user.id}>
-              <Link
-                to={`/${user.username}`}
-                className="hover-opacity flex gap-2 py-1"
-              >
-                <AvatarAuto
-                  className="h-14 w-14"
-                  src={user.avatars[0]?.url}
-                  alt={user.username}
-                  fallback={user.username[0].toUpperCase()}
-                />
-                <div>
-                  <h3 className="text-base">{user.name}</h3>
-                  <p className="text-sm text-muted-foreground">
-                    @{user.username}
-                  </p>
-                </div>
+            <li key={artwork.id} className="w-full">
+              <Link to={`/artworks/${artwork.slug}`} className="block">
+                <ArtworkCard artwork={artwork as any} />
               </Link>
             </li>
           )

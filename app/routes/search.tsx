@@ -79,7 +79,7 @@ export default function Route() {
           <span>Search</span>
         </h1>
         <p className="text-muted-foreground">
-          Find anyone in here by name or username.
+          Find anything in Super Duper Gallery
         </p>
         <SearchForm />
       </header>

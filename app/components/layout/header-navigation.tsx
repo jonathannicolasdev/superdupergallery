@@ -31,14 +31,14 @@ const navPublicItems: NavItem[] = [
     icon: <MagnifyingGlassIcon className="icon" />,
   },
   {
+    to: "/artworks",
+    text: "Artworks",
+    icon: <Half1Icon className="icon" />,
+  },
+  {
     to: "/artists",
     text: "Artists",
     icon: <Half2Icon className="icon" />,
-  },
-  {
-    to: "/artworks",
-    text: "Mentees",
-    icon: <Half1Icon className="icon" />,
   },
 ]
 

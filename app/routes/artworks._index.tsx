@@ -79,16 +79,12 @@ export default function ArtworksRoute() {
               Artworks
             </Link>
           </h1>
-          <p className="text-muted-foreground">
-            Use artworks to posts some announcements or requests for everyone,
-            that you ask for help or offer a service
-          </p>
         </header>
 
         {!userData?.id && (
           <section>
             <Button asChild>
-              <Link to="/login">Create New Artwork</Link>
+              <Link to="/login">Add new artwork</Link>
             </Button>
           </section>
         )}
@@ -101,7 +97,7 @@ export default function ArtworksRoute() {
             <header>
               <h3>Quick Artwork</h3>
               <p className="text-sm text-muted-foreground">
-                Quickly create new artwork to ask or offer
+                Quickly add new artwork to ask or offer
               </p>
             </header>
 
