@@ -1,0 +1,12 @@
+{
+  "recommendations": [
+    "bradlc.vscode-tailwindcss",
+    "codeforge.remix-forge",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "moalamri.inline-fold",
+    "prisma.prisma",
+    "yzhang.markdown-all-in-one",
+    "stylelint.vscode-stylelint"
+  ]
+}

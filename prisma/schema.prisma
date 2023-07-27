@@ -1,0 +1,300 @@
+// https://pris.ly/d/prisma-schema
+// https://github.com/remix-run/indie-stack/blob/main/prisma/schema.prisma
+// https://github.com/planetscale/beam/blob/main/prisma/schema.prisma
+// Visualize with https://prismaliser.app
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+// https://www.prisma.io/docs/concepts/components/preview-features/client-preview-features
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex", "metrics", "views"]
+}
+
+// -----------------------------------------------------------------------------
+// User
+// -----------------------------------------------------------------------------
+
+model User {
+  id String @id @default(cuid())
+
+  name     String
+  username String  @unique(map: "User.username_unique")
+  nick     String?
+
+  email String? @unique(map: "User.email_unique") // TODO: Multiple emails
+  phone String? @unique(map: "User.phone_unique") // TODO: Multiple phones
+
+  role   UserRole? @relation(fields: [roleId], references: [id], onUpdate: Cascade)
+  roleId String?
+
+  tags      UserTag[]
+  profiles  UserProfile[]
+  locations UserLocation[]
+  avatars   UserAvatarImage[]
+  covers    UserCoverImage[]
+
+  broadcasts      Broadcast[]
+  broadcastImages BroadcastImage[]
+
+  contents      Content[]
+  contentImages ContentImage[]
+
+  emailIsVerified Boolean?  @default(false)
+  emailVerifiedAt DateTime?
+  phoneIsVerified Boolean?  @default(false)
+  phoneVerifiedAt DateTime?
+
+  password      UserPassword?
+  notifications UserNotification[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([roleId])
+}
+
+model UserRole {
+  id String @id @default(cuid())
+
+  symbol      String  @unique // "MENTOR" | "MENTEE" | "DEVELOPER"
+  name        String  @unique // "Mentor" | "Mentee" | "Developer"
+  sequence    Int?    @unique // 1 | 2 | 3 | ...
+  description String? @db.Text // "Do something"
+
+  users User[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model UserPassword {
+  id     String @id @default(cuid())
+  user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  userId String @unique
+
+  hash String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model UserTag {
+  id String @id @default(cuid())
+
+  symbol      String  @unique // "MENTOR" | "MENTEE" | "DEVELOPER"
+  name        String  @unique // "Mentor" | "Mentee" | "Developer"
+  sequence    Int?    @unique // 1 | 2 | 3 | ...
+  description String? @db.Text // "Do something"
+
+  users User[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model UserProfile {
+  id     String @id @default(cuid())
+  user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  userId String
+
+  headline String?
+  bio      String? @db.Text
+  links    Json?
+
+  modeName  String?  @default("Default")
+  isPrimary Boolean? @default(true)
+  sequence  Int?     @default(1)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model UserLocation {
+  id     String @id @default(cuid())
+  user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  userId String
+
+  label   String
+  address String? @db.Text
+  mapsURL String? @db.Text // https://goo.gl/maps/1xABCDEF123456
+
+  countryCode String?
+  province    String?
+  city        String?
+  district    String?
+  subDistrict String?
+
+  countryId     String?
+  provinceId    String?
+  cityId        String?
+  districtId    String?
+  subDistrictId String?
+
+  street        String? @db.Text
+  streetDetails String? @db.Text
+  postalCode    String?
+
+  latitude  Decimal? // -90 to 90, Example: -5.1234567
+  longitude Decimal? // -180 to 180, Example: 105.1234567
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model UserAvatarImage {
+  id String @id @default(cuid())
+
+  url String @db.Text
+
+  user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  userId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model UserCoverImage {
+  id String @id @default(cuid())
+
+  url String @db.Text
+
+  user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  userId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model UserNotification {
+  id     String @id @default(cuid())
+  user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  userId String
+
+  title String
+  body  String @db.Text
+
+  isRead   Boolean   @default(false)
+  isReadAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+// -----------------------------------------------------------------------------
+// Broadcast
+// -----------------------------------------------------------------------------
+
+model Broadcast {
+  id String @id @default(cuid())
+
+  slug        String  @unique
+  title       String  @db.Text
+  description String? @db.Text
+  body        String? @db.LongText
+
+  tags   BroadcastTag[]
+  images BroadcastImage[]
+
+  isPublished   Boolean   @default(false)
+  isPublishedAt DateTime?
+
+  user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  userId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model BroadcastImage {
+  id String @id @default(cuid())
+
+  url String
+
+  user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  userId String
+
+  broadcast   Broadcast @relation(fields: [broadcastId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  broadcastId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([broadcastId])
+}
+
+model BroadcastTag {
+  id String @id @default(cuid())
+
+  symbol      String  @unique // "CODE" | "FRONTEND" | "FULL_STACK"
+  name        String  @unique // "CODE" | "FRONTEND" | "Full Stack"
+  sequence    Int?    @unique // 1 | 2 | 3 | ...
+  description String? @db.Text // "The entirety of a computer system..."
+
+  broadcasts Broadcast[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// -----------------------------------------------------------------------------
+// Content
+// -----------------------------------------------------------------------------
+
+model Content {
+  id     String @id @default(cuid())
+  user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  userId String
+
+  slug        String? @unique
+  title       String?
+  description String? @db.Text
+  body        String? @db.Text
+
+  images ContentImage[]
+
+  isPublished   Boolean   @default(false)
+  isPublishedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model ContentImage {
+  id String @id @default(cuid())
+
+  url String
+
+  user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  userId String
+
+  content   Content @relation(fields: [contentId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  contentId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([contentId])
+}
