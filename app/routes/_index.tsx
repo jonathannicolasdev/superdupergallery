@@ -180,7 +180,7 @@ export function LandingStory() {
     <article className="w-full max-w-3xl space-y-8 py-20">
       <section>
         <img
-          src="https://superdupergallery.com/images/cover.jpeg"
+          src="https://superdupergallery.com/images/homepage-cover.jpeg"
           alt="Cover"
           className="rounded"
         />

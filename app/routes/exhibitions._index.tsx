@@ -1,10 +1,19 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { json, type LoaderArgs } from "@remix-run/node"
 import type { V2_MetaFunction } from "@remix-run/react"
-import { useLoaderData } from "@remix-run/react"
+import { Link, useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs"
-import { createCacheHeaders, formatTitle } from "~/utils"
-import { Debug, Layout, SearchForm } from "~/components"
+import { formatTitle, stringify } from "~/utils"
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  Debug,
+  Image,
+  Layout,
+  SearchForm,
+} from "~/components"
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   const query = data?.query
@@ -36,16 +45,26 @@ export async function loader({ request }: LoaderArgs) {
   if (!query) {
     const exhibitions = await prisma.exhibition.findMany({
       orderBy: { date: "asc" },
+      include: {
+        images: true,
+        artworks: true,
+        artists: true,
+      },
     })
 
     return json(
       { query, count: exhibitions.length, exhibitions },
-      { headers: createCacheHeaders(request, 60) },
+      // { headers: createCacheHeaders(request, 60) },
     )
   }
 
   const exhibitions = await prisma.exhibition.findMany({
     orderBy: { date: "asc" },
+    include: {
+      images: true,
+      artworks: true,
+      artists: true,
+    },
     where: {
       OR: [{ title: { contains: query } }],
     },
@@ -55,7 +74,7 @@ export async function loader({ request }: LoaderArgs) {
 }
 
 export default function RouteComponent() {
-  const { exhibitions } = useLoaderData<typeof loader>()
+  const { count, exhibitions } = useLoaderData<typeof loader>()
 
   return (
     <Layout className="space-y-8 p-4">
@@ -71,11 +90,44 @@ export default function RouteComponent() {
         </p>
         <SearchForm
           action="/exhibitions"
-          placeholder="Search for exhibitions"
+          placeholder="Search for exhibitions!"
         />
       </header>
 
-      <Debug>{exhibitions}</Debug>
+      {count > 0 && (
+        <section>
+          <ul className="flex flex-col items-center gap-10">
+            {exhibitions.map(exhibition => {
+              return (
+                <li key={exhibition.id} className="w-full">
+                  <Link to={`/exhibitions/${exhibition.slug}`}>
+                    <Card className="hover-opacity h-full space-y-2">
+                      <CardHeader className="flex flex-col space-y-2 p-4">
+                        {exhibition.images[0]?.url && (
+                          <Image
+                            src={`${exhibition.images[0].url}`}
+                            alt={`${exhibition.title}`}
+                            className="h-60 w-60 object-contain"
+                          />
+                        )}
+
+                        <CardTitle className="text-2xl">
+                          {exhibition.title}
+                        </CardTitle>
+
+                        <p>
+                          {exhibition.description ||
+                            "(Exhibition has no description)"}
+                        </p>
+                      </CardHeader>
+                    </Card>
+                  </Link>
+                </li>
+              )
+            })}
+          </ul>
+        </section>
+      )}
     </Layout>
   )
 }
