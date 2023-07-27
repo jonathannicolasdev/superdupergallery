@@ -1,4 +1,4 @@
-console.info("🐻 Bearmentor is running")
+console.info("🐻 SuperDuperGallery is running")
 
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {

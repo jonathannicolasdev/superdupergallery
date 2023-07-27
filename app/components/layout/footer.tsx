@@ -22,7 +22,9 @@ export function Footer({ className }: Props) {
       <div className="flex flex-col flex-wrap items-center justify-center gap-4 text-muted-foreground sm:flex-row sm:gap-8">
         <p>
           <span>&copy; {today.getFullYear()} </span>
-          <Anchor href="https://github.com/bearmentor">🐻 Bearmentor</Anchor>
+          <Anchor href="https://github.com/superdupergallery">
+            🐻 SuperDuperGallery
+          </Anchor>
         </p>
 
         {/* <FooterNavigation /> */}

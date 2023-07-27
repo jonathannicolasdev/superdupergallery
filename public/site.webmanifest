@@ -1,6 +1,6 @@
 {
-  "name": "Bearmentor",
-  "short_name": "Bearmentor",
+  "name": "SuperDuperGallery",
+  "short_name": "SuperDuperGallery",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
@@ -10,6 +10,6 @@
   ],
   "theme_color": "#1c1917",
   "background_color": "#1c1917",
-  "start_url": "https://bearmentor.com",
+  "start_url": "https://superdupergallery.com",
   "display": "standalone"
 }

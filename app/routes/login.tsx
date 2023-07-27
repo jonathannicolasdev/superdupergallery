@@ -10,7 +10,7 @@ export const meta: V2_MetaFunction = () => {
     { title: formatTitle("Login") },
     {
       name: "description",
-      content: "Login to your 🐻 Bearmentor user account.",
+      content: "Login to your 🐻 SuperDuperGallery user account.",
     },
   ]
 }
@@ -30,7 +30,7 @@ export default function Route() {
             <div className="flex flex-col space-y-2">
               <h2>Login</h2>
               <p className="text-muted-foreground">
-                New to Bearmentor?{" "}
+                New to SuperDuperGallery?{" "}
                 <Link
                   to={`/register`}
                   className="hover-opacity font-bold text-brand"
@@ -44,18 +44,18 @@ export default function Route() {
           </div>
         </section>
 
-        <section className="relative hidden h-full flex-col bg-stone-900 p-10 text-white lg:flex lg:items-end">
+        <section className="relative hidden h-full flex-col bg-gray-900 p-10 text-white lg:flex lg:items-end">
           <Link to="/" className="hidden lg:block">
             <h1 className="flex items-center gap-2 text-2xl">
               <img src="/images/bear-rounded.png" alt="Bear" className="h-10" />
-              <span className="text-brand">Bearmentor</span>
+              <span className="text-brand">SuperDuperGallery</span>
             </h1>
           </Link>
 
           <div className="relative z-20 mt-auto">
             <blockquote className="space-y-2 text-right">
               <p className="text-lg font-semibold">
-                &ldquo;The mentors from 🐻 Bearmentor are helpful
+                &ldquo;The mentors from 🐻 SuperDuperGallery are helpful
                 professionals.&rdquo;
               </p>
               <footer>— Somebody</footer>

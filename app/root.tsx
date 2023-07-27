@@ -64,7 +64,7 @@ export const links: LinksFunction = () => [
 
 export const meta: V2_MetaFunction = () => {
   return [
-    { title: "Bearmentor" },
+    { title: "SuperDuperGallery" },
     {
       name: "description",
       content: "Brilliant mentoring platform for people and organization.",
@@ -107,7 +107,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="bg-stone-50 text-stone-950 dark:bg-stone-950 dark:text-stone-50">
+      <body>
         <Outlet />
         <ScrollRestoration />
         <Scripts />
@@ -127,7 +127,7 @@ export function AppBoundary({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body className="bg-stone-50 text-stone-950 dark:bg-stone-950 dark:text-stone-50">
+      <body>
         <Layout className="p-4">{children}</Layout>
         <ScrollRestoration />
         <Scripts />

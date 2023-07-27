@@ -136,7 +136,7 @@ export default function BroadcastsRoute() {
         {userData?.id && (
           <section
             id="create-broadcast"
-            className="space-y-4 rounded bg-stone-900 p-4"
+            className="space-y-4 rounded bg-gray-900 p-4"
           >
             <header>
               <h3>Quick Broadcast</h3>

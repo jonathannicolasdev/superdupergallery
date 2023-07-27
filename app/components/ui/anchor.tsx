@@ -15,7 +15,7 @@ const Anchor = React.forwardRef<HTMLAnchorElement, AnchorProps>(
         target="_blank"
         rel="noreferrer"
         className={cn(
-          "hover-opacity text-emerald-700 dark:text-emerald-300",
+          "hover-opacity text-pink-700 dark:text-pink-300",
           className,
         )}
         ref={ref}

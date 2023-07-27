@@ -8,7 +8,7 @@ Setup `.env` to contain these:
 MYSQL_ROOT_PASSWORD=the_root_password
 MYSQL_USER=the_user
 MYSQL_PASSWORD=the_password
-MYSQL_DATABASE=bearmentor
+MYSQL_DATABASE=superdupergallery
 ```
 
 Start Docker service.

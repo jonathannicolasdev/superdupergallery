@@ -1,20 +1,20 @@
-# 🐻 Bearmentor
+# 🐻 SuperDuperGallery
 
 > Brilliant mentoring
 
 The open mentoring platform for people and organization. Open source, free to
-use, with premium options. 🐻 Bearmentor is a place for tech and creating
+use, with premium options. 🐻 SuperDuperGallery is a place for tech and creating
 professionals to mentor each others.
 
 Check out:
 
-- Web: <https://bearmentor.com>
-- Repo: <https://github.com/bearmentor>
-- Progress: <https://github.com/orgs/bearmentor/projects/2>
+- Web: <https://superdupergallery.com>
+- Repo: <https://github.com/superdupergallery>
+- Progress: <https://github.com/orgs/superdupergallery/projects/2>
 
 > 🚧 Still in early and active development
 
-![Bearmentor](public/images/bearmentor.png)
+![SuperDuperGallery](public/images/superdupergallery.png)
 
 ## Concept
 
@@ -24,7 +24,7 @@ Check out:
 A true mentorship should enable to teach, guide, and share that can be for long
 term growth.
 
-🐻 Bearmentor allow to:
+🐻 SuperDuperGallery allow to:
 
 - Connect to people, rospective mentors and mentees
 - Explore various learning programs- Filter out for serious commitment
@@ -92,7 +92,7 @@ Generate a random string for the `SESSION_SECRET` using
 `openssl rand -base64 32` on the terminal or put any long random text.
 
 ```sh
-DATABASE_URL="mysql://username:password@aws.connect.psdb.cloud/bearmentor?sslaccept=strict"
+DATABASE_URL="mysql://username:password@aws.connect.psdb.cloud/superdupergallery?sslaccept=strict"
 SESSION_SECRET="random_secret_text"
 ```
 

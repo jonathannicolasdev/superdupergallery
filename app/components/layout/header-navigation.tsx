@@ -5,10 +5,7 @@ import {
   Half1Icon,
   Half2Icon,
   HomeIcon,
-  LockOpen1Icon,
   MagnifyingGlassIcon,
-  PersonIcon,
-  RocketIcon,
 } from "@radix-ui/react-icons"
 
 import type { UserData } from "~/services/auth.server"
@@ -29,32 +26,19 @@ const navPublicItems: NavItem[] = [
     icon: <HomeIcon className="icon" />,
   },
   {
-    to: "/broadcasts",
-    text: "Broadcasts",
-    icon: <RocketIcon className="icon" />,
-  },
-  {
     to: "/search",
     text: "Search",
     icon: <MagnifyingGlassIcon className="icon" />,
   },
   {
-    to: "/mentors",
-    text: "Mentors",
+    to: "/artists",
+    text: "Artists",
     icon: <Half2Icon className="icon" />,
   },
   {
-    to: "/mentees",
+    to: "/artworks",
     text: "Mentees",
     icon: <Half1Icon className="icon" />,
-  },
-]
-
-const navUnauthenticatedItems: NavItem[] = [
-  {
-    to: "/login",
-    text: "Login",
-    icon: <LockOpen1Icon className="icon" />,
   },
 ]
 
@@ -63,11 +47,6 @@ const navAuthenticatedItems: NavItem[] = [
     to: "/dashboard",
     text: "Dashboard",
     icon: <DashboardIcon className="icon" />,
-  },
-  {
-    to: "/profile",
-    text: "Profile",
-    icon: <PersonIcon className="icon" />,
   },
 ]
 
@@ -78,7 +57,7 @@ export function HeaderNavigation() {
     <header
       className={cn(
         "z-10 select-none",
-        "border-stone-200 bg-stone-50 dark:border-stone-800 dark:bg-stone-950",
+        "border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-950",
         "fixed bottom-0 left-0 flex w-full items-center justify-center border-t-2",
         "lg:top-0 lg:h-screen lg:w-16 lg:border-r-2 lg:border-t-0",
       )}
@@ -87,9 +66,6 @@ export function HeaderNavigation() {
         <TooltipProvider delayDuration={500}>
           <ul className="flex justify-between gap-0 p-2 sm:gap-2 lg:flex-col">
             <NavigationList navItems={navPublicItems} />
-            {!userSession && (
-              <NavigationList navItems={navUnauthenticatedItems} />
-            )}
             {userSession && <NavigationList navItems={navAuthenticatedItems} />}
           </ul>
         </TooltipProvider>
@@ -121,8 +97,8 @@ export function NavigationList({ navItems }: { navItems: NavItem[] }) {
                     isActive ||
                       (navItem.to === "/profile" &&
                         checkIfActiveUsername(location, userData))
-                      ? "dark:bg-emerald-950 dark:hover:bg-emerald-900"
-                      : "hover:bg-stone-800",
+                      ? "dark:bg-pink-950 dark:hover:bg-pink-900"
+                      : "hover:bg-gray-800",
                   )
                 }}
               >

@@ -65,9 +65,7 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
           className={({ isActive }) =>
             cn(
               buttonVariants({ variant: "ghost" }),
-              isActive
-                ? "bg-emerald-950 hover:bg-emerald-900"
-                : "hover:bg-muted",
+              isActive ? "bg-pink-950 hover:bg-pink-900" : "hover:bg-muted",
               "justify-start",
             )
           }

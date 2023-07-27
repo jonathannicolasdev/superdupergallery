@@ -56,7 +56,7 @@ export default function Route() {
       <header>
         <h2>Profile</h2>
         <p className="text-muted-foreground">
-          Your profiles and links. In Bearmentor, you could have multiple
+          Your profiles and links. In SuperDuperGallery, you could have multiple
           profiles.
         </p>
         <Button asChild size="xs">

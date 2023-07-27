@@ -6,7 +6,7 @@ import arrayShuffle from "array-shuffle"
 import { prisma } from "~/libs"
 import { createCacheHeaders } from "~/utils"
 import { useRootLoaderData } from "~/hooks"
-import { Anchor, AvatarAuto, Button, Layout, UserCard } from "~/components"
+import { AvatarAuto, Button, Layout, UserCard } from "~/components"
 
 export async function loader({ request }: LoaderArgs) {
   const mentors = await prisma.user.findMany({
@@ -60,43 +60,23 @@ export function LandingHero() {
       <section className="flex gap-8">
         <div className="flex w-full flex-col items-center justify-center space-y-4 text-center lg:items-start lg:text-left">
           <h1 className="flex flex-col flex-wrap items-center gap-2 lg:flex-row">
-            <img src="/images/bear-rounded.png" alt="Bear" className="h-16" />
             <span className="text-brand md:text-5xl lg:text-6xl">
-              Bearmentor
+              Super Duper Gallery
             </span>
           </h1>
-          <h2>Brilliant mentoring</h2>
-          <p>
-            The mentoring platform for people and organization. Get live
-            technical help, various learning materials, and gain your income.
-          </p>
+          <p>Super Duper Gallery Offers a Portal Further Beyond</p>
+          <p>The gallery for super duper interesting artworks</p>
+          <p>Contemporary Art Gallery based in 🇵🇭 QC, Philippines</p>
           {!userSession && (
             <div className="flex flex-wrap justify-center gap-4">
               <Button size="lg" asChild>
-                <Link to="/mentors">Discover Mentors</Link>
+                <Link to="/artworks">Discover Artworks</Link>
               </Button>
               <Button size="lg" asChild variant="secondary">
-                <Link to="/login">Login to Continue</Link>
+                <Link to="/artists">Get to know Artists</Link>
               </Button>
             </div>
           )}
-          {userSession && (
-            <div className="flex flex-wrap justify-center gap-4">
-              <Button size="lg" asChild>
-                <Link to="/broadcasts">Broadcast Help or Service</Link>
-              </Button>
-              <Button size="lg" asChild variant="secondary">
-                <Link to="/mentors">Discover Mentors</Link>
-              </Button>
-            </div>
-          )}
-        </div>
-        <div className="hidden lg:flex">
-          <img
-            src="/images/bear-wolf.png"
-            alt="Hero Illustration"
-            className="w-80 object-contain"
-          />
         </div>
       </section>
     </article>
@@ -178,48 +158,69 @@ export function LandingMentees() {
 }
 
 export function LandingDevelopment() {
-  const dataReferences = [
-    { href: "https://catamyst.com", text: "Catamyst" },
-    { href: "https://codementor.io", text: "Codementor" },
-    { href: "https://adplist.org", text: "ADPList" },
-    { href: "https://upwork.com", text: "Upwork" },
-    { href: "https://pair-up.org", text: "Pair Up" },
-  ]
-
   return (
     <article className="w-full max-w-3xl space-y-8 py-20">
       <section className="space-y-4">
-        <img
-          src="/images/bearmentor.png"
-          alt="Bearmentor: Brilliant mentoring"
-          className="rounded bg-slate-900"
-        />
-
-        <div className="space-y-4">
+        <div className="prose dark:prose-invert space-y-4">
+          <h3 className="uppercase">
+            Super Duper Gallery Offers a Portal Further Beyond
+          </h3>
           <p>
-            Bearmentor is available as open source, free to use, still has
-            manual payment process, will have automatic payment options.
+            A contemporary art gallery that welcomes a wide range of artistic
+            provocations.
           </p>
           <p>
-            But also making a business, revenue, profit model in mind for
-            sustainability.
+            Artists are given the opportunity to explore and creatively labor
+            upon the energy that drives their limitless imagination.
           </p>
           <p>
-            This is still in very early development. Check out{" "}
-            <Anchor href="https://github.com/bearmentor">
-              github.com/bearmentor
-            </Anchor>
+            The gallery embraces a range of expressions and intentions, from
+            serious to the unapologetically whimsical.
           </p>
-          <p>Some references:</p>
-          <ul className="list-inside list-disc">
-            {dataReferences.map(reference => {
-              return (
-                <li key={reference.text}>
-                  <Anchor href={reference.href}>{reference.text}</Anchor>
-                </li>
-              )
-            })}
-          </ul>
+          <p>
+            Artists may freely choose the contemplative in challenging yet
+            innovative ways or provide an occasional jesting commentary.
+          </p>
+          <p>
+            They can also renegotiate ontologies of art and rethink parameters
+            of validity in the market.
+          </p>
+          <p>
+            Although it is physically located in Quezon City, the gallery offers
+            a glimpse into the diverse contemporary art practices and media that
+            artists have to offer regardless of ethnicity, nationality, and
+            geographic borders.
+          </p>
+          <p>
+            Super Duper is a contemporary art gallery that features carefully
+            curated exhibitions that transcend conceptual boundaries,
+            established trends, and cliques.
+          </p>
+          <p>
+            The innovative program of exhibitions is reflective of the gallery’s
+            dictum: ignore the compulsory and pursue the super duper.
+          </p>
+          <h3 className="uppercase">Our Expertise</h3>
+          <p>
+            The gallery offers facilities and services for solo and group
+            exhibitions, artist exchanges, and other collateral activities.
+          </p>
+          <p>
+            It has a team of artists with a wealth of experience in curation,
+            exhibition design, marketing, and project management.
+          </p>
+          <p>
+            The gallery serves as a platform for emerging and established
+            artists from across and outside the archipelago.
+          </p>
+          <p>
+            It is a node within a network of art institutions, collectives, and
+            artworld stakeholders.
+          </p>
+          <p>
+            Last but not the least, it is a haven and playground for artists who
+            wish to experiment and even play.
+          </p>
         </div>
       </section>
     </article>

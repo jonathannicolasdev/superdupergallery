@@ -107,7 +107,7 @@ export function UserUsernameForm({
           />
           <FormDescription>
             Your public username as @username and your URL namespace within
-            Bearmentor
+            SuperDuperGallery
           </FormDescription>
           {username.error && (
             <Alert variant="destructive" id={username.errorId}>

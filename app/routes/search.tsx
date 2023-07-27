@@ -92,7 +92,7 @@ export default function Route() {
 
       {users.length > 0 && (
         <section className="space-y-2">
-          <h2 className="text-emerald-700">Users</h2>
+          <h2 className="text-pink-700">Users</h2>
           <p className="text-muted-foreground">
             Found {formatPluralItems("user", count)} with keyword "{query}"
           </p>
