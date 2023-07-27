@@ -1,5 +1,6 @@
 export * from "./artist-card"
 export * from "./artwork-card"
+export * from "./contact-form"
 export * from "./debug"
 export * from "./search-form"
 export * from "./user-auth-form"

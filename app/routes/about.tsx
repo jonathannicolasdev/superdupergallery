@@ -34,30 +34,33 @@ export const dataTeamMembers = [
 
 export default function RouteComponent() {
   return (
-    <Layout className="space-y-8 p-4">
-      <section>
+    <Layout className="flex justify-center p-4">
+      <div className="flex flex-col items-center gap-4">
         <h1>About</h1>
-      </section>
 
-      <section>
-        <h2>Our Team Members</h2>
+        <div className="flex flex-col items-center">
+          <h2>Our Team Members</h2>
 
-        <ul className="flex flex-wrap gap-10">
-          {dataTeamMembers.map(person => {
-            return (
-              <li key={person.slug} className="space-y-2">
-                <img
-                  src={person.avatarImageURL}
-                  alt={person.name}
-                  className="h-80 w-80"
-                />
-                <h3>{person.name}</h3>
-                <p>{person.role}</p>
-              </li>
-            )
-          })}
-        </ul>
-      </section>
+          <ul className="flex flex-wrap gap-10">
+            {dataTeamMembers.map(person => {
+              return (
+                <li
+                  key={person.slug}
+                  className="flex flex-col items-center gap-2"
+                >
+                  <img
+                    src={person.avatarImageURL}
+                    alt={person.name}
+                    className="h-80 w-80"
+                  />
+                  <h3>{person.name}</h3>
+                  <p className="text-xl">{person.role}</p>
+                </li>
+              )
+            })}
+          </ul>
+        </div>
+      </div>
     </Layout>
   )
 }
