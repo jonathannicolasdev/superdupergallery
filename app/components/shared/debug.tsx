@@ -34,7 +34,7 @@ export function Debug({
   const [isVisible, setIsVisible] = useState(true)
   const [isOpen, setIsOpen] = useState(isCollapsibleOpen)
 
-  if (!isAlwaysShow && nodeEnv === "production") return null
+  if (!isAlwaysShow || nodeEnv === "production") return null
   if (!isVisible) return null
 
   return (

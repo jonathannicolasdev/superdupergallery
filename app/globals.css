@@ -1,3 +1,4 @@
+/* stylelint-disable comment-empty-line-before */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -146,4 +147,83 @@
 .nprogress-custom-parent #nprogress .spinner,
 .nprogress-custom-parent #nprogress .bar {
   @apply absolute z-50;
+}
+
+/* Uploadcare styles need to be outside of layers */
+.uploadcare--dialog {
+  @apply backdrop-blur-sm;
+}
+.uploadcare--dialog__container {
+  @apply rounded border-2 border-border bg-card;
+}
+.uploadcare--panel {
+  @apply bg-background text-foreground;
+}
+.uploadcare--menu__items {
+  @apply bg-background text-foreground;
+}
+.uploadcare--menu__item.uploadcare--menu__item_current {
+  @apply bg-secondary text-secondary-foreground;
+}
+/* .uploadcare--menu__item {
+  @apply focus:link hover:link bg-background text-foreground;
+} */
+/* .uploadcare--link,
+.uploadcare--link:link,
+.uploadcare--link:visited {
+  @apply link;
+} */
+/* .uploadcare--button:not(.uploadcare--button_primary) {
+  @apply button-variant-outline;
+} */
+/* .uploadcare--button:not(.uploadcare--dialog__close) {
+  @apply button focus:link hover:link cursor-pointer;
+} */
+/* .uploadcare--dialog__close {
+  @apply link focus:link hover:link cursor-pointer;
+} */
+/* .uploadcare--widget__button {
+  @apply button-size-small button-variant-subtle;
+} */
+/* .uploadcare--button_primary {
+  @apply button button-variant-subtle block border-none;
+} */
+.uploadcare-tab-effects--effects {
+  @apply flex items-center;
+}
+.uploadcare-tab-effects--effect-button {
+  @apply dark:fill-white;
+}
+/* .uploadcare--input {
+  @apply input;
+} */
+/* .uploadcare--camera__device-select {
+  @apply select-trigger w-full max-w-lg;
+} */
+.uploadcare--progress_type_canvas {
+  @apply text-brand;
+}
+.uploadcare--panel__footer {
+  @apply bg-background text-foreground;
+}
+.uploadcare--file {
+  @apply bg-background text-foreground;
+}
+.uploadcare--progressbar__value {
+  @apply bg-brand;
+}
+/* .uploadcare--file__description {
+  @apply hover:link focus:link;
+} */
+/* .uploadcare--file__description .uploadcare--file__preview {
+  @apply hover:link focus:link;
+} */
+/* .uploadcare--file_status_uploading .uploadcare--file__preview {
+  @apply hover:link focus:link border-brand-500 bg-brand-500 text-brand-500;
+} */
+.uploadcare--menu_opened .uploadcare--menu__toggle {
+  @apply bg-background text-foreground;
+}
+.uploadcare--powered-by {
+  @apply hidden;
 }

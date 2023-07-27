@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect } from "react"
 import type {
   LinksFunction,
@@ -24,7 +25,7 @@ import { Analytics } from "@vercel/analytics/react"
 import NProgress from "nprogress"
 
 import { authenticator } from "~/services/auth.server"
-import { createCacheHeaders } from "~/utils"
+import { createCacheHeaders, log } from "~/utils"
 import { model } from "~/models"
 
 import { Layout } from "./components"
@@ -73,7 +74,12 @@ export const meta: V2_MetaFunction = () => {
 }
 
 export const loader = async ({ request }: LoaderArgs) => {
+  const ENV = {
+    UPLOADCARE_PUBLIC_KEY: process.env.UPLOADCARE_PUBLIC_KEY,
+  }
+
   const nodeEnv = process.env.NODE_ENV
+
   const userSession = await authenticator.isAuthenticated(request)
   const userData = await model.user.query.getForSession({
     id: String(userSession?.id),
@@ -85,7 +91,7 @@ export const loader = async ({ request }: LoaderArgs) => {
   }
 
   return json(
-    { nodeEnv, userSession, userData },
+    { ENV, nodeEnv, userSession, userData },
     { headers: createCacheHeaders(request, 5) },
   )
 }

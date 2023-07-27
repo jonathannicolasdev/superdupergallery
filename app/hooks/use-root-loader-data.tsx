@@ -4,6 +4,7 @@ import { useMatches } from "@remix-run/react"
 import type { UserData, UserSession } from "~/services/auth.server"
 
 export type RootLoaderData = {
+  ENV: any
   nodeEnv: string
   userSession: UserSession | undefined
   userData: UserData | undefined
@@ -24,6 +25,7 @@ export function useRootLoaderData() {
   const data = useMatchesData("root") as RootLoaderData
 
   return {
+    ENV: data.ENV,
     nodeEnv: data.nodeEnv,
     userSession: data.userSession,
     userData: data.userData,

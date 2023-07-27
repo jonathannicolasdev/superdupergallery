@@ -35,13 +35,16 @@ export default function DashboardRoute() {
       </section>
 
       <section className="flex flex-wrap gap-2">
-        <Button asChild variant="secondary">
+        <Button asChild size="sm" variant="secondary">
           <Link to="/settings">Settings</Link>
         </Button>
-        <Button asChild variant="secondary">
+        <Button asChild size="sm" variant="secondary">
           <Link to="/settings/profile">Edit Profile</Link>
         </Button>
-        <Button asChild type="submit" variant="destructive">
+        <Button asChild size="sm" variant="outline">
+          <Link to="/uploadcare">Uploadcare</Link>
+        </Button>
+        <Button asChild size="sm" type="submit" variant="destructive">
           <Link to="/logout">Logout</Link>
         </Button>
       </section>
