@@ -34,10 +34,6 @@ import styles from "./globals.css"
 export const links: LinksFunction = () => [
   {
     rel: "shortcut icon",
-    href: "https://fav.farm/🐈",
-  },
-  {
-    rel: "shortcut icon",
     href: "/favicon.ico",
   },
   {

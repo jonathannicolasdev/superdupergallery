@@ -30,7 +30,7 @@ export function UploadcareWidget(props: UploadcareWidgetProps) {
     // WidgetProps
     publicKey,
     multiple,
-    tabs = "file url camera",
+    tabs = "file url",
     previewStep = true,
     effects = ["crop", "sharp", "enhance"],
 
