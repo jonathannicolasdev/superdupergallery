@@ -1,6 +1,6 @@
 # 🐈 Super Duper Gallery
 
-> The Contemporarty Artworks Gallery
+> The Contemporarty Artworks Gallery . 
 
 Check out:
 
