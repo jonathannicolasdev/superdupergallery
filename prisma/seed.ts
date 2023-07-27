@@ -12,8 +12,8 @@ const enabledItems = [
   "userRoles",
   "userTags",
   "users",
-  "broadcasts",
-  "contents",
+  // "broadcasts",
+  // "contents",
 ]
 
 async function main() {

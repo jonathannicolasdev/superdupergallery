@@ -4,7 +4,7 @@ version: "3.9"
 services:
   mysql:
     image: mysql:8
-    container_name: bearmentor-database
+    container_name: superdupergallery-database
     hostname: database
     restart: always
     volumes:

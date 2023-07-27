@@ -129,6 +129,8 @@ installed:
 
 ```sh
 pnpm install
+# or
+pnpm i
 ```
 
 ### Code
