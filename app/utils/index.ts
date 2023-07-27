@@ -1,5 +1,7 @@
+export * from "./artist.server"
 export * from "./artwork.server"
 export * from "./cache.server"
+export * from "./exhibition.server"
 export * from "./http"
 export * from "./json"
 export * from "./log"

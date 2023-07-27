@@ -2,8 +2,20 @@
 import bcrypt from "bcryptjs"
 
 import { createAvatarImageURL, prisma } from "~/libs"
-import { createArtworkSlug, log } from "~/utils"
-import { dataArtworks, dataUserRoles, dataUsers, dataUserTags } from "~/data"
+import {
+  createArtistSlug,
+  createArtworkSlug,
+  createExhibitionSlug,
+  log,
+} from "~/utils"
+import {
+  dataArtists,
+  dataArtworks,
+  dataExhibitions,
+  dataUserRoles,
+  dataUsers,
+  dataUserTags,
+} from "~/data"
 // Check README.md for the guide to setup the credentials
 import dataUsersCredentials from "~/data/users-credentials.json"
 
@@ -16,6 +28,8 @@ async function main() {
     userTags: seedUserTags,
     users: seedUsers,
     artworks: seedArtworks,
+    artists: seedArtists,
+    exhibitions: seedExhibitions,
   }
 
   for (const seedName of enabledItems) {
@@ -121,6 +135,30 @@ async function seedUsers() {
   }
 }
 
+async function seedArtists() {
+  console.info("🟢 Seed artists...")
+  await prisma.artist.deleteMany()
+  console.info("🟡 Deleted existing artists...")
+
+  const user = await prisma.user.findFirst({
+    where: { username: "admin" },
+  })
+  if (!user) return null
+
+  for (const artist of dataArtists) {
+    const createdArtist = await prisma.artist.create({
+      data: {
+        userId: user.id,
+        slug: createArtistSlug(artist.name),
+        name: artist.name,
+        bio: artist?.bio || "",
+      },
+    })
+    if (!createdArtist) return null
+    console.info(`✅ Artist "${createdArtist.slug}" created`)
+  }
+}
+
 async function seedArtworks() {
   console.info("🟢 Seed artworks...")
   await prisma.artwork.deleteMany()
@@ -140,10 +178,33 @@ async function seedArtworks() {
         medium: "Canvas",
         size: `20" x 20" x 20"`,
       },
-      include: { user: { select: { username: true } } },
     })
     if (!createdArtwork) return null
     console.info(`✅ Artwork "${createdArtwork.slug}" created`)
+  }
+}
+
+async function seedExhibitions() {
+  console.info("🟢 Seed exhibitions...")
+  await prisma.exhibition.deleteMany()
+  console.info("🟡 Deleted existing exhibitions...")
+
+  const user = await prisma.user.findFirst({
+    where: { username: "admin" },
+  })
+  if (!user) return null
+
+  for (const exhibition of dataExhibitions) {
+    const createdExhibition = await prisma.exhibition.create({
+      data: {
+        userId: user.id,
+        slug: createExhibitionSlug(exhibition.title),
+        title: exhibition.title,
+        date: exhibition.date,
+      },
+    })
+    if (!createdExhibition) return null
+    console.info(`✅ Exhibition "${createdExhibition.slug}" created`)
   }
 }
 

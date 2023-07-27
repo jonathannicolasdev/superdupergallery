@@ -173,7 +173,7 @@ model Artist {
 
   slug String?
   name String
-  bio  String  @db.Text
+  bio  String? @db.Text
 
   image       ArtistImage?
   artworks    Artwork[]

@@ -47,9 +47,10 @@ export function LandingHero() {
               Super Duper Gallery
             </span>
           </h1>
-          <p>Super Duper Gallery Offers a Portal Further Beyond</p>
-          <p>The gallery for super duper interesting artworks</p>
-          <p>Contemporary Art Gallery based in 🇵🇭 QC, Philippines</p>
+          <p>
+            Contemporary art gallery based in 🇵🇭 QC, Philippines for super duper
+            interesting artworks
+          </p>
           {!userSession && (
             <div className="flex flex-wrap justify-center gap-4">
               <Button size="lg" asChild>
@@ -77,9 +78,8 @@ export function LandingArtworks() {
     <article className="w-full max-w-7xl space-y-4">
       <header className="space-y-1">
         <Link to="/artworks">
-          <h2 className="hover-opacity text-brand">Available Artworks</h2>
+          <h2 className="hover-opacity text-brand">Featured Artworks</h2>
         </Link>
-        <p>In randomized order</p>
       </header>
       <ul className="grid grid-cols-1 gap-4 md:grid-cols-2">
         {artworks.map(artwork => {
