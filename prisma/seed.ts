@@ -2,27 +2,20 @@
 import bcrypt from "bcryptjs"
 
 import { createAvatarImageURL, prisma } from "~/libs"
-import { createBroadcastSlug, log } from "~/utils"
-import { dataBroadcasts, dataUserRoles, dataUsers, dataUserTags } from "~/data"
+import { createArtworkSlug, log } from "~/utils"
+import { dataArtworks, dataUserRoles, dataUsers, dataUserTags } from "~/data"
 // Check README.md for the guide to setup the credentials
 import dataUsersCredentials from "~/data/users-credentials.json"
 
 // Enable and disable by commenting in/out the enabled items
-const enabledItems = [
-  "userRoles",
-  "userTags",
-  "users",
-  // "broadcasts",
-  // "contents",
-]
+const enabledItems = ["userRoles", "userTags", "users", "artworks"]
 
 async function main() {
   const seeds: { [key: string]: () => Promise<any> } = {
     userRoles: seedUserRoles,
     userTags: seedUserTags,
     users: seedUsers,
-    broadcasts: seedBroadcasts,
-    contents: seedContents,
+    artworks: seedArtworks,
   }
 
   for (const seedName of enabledItems) {
@@ -67,8 +60,6 @@ async function seedUsers() {
   console.info("🟡 Deleted existing users...")
   await prisma.userAvatarImage.deleteMany()
   console.info("🟡 Deleted existing user avatar images...")
-  await prisma.userCoverImage.deleteMany()
-  console.info("🟡 Deleted existing user cover images...")
 
   // Get existing roles
   const roles = await prisma.userRole.findMany()
@@ -79,37 +70,14 @@ async function seedUsers() {
   // Get existing tags
   const tags = await prisma.userTag.findMany()
   const COLLABORATOR = tags.find(tag => tag.symbol === "COLLABORATOR")
-  const MENTOR = tags.find(tag => tag.symbol === "MENTOR")
-  const MENTEE = tags.find(tag => tag.symbol === "MENTEE")
-  const DEVELOPER = tags.find(tag => tag.symbol === "DEVELOPER")
-  const DESIGNER = tags.find(tag => tag.symbol === "DESIGNER")
-  const FOUNDER = tags.find(tag => tag.symbol === "FOUNDER")
-  const WRITER = tags.find(tag => tag.symbol === "WRITER")
   const ARTIST = tags.find(tag => tag.symbol === "ARTIST")
   const UNKNOWN = tags.find(tag => tag.symbol === "UNKNOWN")
-  if (
-    !COLLABORATOR ||
-    !MENTOR ||
-    !MENTEE ||
-    !DEVELOPER ||
-    !DESIGNER ||
-    !FOUNDER ||
-    !WRITER ||
-    !ARTIST ||
-    !UNKNOWN
-  )
-    return null
+  if (!COLLABORATOR || !ARTIST || !UNKNOWN) return null
 
   // Setup data users to connect to the tag ids
   const dataUsersWithTags = dataUsers.map(user => {
     const tags = user.tags?.map(tag => {
       if (tag === "COLLABORATOR") return { id: COLLABORATOR.id }
-      if (tag === "MENTOR") return { id: MENTOR.id }
-      if (tag === "MENTEE") return { id: MENTEE.id }
-      if (tag === "DEVELOPER") return { id: DEVELOPER.id }
-      if (tag === "DESIGNER") return { id: DESIGNER.id }
-      if (tag === "FOUNDER") return { id: FOUNDER.id }
-      if (tag === "WRITER") return { id: WRITER.id }
       if (tag === "ARTIST") return { id: ARTIST.id }
       return { id: UNKNOWN.id }
     })
@@ -153,57 +121,30 @@ async function seedUsers() {
   }
 }
 
-async function seedBroadcasts() {
-  console.info("🟢 Seed broadcasts...")
-  await prisma.broadcast.deleteMany()
-  console.info("🟡 Deleted existing broadcasts...")
+async function seedArtworks() {
+  console.info("🟢 Seed artworks...")
+  await prisma.artwork.deleteMany()
+  console.info("🟡 Deleted existing artworks...")
 
-  for (const broadcast of dataBroadcasts) {
-    const user = await prisma.user.findFirst({
-      where: { username: broadcast.username },
-    })
-    if (!user) return null
-
-    const newBroadcast = {
-      userId: user.id,
-      slug: createBroadcastSlug(broadcast.title),
-      title: broadcast.title,
-      description: broadcast?.description,
-      body: broadcast?.body,
-    }
-
-    const createdBroadcast = await prisma.broadcast.create({
-      data: newBroadcast,
-      include: { user: { select: { username: true } } },
-    })
-    if (!createdBroadcast) return null
-    console.info(
-      `✅ Broadcast "${createdBroadcast.slug}" by "${createdBroadcast.user.username}" created`,
-    )
-  }
-}
-
-async function seedContents() {
-  console.info("🟢 Seed user contents...")
-  await prisma.content.deleteMany()
-  console.info("🟡 Deleted existing broadcasts...")
-
-  const userAdmin = await prisma.user.findFirst({
+  const user = await prisma.user.findFirst({
     where: { username: "admin" },
   })
-  if (!userAdmin) return null
+  if (!user) return null
 
-  const contentAdmin = await prisma.content.create({
-    data: {
-      userId: userAdmin.id,
-      slug: "content-by-admin",
-      title: "Content by Admin",
-      description: "Content description.",
-      body: "The body content by admin...",
-    },
-  })
-  if (!contentAdmin) return null
-  console.info(`✅ Content by "admin" created`)
+  for (const artwork of dataArtworks) {
+    const createdArtwork = await prisma.artwork.create({
+      data: {
+        userId: user.id,
+        slug: createArtworkSlug(artwork.title),
+        title: artwork.title,
+        medium: "Canvas",
+        size: `20" x 20" x 20"`,
+      },
+      include: { user: { select: { username: true } } },
+    })
+    if (!createdArtwork) return null
+    console.info(`✅ Artwork "${createdArtwork.slug}" created`)
+  }
 }
 
 main()

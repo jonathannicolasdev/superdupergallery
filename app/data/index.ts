@@ -1,4 +1,4 @@
-export * from "./broadcasts"
+export * from "./artworks"
 export * from "./user-roles"
 export * from "./user-tags"
 export * from "./users-unallowed"

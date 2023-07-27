@@ -32,25 +32,15 @@ model User {
   role   UserRole? @relation(fields: [roleId], references: [id], onUpdate: Cascade)
   roleId String?
 
-  tags      UserTag[]
-  profiles  UserProfile[]
-  locations UserLocation[]
-  avatars   UserAvatarImage[]
-  covers    UserCoverImage[]
+  tags     UserTag[]
+  profiles UserProfile[]
+  avatars  UserAvatarImage[]
 
-  broadcasts      Broadcast[]
-  broadcastImages BroadcastImage[]
+  artworks    Artwork[]
+  artists     Artist[]
+  exhibitions Exhibition[]
 
-  contents      Content[]
-  contentImages ContentImage[]
-
-  emailIsVerified Boolean?  @default(false)
-  emailVerifiedAt DateTime?
-  phoneIsVerified Boolean?  @default(false)
-  phoneVerifiedAt DateTime?
-
-  password      UserPassword?
-  notifications UserNotification[]
+  password UserPassword?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -61,8 +51,8 @@ model User {
 model UserRole {
   id String @id @default(cuid())
 
-  symbol      String  @unique // "MENTOR" | "MENTEE" | "DEVELOPER"
-  name        String  @unique // "Mentor" | "Mentee" | "Developer"
+  symbol      String  @unique // "ADMIN"
+  name        String  @unique // "Admin"
   sequence    Int?    @unique // 1 | 2 | 3 | ...
   description String? @db.Text // "Do something"
 
@@ -88,8 +78,8 @@ model UserPassword {
 model UserTag {
   id String @id @default(cuid())
 
-  symbol      String  @unique // "MENTOR" | "MENTEE" | "DEVELOPER"
-  name        String  @unique // "Mentor" | "Mentee" | "Developer"
+  symbol      String  @unique // "COLLABORATOR"
+  name        String  @unique // "Collaborator"
   sequence    Int?    @unique // 1 | 2 | 3 | ...
   description String? @db.Text // "Do something"
 
@@ -118,40 +108,6 @@ model UserProfile {
   @@index([userId])
 }
 
-model UserLocation {
-  id     String @id @default(cuid())
-  user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  userId String
-
-  label   String
-  address String? @db.Text
-  mapsURL String? @db.Text // https://goo.gl/maps/1xABCDEF123456
-
-  countryCode String?
-  province    String?
-  city        String?
-  district    String?
-  subDistrict String?
-
-  countryId     String?
-  provinceId    String?
-  cityId        String?
-  districtId    String?
-  subDistrictId String?
-
-  street        String? @db.Text
-  streetDetails String? @db.Text
-  postalCode    String?
-
-  latitude  Decimal? // -90 to 90, Example: -5.1234567
-  longitude Decimal? // -180 to 180, Example: 105.1234567
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@index([userId])
-}
-
 model UserAvatarImage {
   id String @id @default(cuid())
 
@@ -166,57 +122,65 @@ model UserAvatarImage {
   @@index([userId])
 }
 
-model UserCoverImage {
+// -----------------------------------------------------------------------------
+// Artwork
+// -----------------------------------------------------------------------------
+
+model Artwork {
+  id String @id @default(cuid())
+
+  title  String
+  slug   String?
+  year   Int?
+  medium String // canvas, acrylic
+  size   String // width, height, length
+
+  images ArtworkImage[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  artistId String?
+  artist   Artist? @relation(fields: [artistId], references: [id])
+
+  exhibition   Exhibition? @relation(fields: [exhibitionId], references: [id])
+  exhibitionId String?
+
+  @@index([userId])
+  @@index([artistId])
+  @@index([exhibitionId])
+}
+
+model ArtworkImage {
   id String @id @default(cuid())
 
   url String @db.Text
 
-  user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  userId String
+  artwork   Artwork? @relation(fields: [artworkId], references: [id])
+  artworkId String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([userId])
+  @@index([artworkId])
 }
 
-model UserNotification {
-  id     String @id @default(cuid())
-  user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  userId String
-
-  title String
-  body  String @db.Text
-
-  isRead   Boolean   @default(false)
-  isReadAt DateTime?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@index([userId])
-}
-
-// -----------------------------------------------------------------------------
-// Broadcast
-// -----------------------------------------------------------------------------
-
-model Broadcast {
+model Artist {
   id String @id @default(cuid())
 
-  slug        String  @unique
-  title       String  @db.Text
-  description String? @db.Text
-  body        String? @db.LongText
+  slug String?
+  name String
+  bio  String  @db.Text
 
-  tags   BroadcastTag[]
-  images BroadcastImage[]
+  image       ArtistImage?
+  artworks    Artwork[]
+  exhibitions Exhibition[]
 
-  isPublished   Boolean   @default(false)
-  isPublishedAt DateTime?
-
-  user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  userId String
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -224,56 +188,34 @@ model Broadcast {
   @@index([userId])
 }
 
-model BroadcastImage {
+model ArtistImage {
   id String @id @default(cuid())
 
-  url String
+  url String @db.Text
 
-  user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  userId String
-
-  broadcast   Broadcast @relation(fields: [broadcastId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  broadcastId String
+  artist   Artist? @relation(fields: [artistId], references: [id])
+  artistId String? @unique
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([userId])
-  @@index([broadcastId])
+  @@index([artistId])
 }
 
-model BroadcastTag {
+model Exhibition {
   id String @id @default(cuid())
 
-  symbol      String  @unique // "CODE" | "FRONTEND" | "FULL_STACK"
-  name        String  @unique // "CODE" | "FRONTEND" | "Full Stack"
-  sequence    Int?    @unique // 1 | 2 | 3 | ...
-  description String? @db.Text // "The entirety of a computer system..."
+  title       String
+  slug        String?
+  date        DateTime?
+  description String?   @db.Text
 
-  broadcasts Broadcast[]
+  images   ExhibitionImage[]
+  artists  Artist[]
+  artworks Artwork[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-// -----------------------------------------------------------------------------
-// Content
-// -----------------------------------------------------------------------------
-
-model Content {
-  id     String @id @default(cuid())
-  user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  userId String
-
-  slug        String? @unique
-  title       String?
-  description String? @db.Text
-  body        String? @db.Text
-
-  images ContentImage[]
-
-  isPublished   Boolean   @default(false)
-  isPublishedAt DateTime?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -281,20 +223,16 @@ model Content {
   @@index([userId])
 }
 
-model ContentImage {
+model ExhibitionImage {
   id String @id @default(cuid())
 
-  url String
+  url String @db.Text
 
-  user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  userId String
-
-  content   Content @relation(fields: [contentId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  contentId String
+  exhibition   Exhibition? @relation(fields: [exhibitionId], references: [id])
+  exhibitionId String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([userId])
-  @@index([contentId])
+  @@index([exhibitionId])
 }

@@ -1,4 +1,4 @@
-export * from "./broadcast.server"
+export * from "./artwork.server"
 export * from "./cache.server"
 export * from "./http"
 export * from "./json"

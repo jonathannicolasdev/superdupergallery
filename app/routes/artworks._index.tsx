@@ -16,12 +16,8 @@ import { createCacheHeaders, formatPluralItems, log } from "~/utils"
 import { useRootLoaderData } from "~/hooks"
 import {
   Alert,
-  AvatarAuto,
-  Badge,
   Button,
   Card,
-  CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
   FormField,
@@ -31,73 +27,37 @@ import {
   SearchForm,
   Textarea,
 } from "~/components"
-import { schemaBroadcast } from "~/schemas"
+import { schemaArtwork } from "~/schemas"
 
 export async function loader({ request }: LoaderArgs) {
   const url = new URL(request.url)
   const query = url.searchParams.get("q")
 
   if (!query) {
-    const broadcasts = await prisma.broadcast.findMany({
+    const artworks = await prisma.artwork.findMany({
       orderBy: { updatedAt: "asc" },
-      include: {
-        tags: true,
-        user: {
-          select: {
-            id: true,
-            name: true,
-            username: true,
-            avatars: { select: { url: true } },
-          },
-        },
-      },
     })
 
     return json(
-      { query, count: broadcasts.length, broadcasts },
+      { query, count: artworks.length, artworks },
       { headers: createCacheHeaders(request, 60) },
     )
   }
 
-  const broadcasts = await prisma.broadcast.findMany({
+  const artworks = await prisma.artwork.findMany({
     orderBy: { updatedAt: "asc" },
     where: {
-      OR: [
-        { title: { contains: query } },
-        { description: { contains: query } },
-        { body: { contains: query } },
-        {
-          user: {
-            OR: [
-              {
-                name: { contains: query },
-                username: { contains: query },
-              },
-            ],
-          },
-        },
-      ],
-    },
-    include: {
-      tags: true,
-      user: {
-        select: {
-          id: true,
-          name: true,
-          username: true,
-          avatars: { select: { url: true } },
-        },
-      },
+      OR: [{ title: { contains: query } }],
     },
   })
 
-  return json({ query, count: broadcasts.length, broadcasts })
+  return json({ query, count: artworks.length, artworks })
 }
 
-export default function BroadcastsRoute() {
+export default function ArtworksRoute() {
   const { userData } = useRootLoaderData()
 
-  const { query, count, broadcasts } = useLoaderData<typeof loader>()
+  const { query, count, artworks } = useLoaderData<typeof loader>()
 
   const lastSubmission = useActionData<typeof action>()
   const navigation = useNavigation()
@@ -106,21 +66,21 @@ export default function BroadcastsRoute() {
   const [form, { title, description, body }] = useForm({
     lastSubmission,
     onValidate({ formData }) {
-      return parse(formData, { schema: schemaBroadcast })
+      return parse(formData, { schema: schemaArtwork })
     },
   })
 
   return (
     <Layout className="flex flex-wrap gap-8 px-4 py-4 sm:flex-nowrap">
-      <section id="broadcasts-action" className="w-full space-y-8 sm:max-w-sm">
+      <section id="artworks-action" className="w-full space-y-8 sm:max-w-sm">
         <header className="space-y-4">
           <h1 className="text-4xl text-brand">
-            <Link to="/broadcasts" className="hover-opacity">
-              Broadcasts
+            <Link to="/artworks" className="hover-opacity">
+              Artworks
             </Link>
           </h1>
           <p className="text-muted-foreground">
-            Use broadcasts to posts some announcements or requests for everyone,
+            Use artworks to posts some announcements or requests for everyone,
             that you ask for help or offer a service
           </p>
         </header>
@@ -128,20 +88,20 @@ export default function BroadcastsRoute() {
         {!userData?.id && (
           <section>
             <Button asChild>
-              <Link to="/login">Create New Broadcast</Link>
+              <Link to="/login">Create New Artwork</Link>
             </Button>
           </section>
         )}
 
         {userData?.id && (
           <section
-            id="create-broadcast"
+            id="create-artwork"
             className="space-y-4 rounded bg-gray-900 p-4"
           >
             <header>
-              <h3>Quick Broadcast</h3>
+              <h3>Quick Artwork</h3>
               <p className="text-sm text-muted-foreground">
-                Quickly create new broadcast to ask or offer
+                Quickly create new artwork to ask or offer
               </p>
             </header>
 
@@ -201,84 +161,40 @@ export default function BroadcastsRoute() {
         )}
       </section>
 
-      <section id="broadcasts" className="w-full max-w-3xl space-y-4">
+      <section id="artworks" className="w-full max-w-3xl space-y-4">
         <SearchForm
-          action="/broadcasts"
-          placeholder="Search broadcasts with keyword..."
+          action="/artworks"
+          placeholder="Search artworks with keyword..."
         />
         {!query && count > 0 && (
-          <p className="text-muted-foreground">{count} broadcasts</p>
+          <p className="text-muted-foreground">{count} artworks</p>
         )}
         {query && count <= 0 && (
           <p className="text-muted-foreground">
-            No broadcast found with keyword "{query}"
+            No artwork found with keyword "{query}"
           </p>
         )}
         {query && count > 0 && (
           <p className="text-muted-foreground">
-            Found {formatPluralItems("broadcast", count)} with keyword "{query}"
+            Found {formatPluralItems("artwork", count)} with keyword "{query}"
           </p>
         )}
 
         {count > 0 && (
           <section>
             <ul className="space-y-4">
-              {broadcasts.map(broadcast => {
+              {artworks.map(artwork => {
                 return (
-                  <li key={broadcast.id} className="w-full">
-                    <Link to={`/broadcasts/${broadcast.slug}`}>
+                  <li key={artwork.id} className="w-full">
+                    <Link to={`/artworks/${artwork.slug}`}>
                       <Card className="hover-opacity space-y-2">
                         <CardHeader className="space-y-2 p-4">
                           <div>
                             <CardTitle className="text-2xl">
-                              {broadcast.title}
+                              {artwork.title}
                             </CardTitle>
-                            <CardDescription>
-                              {broadcast.description}
-                            </CardDescription>
-                          </div>
-
-                          <div className="flex items-center gap-2">
-                            <AvatarAuto
-                              className="h-10 w-10"
-                              src={broadcast.user.avatars[0]?.url}
-                              alt={broadcast.user.username}
-                              fallback={broadcast.user.username[0].toUpperCase()}
-                            />
-                            <div className="space-y-0">
-                              <h6>{broadcast.user.name}</h6>
-                              <p className="text-sm text-muted-foreground">
-                                @{broadcast.user.username}
-                              </p>
-                            </div>
                           </div>
                         </CardHeader>
-
-                        {broadcast.body && (
-                          <CardContent className="space-y-4 px-4 pb-4">
-                            {broadcast.body && (
-                              <p className="prose dark:prose-invert whitespace-pre-wrap">
-                                {broadcast.body}
-                              </p>
-                            )}
-                          </CardContent>
-                        )}
-
-                        {broadcast.tags?.length > 0 && (
-                          <CardContent className="space-y-4 px-4 pb-4">
-                            <ul className="flex flex-wrap gap-1 sm:gap-2">
-                              {broadcast.tags.map(tag => {
-                                return (
-                                  <li key={tag.id}>
-                                    <Badge size="sm" variant="secondary">
-                                      {tag.name}
-                                    </Badge>
-                                  </li>
-                                )
-                              })}
-                            </ul>
-                          </CardContent>
-                        )}
                       </Card>
                     </Link>
                   </li>
@@ -296,7 +212,7 @@ export async function action({ request }: ActionArgs) {
   await authenticator.isAuthenticated(request, { failureRedirect: "/login" })
 
   const formData = await request.formData()
-  const submission = parse(formData, { schema: schemaBroadcast })
+  const submission = parse(formData, { schema: schemaArtwork })
 
   if (!submission.value || submission.intent !== "submit") {
     return json(submission, { status: 400 })

@@ -1,2 +1,2 @@
-export * from "./broadcast"
+export * from "./artwork"
 export * from "./user"

@@ -1,8 +1,8 @@
-import type { Broadcast } from "@prisma/client"
+import type { Artwork } from "@prisma/client"
 
 import { createNanoID, createSlug } from "~/utils"
 
-export function createBroadcastSlug(title: Broadcast["title"]) {
+export function createArtworkSlug(title: Artwork["title"]) {
   const slug: string = createSlug(title)
   const nanoID: string = createNanoID()
 

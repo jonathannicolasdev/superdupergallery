@@ -8,7 +8,7 @@ const description = z.string().max(200, "Description limited to 200 characters")
 
 const body = z
   .string()
-  .max(1000, "Broadcast body message limited to 1000 characters")
+  .max(1000, "Artwork body message limited to 1000 characters")
 
 const link = z.object({
   value: z.string().url({ message: "Please enter a valid URL." }),
@@ -18,7 +18,7 @@ const link = z.object({
 
 const links = z.array(link).optional()
 
-export const schemaBroadcast = z.object({
+export const schemaArtwork = z.object({
   id,
   title,
   description,
