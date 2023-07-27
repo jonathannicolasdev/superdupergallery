@@ -68,7 +68,7 @@ export default function Route() {
             />
             <h2>
               This page isn't available or{" "}
-              <span className="text-red-500">"{params.username}"</span> is not
+              <span className="text-pink-500">"{params.username}"</span> is not
               found
             </h2>
             <p className="text-muted-foreground">

@@ -1,11 +1,12 @@
 import { NavLink, useLocation } from "@remix-run/react"
 import type { Location } from "@remix-run/react"
 import {
+  CalendarIcon,
   DashboardIcon,
-  Half1Icon,
-  Half2Icon,
   HomeIcon,
+  MagicWandIcon,
   MagnifyingGlassIcon,
+  PersonIcon,
 } from "@radix-ui/react-icons"
 
 import type { UserData } from "~/services/auth.server"
@@ -33,12 +34,17 @@ const navPublicItems: NavItem[] = [
   {
     to: "/artworks",
     text: "Artworks",
-    icon: <Half1Icon className="icon" />,
+    icon: <MagicWandIcon className="icon" />,
   },
   {
     to: "/artists",
     text: "Artists",
-    icon: <Half2Icon className="icon" />,
+    icon: <PersonIcon className="icon" />,
+  },
+  {
+    to: "/exhibitions",
+    text: "Exhibitions",
+    icon: <CalendarIcon className="icon" />,
   },
 ]
 
@@ -57,7 +63,7 @@ export function HeaderNavigation() {
     <header
       className={cn(
         "z-10 select-none",
-        "border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-950",
+        "border-gray-900 bg-white dark:border-gray-800 dark:bg-black",
         "fixed bottom-0 left-0 flex w-full items-center justify-center border-t-2",
         "lg:top-0 lg:h-screen lg:w-16 lg:border-r-2 lg:border-t-0",
       )}

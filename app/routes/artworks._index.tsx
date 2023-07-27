@@ -72,7 +72,7 @@ export default function ArtworksRoute() {
 
   return (
     <Layout className="flex flex-wrap gap-8 px-4 py-4 sm:flex-nowrap">
-      <section id="artworks-action" className="w-full space-y-8 sm:max-w-sm">
+      <section id="artworks-action" className="w-full space-y-8 sm:max-w-xs">
         <header className="space-y-4">
           <h1 className="text-4xl text-brand">
             <Link to="/artworks" className="hover-opacity">
