@@ -1,7 +1,6 @@
 import { json } from "@remix-run/node"
 import type { LoaderArgs } from "@remix-run/node"
 import { Link, useLoaderData } from "@remix-run/react"
-import arrayShuffle from "array-shuffle"
 
 import { prisma } from "~/libs"
 import { createCacheHeaders } from "~/utils"
@@ -16,18 +15,30 @@ import {
 } from "~/components"
 
 export async function loader({ request }: LoaderArgs) {
-  const artworks = await prisma.artwork.findMany({
-    orderBy: { createdAt: "asc" },
-    take: 10,
-    include: {
-      images: true,
-      artist: true,
-      exhibition: true,
-    },
-  })
+  const [artworks, exhibitions] = await prisma.$transaction([
+    prisma.artwork.findMany({
+      orderBy: { createdAt: "asc" },
+      take: 10,
+      include: {
+        images: true,
+        artist: true,
+        exhibition: true,
+      },
+    }),
+
+    prisma.exhibition.findMany({
+      orderBy: { createdAt: "asc" },
+      take: 10,
+      include: {
+        images: true,
+        artworks: true,
+        artists: true,
+      },
+    }),
+  ])
 
   return json(
-    { artworks: arrayShuffle(artworks) },
+    { artworks, exhibitions },
     { headers: createCacheHeaders(request, 60) },
   )
 }
@@ -37,6 +48,7 @@ export default function Index() {
     <Layout className="flex flex-col items-center justify-center gap-20 px-4 sm:px-8">
       <LandingHero />
       <LandingArtworks />
+      <LandingExhibitions />
       <LandingStory />
     </Layout>
   )
@@ -106,6 +118,52 @@ export function LandingArtworks() {
                     <div className="flex-grow" />
 
                     <CardTitle className="text-2xl">{artwork.title}</CardTitle>
+                  </CardHeader>
+                </Card>
+              </Link>
+            </li>
+          )
+        })}
+      </ul>
+    </article>
+  )
+}
+
+export function LandingExhibitions() {
+  const { exhibitions } = useLoaderData<typeof loader>()
+
+  if (exhibitions.length <= 0) {
+    return null
+  }
+
+  return (
+    <article className="w-full max-w-7xl space-y-4">
+      <header className="space-y-1">
+        <Link to="/exhibitions">
+          <h2 className="hover-opacity text-brand">Featured Exhibitions</h2>
+        </Link>
+      </header>
+      <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
+        {exhibitions.map(exhibition => {
+          return (
+            <li key={exhibition.id} className="w-full">
+              <Link to={`/artworks/${exhibition.slug}`}>
+                <Card className="hover-opacity h-full space-y-2">
+                  <CardHeader className="flex flex-col items-center space-y-2 p-4">
+                    {exhibition.images?.length > 0 &&
+                      exhibition.images[0]?.url && (
+                        <Image
+                          src={`${exhibition.images[0].url}`}
+                          alt={`${exhibition.title}`}
+                          className="h-40 w-40"
+                        />
+                      )}
+
+                    <div className="flex-grow" />
+
+                    <CardTitle className="text-2xl">
+                      {exhibition.title}
+                    </CardTitle>
                   </CardHeader>
                 </Card>
               </Link>
