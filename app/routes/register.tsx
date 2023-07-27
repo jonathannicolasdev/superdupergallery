@@ -41,7 +41,7 @@ export default function Route() {
 
   return (
     <Layout className="flex justify-center">
-      <div className="max-w-2xl space-y-4 px-4 py-4 sm:px-8">
+      <div className="max-w-2xl space-y-4 p-4 sm:px-8">
         <header className="space-y-2">
           <h1 className="flex flex-col items-center justify-center text-4xl text-brand">
             <span>Registration is in waiting list</span>

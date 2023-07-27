@@ -58,7 +58,7 @@ export default function RouteComponent() {
   const { exhibitions } = useLoaderData<typeof loader>()
 
   return (
-    <Layout className="flex flex-col gap-8 px-4 py-4">
+    <Layout className="space-y-8 p-4">
       <header className="space-y-4">
         <h1 className="flex items-center gap-2 text-4xl text-brand">
           <img src="/images/cat-trophy.png" alt="Cat" className="h-10" />

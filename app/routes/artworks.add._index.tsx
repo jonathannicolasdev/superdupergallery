@@ -48,7 +48,7 @@ export default function ArtworksAddRoute() {
   if (!userData?.id) return null
 
   return (
-    <Layout className="flex flex-wrap gap-8 px-4 py-4 sm:flex-nowrap">
+    <Layout className="flex flex-wrap gap-8 p-4 sm:flex-nowrap">
       <section id="artworks-action" className="w-full space-y-8 sm:max-w-3xl">
         <header className="space-y-4">
           <h1 className="flex items-center gap-2 text-4xl text-brand">

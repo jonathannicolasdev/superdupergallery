@@ -18,7 +18,7 @@ export default function DashboardRoute() {
   }
 
   return (
-    <Layout className="space-y-8 px-4 py-4 sm:px-8">
+    <Layout className="space-y-8 p-4 sm:px-8">
       <header>
         <span>Welcome,</span>
         <Link to="/dashboard">

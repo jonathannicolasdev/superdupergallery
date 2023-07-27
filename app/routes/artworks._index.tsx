@@ -52,7 +52,7 @@ export default function ArtworksRoute() {
   const { query, count, artworks } = useLoaderData<typeof loader>()
 
   return (
-    <Layout className="flex flex-col gap-8 px-4 py-4">
+    <Layout className="space-y-8 p-4">
       <section id="artworks-action" className="flex w-full items-center gap-8">
         <header className="space-y-4">
           <h1 className="flex items-center gap-2 text-4xl text-brand">
