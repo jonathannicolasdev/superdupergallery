@@ -20,7 +20,14 @@ import {
 import dataUsersCredentials from "~/data/users-credentials.json"
 
 // Enable and disable by commenting in/out the enabled items
-const enabledItems = ["userRoles", "userTags", "users", "artworks"]
+const enabledItems = [
+  "userRoles",
+  "userTags",
+  "users",
+  "artworks",
+  "artists",
+  "exhibitions",
+]
 
 async function main() {
   const seeds: { [key: string]: () => Promise<any> } = {

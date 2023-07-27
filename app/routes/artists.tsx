@@ -3,7 +3,15 @@ import { Link, useLoaderData, type V2_MetaFunction } from "@remix-run/react"
 
 import { prisma } from "~/libs"
 import { createCacheHeaders, formatPluralItems, formatTitle } from "~/utils"
-import { ArtistCard, Layout, SearchForm } from "~/components"
+import {
+  AvatarAuto,
+  Card,
+  CardHeader,
+  CardTitle,
+  Debug,
+  Layout,
+  SearchForm,
+} from "~/components"
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   const query = data?.query
@@ -39,7 +47,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 
     return json(
       { query, count: artists.length, artists },
-      { headers: createCacheHeaders(request, 3600) },
+      { headers: createCacheHeaders(request, 60) },
     )
   }
 
@@ -83,18 +91,38 @@ export default function Route() {
           )}
 
           <ul className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            {artists.map(artist => {
-              return (
-                <li key={artist.id} className="w-full">
-                  <Link to={`/artists/${artist.slug}`}>
-                    <ArtistCard artist={artist as any} />
-                  </Link>
-                </li>
-              )
-            })}
+            {artists?.length > 0 &&
+              artists.map(artist => {
+                return (
+                  <li key={artist.id} className="w-full">
+                    <Link to={`/artists/${artist.slug}`}>
+                      <Card className="hover-opacity max-w-2xl">
+                        <CardHeader className="flex gap-4">
+                          {artist.image?.url && (
+                            <AvatarAuto
+                              className="h-24 w-24"
+                              src={artist.image.url}
+                              alt={artist.name}
+                              fallback={artist.name[0].toUpperCase()}
+                            />
+                          )}
+
+                          <div className="flex flex-col justify-between">
+                            <CardTitle className="text-2xl">
+                              {artist.name}
+                            </CardTitle>
+                          </div>
+                        </CardHeader>
+                      </Card>
+                    </Link>
+                  </li>
+                )
+              })}
           </ul>
         </section>
       )}
+
+      <Debug>{artists}</Debug>
     </Layout>
   )
 }
