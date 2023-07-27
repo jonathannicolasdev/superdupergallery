@@ -68,7 +68,8 @@ export const meta: V2_MetaFunction = () => {
     { title: "Super Duper Gallery" },
     {
       name: "description",
-      content: "Brilliant mentoring platform for people and organization.",
+      content:
+        "Super Duper Gallery is a contemporary art gallery that features carefully curated exhibitions that transcend conceptual boundaries, established trends, and cliques.",
     },
   ]
 }
