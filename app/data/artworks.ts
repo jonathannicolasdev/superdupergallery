@@ -10,6 +10,72 @@ export type DataArtwork = Pick<Artwork, "title" | "medium" | "size"> & {
 
 export const dataArtworks: DataArtwork[] = [
   {
+    exhibitionName: "Journey",
+    artistName: "Sarcita Yasa",
+    title: "Hope",
+    medium: "MEDIUM",
+    size: "0x0 inches",
+    year: 2023,
+    price: 100,
+    imageURL:
+      "https://ucarecdn.com/592991f0-cd0e-43b6-a495-b388be559ee4/-/preview/938x432/-/quality/smart/-/format/auto/",
+  },
+  {
+    exhibitionName: "Journey",
+    artistName: "Sarcita Yasa",
+    title: "K.O.",
+    medium: "MEDIUM",
+    size: "0x0 inches",
+    year: 2023,
+    price: 100,
+    imageURL:
+      "https://ucarecdn.com/605a6202-9dbd-4635-8f52-cf58f210086f/-/preview/938x432/-/quality/smart/-/format/auto/",
+  },
+  {
+    exhibitionName: "Journey",
+    artistName: "Sarcita Yasa",
+    title: "Hero",
+    medium: "MEDIUM",
+    size: "0x0 inches",
+    year: 2023,
+    price: 100,
+    imageURL:
+      "https://ucarecdn.com/51664df6-0178-4c16-8758-68886dd51b81/-/preview/938x432/-/quality/smart/-/format/auto/",
+  },
+  {
+    exhibitionName: "Journey",
+    artistName: "Sarcita Yasa",
+    title: "Hero",
+    medium: "MEDIUM",
+    size: "0x0 inches",
+    year: 2023,
+    price: 100,
+    imageURL:
+      "https://ucarecdn.com/6d40ae57-7ee4-4754-b39e-6812b298b5f7/-/preview/938x432/-/quality/smart/-/format/auto/",
+  },
+  {
+    exhibitionName: "Journey",
+    artistName: "Sarcita Yasa",
+    title: "Guard The Balloons",
+    medium: "MEDIUM",
+    size: "0x0 inches",
+    year: 2023,
+    price: 100,
+    imageURL:
+      "https://ucarecdn.com/aa531289-2e52-4b5d-85f7-abb0b83b72bb/-/preview/938x432/-/quality/smart/-/format/auto/",
+  },
+  {
+    exhibitionName: "Journey",
+    artistName: "Sarcita Yasa",
+    title: "Little Doll",
+    medium: "MEDIUM",
+    size: "0x0 inches",
+    year: 2023,
+    price: 100,
+    imageURL:
+      "https://ucarecdn.com/1e6708cc-e0f7-43ae-8277-651e81f4d51b/-/preview/938x432/-/quality/smart/-/format/auto/",
+  },
+  {
     exhibitionName: "Wound",
     artistName: "Laura Abejo",
     title: "Adieu",

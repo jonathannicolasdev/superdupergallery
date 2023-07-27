@@ -159,6 +159,7 @@ async function seedExhibitions() {
         slug: createExhibitionSlug(exhibition.title),
         title: exhibition.title,
         date: exhibition.date,
+        images: { create: { url: String(exhibition.imageURL) } },
       },
     })
     if (!createdExhibition) return null
