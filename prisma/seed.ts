@@ -216,8 +216,9 @@ async function seedArtworks() {
         userId: user.id,
         slug: createArtworkSlug(artwork.title),
         title: artwork.title,
-        medium: "Canvas",
-        size: `20" x 20" x 20"`,
+        medium: artwork.medium,
+        size: artwork.size,
+        year: artwork.year,
         images: { create: { url: String(artwork.imageURL) } },
       },
     })

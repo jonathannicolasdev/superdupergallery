@@ -3,7 +3,7 @@ import { json } from "@remix-run/node"
 import { Link, useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs"
-import { createCacheHeaders, formatPluralItems } from "~/utils"
+import { formatPluralItems } from "~/utils"
 import { useRootLoaderData } from "~/hooks"
 import {
   Button,
@@ -25,12 +25,14 @@ export async function loader({ request }: LoaderArgs) {
       orderBy: { updatedAt: "asc" },
       include: {
         images: true,
+        artist: true,
+        exhibition: true,
       },
     })
 
     return json(
       { query, count: artworks.length, artworks },
-      { headers: createCacheHeaders(request, 60) },
+      // { headers: createCacheHeaders(request, 60) },
     )
   }
 
@@ -38,6 +40,8 @@ export async function loader({ request }: LoaderArgs) {
     orderBy: { updatedAt: "asc" },
     include: {
       images: true,
+      artist: true,
+      exhibition: true,
     },
     where: {
       OR: [{ title: { contains: query } }],
@@ -103,7 +107,7 @@ export default function ArtworksRoute() {
                               <Image
                                 src={`${artwork.images[0].url}`}
                                 alt={`${artwork.title}`}
-                                className="h-40 w-40"
+                                className="h-60 w-60 object-contain"
                               />
                             )}
 
@@ -112,6 +116,8 @@ export default function ArtworksRoute() {
                           <CardTitle className="text-2xl">
                             {artwork.title}
                           </CardTitle>
+
+                          <p>{artwork.artist?.name}</p>
                         </CardHeader>
                       </Card>
                     </Link>

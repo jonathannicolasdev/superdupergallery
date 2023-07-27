@@ -1,12 +1,12 @@
 import { json } from "@remix-run/node"
 import type { LoaderArgs } from "@remix-run/node"
-import { Link, useLoaderData } from "@remix-run/react"
+import { Link, useLoaderData, useParams } from "@remix-run/react"
 import { notFound } from "remix-utils"
 import invariant from "tiny-invariant"
 
 import { prisma } from "~/libs"
 import { createCacheHeaders } from "~/utils"
-import { Layout } from "~/components"
+import { Button, Layout } from "~/components"
 
 export async function loader({ request, params }: LoaderArgs) {
   invariant(params.slug, "Artwork slug not found")
@@ -24,29 +24,64 @@ export async function loader({ request, params }: LoaderArgs) {
 }
 
 export default function ArtworksRoute() {
+  const params = useParams()
   const { artwork } = useLoaderData<typeof loader>()
 
-  if (!artwork) return null
+  if (!artwork) {
+    return (
+      <Layout className="px-4 sm:px-8">
+        <section className="flex flex-col items-center justify-center pt-4">
+          <div className="flex max-w-md flex-col justify-center space-y-4 pt-24 text-center">
+            <img
+              src="/images/cat-sunset.png"
+              alt="Not Found Illustration"
+              className="h-40 object-contain"
+            />
+            <h2>
+              Artwork <span className="text-pink-500">"{params.slug}"</span> is
+              not found
+            </h2>
+            <Button asChild>
+              <Link to="/artworks">Back to All Artworks</Link>
+            </Button>
+          </div>
+        </section>
+      </Layout>
+    )
+  }
 
   return (
-    <Layout className="flex justify-center pt-10">
-      <div className="flex w-full max-w-xl flex-wrap gap-10">
+    <Layout className="flex justify-center p-10">
+      <div className="flex w-full flex-col flex-wrap justify-center gap-10 sm:flex-row">
         {artwork.images?.length > 0 && artwork.images[0]?.url && (
           <img
             src={`${artwork.images[0].url}`}
             alt={`${artwork.title}`}
-            className="h-80 w-80"
+            className="h-100 w-100 object-contain"
           />
         )}
 
-        <header className="space-y-2">
+        <header className="space-y-8">
+          {artwork.artist && (
+            <Link
+              to={`/artists/${artwork.artist.slug}`}
+              className="hover-opacity"
+            >
+              <span className="text-xl font-bold">{artwork.artist.name}</span>
+            </Link>
+          )}
+
           <h1 className="flex">
             <Link to={`/artworks/${artwork.slug}`} className="hover-opacity">
               {artwork.title || "Unknown Title"}
             </Link>
           </h1>
-          <p>Medium: {artwork.medium || "Unknown Medium"}</p>
-          <p>Size: {artwork.size || "Unknown Size"}</p>
+
+          <div className="space-y-4">
+            <p>{artwork.year}</p>
+            <p>Medium: {artwork.medium || "Unknown Medium"}</p>
+            <p>Size: {artwork.size || "Unknown Size"}</p>
+          </div>
         </header>
       </div>
     </Layout>

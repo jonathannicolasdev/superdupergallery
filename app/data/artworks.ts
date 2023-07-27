@@ -18,7 +18,7 @@ export const dataArtworks: DataArtwork[] = [
     year: 2023,
     price: 35000,
     imageURL:
-      "https://ucarecdn.com/538334dd-d483-4416-8d57-28254da97a5d/-/scale_crop/500x500/center/",
+      "https://ucarecdn.com/538334dd-d483-4416-8d57-28254da97a5d/-/preview/938x432/-/quality/smart/-/format/auto/",
   },
   {
     exhibitionName: "Wound",
@@ -29,7 +29,7 @@ export const dataArtworks: DataArtwork[] = [
     year: 2023,
     price: 8000,
     imageURL:
-      "https://ucarecdn.com/83fba0ef-10ce-47f5-acb9-b59aa1c2387e/-/scale_crop/500x500/center/",
+      "https://ucarecdn.com/83fba0ef-10ce-47f5-acb9-b59aa1c2387e/-/preview/938x432/-/quality/smart/-/format/auto/",
   },
   {
     exhibitionName: "Wound",
@@ -40,6 +40,6 @@ export const dataArtworks: DataArtwork[] = [
     year: 2023,
     price: 20000,
     imageURL:
-      "https://ucarecdn.com/7e266377-52d5-45d3-be88-f960e0560524/-/scale_crop/500x500/center/",
+      "https://ucarecdn.com/7e266377-52d5-45d3-be88-f960e0560524/-/preview/938x432/-/quality/smart/-/format/auto/",
   },
 ]
