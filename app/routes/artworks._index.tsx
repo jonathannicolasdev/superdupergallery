@@ -10,6 +10,8 @@ import {
   Card,
   CardHeader,
   CardTitle,
+  Debug,
+  Image,
   Layout,
   SearchForm,
 } from "~/components"
@@ -21,6 +23,9 @@ export async function loader({ request }: LoaderArgs) {
   if (!query) {
     const artworks = await prisma.artwork.findMany({
       orderBy: { updatedAt: "asc" },
+      include: {
+        images: true,
+      },
     })
 
     return json(
@@ -31,6 +36,9 @@ export async function loader({ request }: LoaderArgs) {
 
   const artworks = await prisma.artwork.findMany({
     orderBy: { updatedAt: "asc" },
+    include: {
+      images: true,
+    },
     where: {
       OR: [{ title: { contains: query } }],
     },
@@ -44,8 +52,8 @@ export default function ArtworksRoute() {
   const { query, count, artworks } = useLoaderData<typeof loader>()
 
   return (
-    <Layout className="flex flex-wrap gap-8 px-4 py-4 sm:flex-nowrap">
-      <section id="artworks-action" className="w-full space-y-8 sm:max-w-xs">
+    <Layout className="flex flex-col gap-8 px-4 py-4">
+      <section id="artworks-action" className="flex w-full items-center gap-8">
         <header className="space-y-4">
           <h1 className="flex items-center gap-2 text-4xl text-brand">
             <img src="/images/cat-wood.png" alt="Cat" className="h-10" />
@@ -62,7 +70,7 @@ export default function ArtworksRoute() {
         )}
       </section>
 
-      <section id="artworks" className="w-full max-w-3xl space-y-4">
+      <section id="artworks" className="w-full space-y-4">
         <SearchForm
           action="/artworks"
           placeholder="Search artworks with keyword..."
@@ -83,18 +91,27 @@ export default function ArtworksRoute() {
 
         {count > 0 && (
           <section>
-            <ul className="space-y-4">
+            <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
               {artworks.map(artwork => {
                 return (
                   <li key={artwork.id} className="w-full">
                     <Link to={`/artworks/${artwork.slug}`}>
-                      <Card className="hover-opacity space-y-2">
+                      <Card className="hover-opacity h-full space-y-2">
                         <CardHeader className="space-y-2 p-4">
-                          <div>
-                            <CardTitle className="text-2xl">
-                              {artwork.title}
-                            </CardTitle>
-                          </div>
+                          {artwork.images?.length > 0 &&
+                            artwork.images[0]?.url && (
+                              <Image
+                                src={`${artwork.images[0].url}`}
+                                alt={`${artwork.title}`}
+                                className="h-20 w-20"
+                              />
+                            )}
+
+                          <div className="flex-grow" />
+
+                          <CardTitle className="text-2xl">
+                            {artwork.title}
+                          </CardTitle>
                         </CardHeader>
                       </Card>
                     </Link>
@@ -104,6 +121,10 @@ export default function ArtworksRoute() {
             </ul>
           </section>
         )}
+      </section>
+
+      <section>
+        <Debug>{artworks}</Debug>
       </section>
     </Layout>
   )

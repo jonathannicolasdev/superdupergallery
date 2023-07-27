@@ -19,7 +19,9 @@ export function Layout({
       <HeaderNavigation />
       {hasHeader && <SiteHeader />}
 
-      <main className={cn("flex-[1] lg:ml-16", className)}>{children}</main>
+      <main className={cn("max-w-7xl flex-[1] lg:ml-16", className)}>
+        {children}
+      </main>
 
       {hasFooter && <Footer className="lg:ml-16" />}
     </div>

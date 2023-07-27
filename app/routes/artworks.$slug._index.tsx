@@ -14,15 +14,8 @@ export async function loader({ request, params }: LoaderArgs) {
   const artwork = await prisma.artwork.findFirst({
     where: { slug: params.slug },
     include: {
-      user: {
-        select: {
-          id: true,
-          name: true,
-          username: true,
-          nick: true,
-          avatars: { select: { url: true } },
-        },
-      },
+      images: true,
+      artist: true,
     },
   })
   if (!artwork) return notFound({ artwork: null })
@@ -37,7 +30,15 @@ export default function ArtworksRoute() {
 
   return (
     <Layout className="flex justify-center pt-10">
-      <div className="w-full max-w-xl space-y-6">
+      <div className="flex w-full max-w-xl flex-wrap gap-10">
+        {artwork.images?.length > 0 && artwork.images[0]?.url && (
+          <img
+            src={`${artwork.images[0].url}`}
+            alt={`${artwork.title}`}
+            className="h-80 w-80"
+          />
+        )}
+
         <header className="space-y-2">
           <h1 className="flex">
             <Link to={`/artworks/${artwork.slug}`} className="hover-opacity">
