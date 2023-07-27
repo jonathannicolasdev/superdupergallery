@@ -23,28 +23,19 @@ export const loader = async ({ request }: LoaderArgs) => {
 
 export default function Route() {
   return (
-    <Layout hasFooter={false}>
+    <Layout hasHeader={false} hasFooter={false}>
       <div className="container relative grid h-screen flex-col items-center justify-center lg:max-w-none lg:grid-cols-2 lg:px-0">
         <section className="lg:p-8">
           <div className="mx-auto flex w-full max-w-sm flex-col space-y-8">
             <div className="flex flex-col space-y-2">
               <h2>Login</h2>
-              <p className="text-muted-foreground">
-                New to Super Duper Gallery?{" "}
-                <Link
-                  to={`/register`}
-                  className="hover-opacity font-bold text-brand"
-                >
-                  Create an account
-                </Link>
-              </p>
             </div>
 
             <UserAuthForm />
           </div>
         </section>
 
-        <section className="relative hidden h-full flex-col bg-gray-900 p-10 text-white lg:flex lg:items-end">
+        <section className="relative hidden h-full flex-col bg-gray-950 p-10 text-white lg:flex lg:items-end">
           <Link to="/" className="hidden lg:block">
             <h1 className="flex items-center gap-2 text-2xl">
               <img src="/images/bear-rounded.png" alt="Bear" className="h-10" />
@@ -55,10 +46,10 @@ export default function Route() {
           <div className="relative z-20 mt-auto">
             <blockquote className="space-y-2 text-right">
               <p className="text-lg font-semibold">
-                &ldquo;The mentors from 🐈 Super Duper Gallery are helpful
-                professionals.&rdquo;
+                &ldquo;The artworks from 🐈 Super Duper Gallery are
+                extraordinary.&rdquo;
               </p>
-              <footer>— Somebody</footer>
+              <footer>— Art Collector</footer>
             </blockquote>
           </div>
         </section>

@@ -1,5 +1,5 @@
 import { Form, useNavigation } from "@remix-run/react"
-import { GitHubLogoIcon, ReloadIcon, ValueIcon } from "@radix-ui/react-icons"
+import { ReloadIcon } from "@radix-ui/react-icons"
 
 import type { AuthStrategy } from "~/services/auth.server"
 import { cn } from "~/libs"
@@ -48,32 +48,6 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           </Button>
         </div>
       </Form>
-
-      <div className="relative">
-        <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t" />
-        </div>
-        <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">
-            Or later continue with
-          </span>
-        </div>
-      </div>
-
-      <div className="flex gap-2">
-        <SocialAuthButton
-          provider="github"
-          label="GitHub"
-          icon={<GitHubLogoIcon className="mr-2 h-4 w-4" />}
-          disabled
-        />
-        <SocialAuthButton
-          provider="google"
-          label="Google"
-          icon={<ValueIcon className="mr-2 h-4 w-4" />}
-          disabled
-        />
-      </div>
     </div>
   )
 }
