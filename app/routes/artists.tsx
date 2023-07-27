@@ -68,10 +68,10 @@ export default function Route() {
   const { query, count, artists } = useLoaderData<typeof loader>()
 
   return (
-    <Layout className="max-w-7xl space-y-8 px-4 py-4 sm:px-8">
+    <Layout className="flex flex-col gap-8 px-4 py-4">
       <header className="space-y-4">
         <h1 className="flex items-center gap-2 text-4xl text-brand">
-          <img src="/images/bear-sunglasses.png" alt="Bear" className="h-10" />
+          <img src="/images/cat-star.png" alt="Cat" className="h-10" />
           <span>Artists</span>
         </h1>
         <p className="text-muted-foreground">
@@ -122,7 +122,9 @@ export default function Route() {
         </section>
       )}
 
-      <Debug>{artists}</Debug>
+      <section>
+        <Debug>{artists}</Debug>
+      </section>
     </Layout>
   )
 }
