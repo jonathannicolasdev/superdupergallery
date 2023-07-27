@@ -3,7 +3,15 @@ import { Link, useLoaderData, type V2_MetaFunction } from "@remix-run/react"
 
 import { prisma } from "~/libs"
 import { formatPluralItems, formatTitle } from "~/utils"
-import { AvatarAuto, Layout, SearchForm } from "~/components"
+import {
+  AvatarAuto,
+  Card,
+  CardHeader,
+  CardTitle,
+  Image,
+  Layout,
+  SearchForm,
+} from "~/components"
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   const query = data?.query || ""
@@ -37,12 +45,39 @@ export const loader = async ({ request }: LoaderArgs) => {
   const query = url.searchParams.get("q")
 
   if (!query) {
-    return json({ query, count: 0, users: [] })
+    return json({ query, count: 0, artworks: [], artists: [], users: [] })
   }
 
-  // This will be more than just finding users
-  const [users] = await prisma.$transaction([
+  const [artworks, artists, users] = await prisma.$transaction([
+    prisma.artwork.findMany({
+      orderBy: [{ title: "asc" }],
+      where: {
+        OR: [{ title: { contains: query } }, { medium: { contains: query } }],
+      },
+      select: {
+        id: true,
+        slug: true,
+        title: true,
+        medium: true,
+        images: true,
+      },
+    }),
+
+    prisma.artist.findMany({
+      orderBy: [{ name: "asc" }],
+      where: {
+        OR: [{ name: { contains: query } }],
+      },
+      select: {
+        id: true,
+        slug: true,
+        name: true,
+        image: true,
+      },
+    }),
+
     prisma.user.findMany({
+      orderBy: [{ username: "asc" }],
       where: {
         OR: [
           { name: { contains: query } },
@@ -58,18 +93,20 @@ export const loader = async ({ request }: LoaderArgs) => {
         tags: { select: { symbol: true, name: true } },
         profiles: { select: { headline: true, links: true } },
       },
-      orderBy: [{ username: "asc" }],
     }),
   ])
 
+  const artworksCount = artworks.length
   const usersCount = users.length
-  const count = usersCount
 
-  return json({ query, count, users })
+  const count = artworksCount + usersCount
+
+  return json({ query, count, artworks, artists, users })
 }
 
 export default function Route() {
-  const { query, count, users } = useLoaderData<typeof loader>()
+  const { query, count, artworks, artists, users } =
+    useLoaderData<typeof loader>()
 
   return (
     <Layout className="space-y-8 p-4">
@@ -90,13 +127,82 @@ export default function Route() {
         </section>
       )}
 
+      {artworks.length > 0 && (
+        <section className="space-y-2">
+          <h2 className="text-pink-700">Artworks</h2>
+          <p className="text-muted-foreground">
+            Found {formatPluralItems("artwork", count)} with keyword "{query}"
+          </p>
+          <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
+            {artworks.map(artwork => {
+              return (
+                <li key={artwork.id} className="w-full">
+                  <Link to={`/artworks/${artwork.slug}`}>
+                    <Card className="hover-opacity h-full space-y-2">
+                      <CardHeader className="flex flex-col items-center space-y-2 p-4">
+                        {artwork.images?.length > 0 &&
+                          artwork.images[0]?.url && (
+                            <Image
+                              src={`${artwork.images[0].url}`}
+                              alt={`${artwork.title}`}
+                              className="h-40 w-40"
+                            />
+                          )}
+
+                        <div className="flex-grow" />
+
+                        <CardTitle className="text-2xl">
+                          {artwork.title}
+                        </CardTitle>
+                      </CardHeader>
+                    </Card>
+                  </Link>
+                </li>
+              )
+            })}
+          </ul>
+        </section>
+      )}
+
+      {artists.length > 0 && (
+        <section className="space-y-2">
+          <h2 className="text-pink-700">Artists</h2>
+          <p className="text-muted-foreground">
+            Found {formatPluralItems("artist", count)} with keyword "{query}"
+          </p>
+          <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
+            {artists.map(artist => {
+              return (
+                <li key={artist.id} className="w-full">
+                  <Link to={`/artists/${artist.slug}`}>
+                    <Card className="hover-opacity h-full space-y-2">
+                      <CardHeader className="flex items-center gap-2 p-4">
+                        <AvatarAuto
+                          src={artist.image?.url}
+                          alt={`${artist.name}`}
+                          fallback={`${artist.name[0].toUpperCase()}`}
+                          className="h-20 w-20"
+                        />
+
+                        <CardTitle className="text-2xl">
+                          {artist.name}
+                        </CardTitle>
+                      </CardHeader>
+                    </Card>
+                  </Link>
+                </li>
+              )
+            })}
+          </ul>
+        </section>
+      )}
+
       {users.length > 0 && (
         <section className="space-y-2">
           <h2 className="text-pink-700">Users</h2>
           <p className="text-muted-foreground">
             Found {formatPluralItems("user", count)} with keyword "{query}"
           </p>
-
           <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3">
             {users.map(user => {
               return (

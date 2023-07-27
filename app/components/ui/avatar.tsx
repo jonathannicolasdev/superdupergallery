@@ -53,7 +53,7 @@ function AvatarAuto({
   fallback = "A",
 }: {
   className?: string
-  src: string
+  src?: string
   alt: string
   fallback: string
 }) {
