@@ -117,7 +117,11 @@ export function LandingArtworks() {
 
                     <div className="flex-grow" />
 
-                    <CardTitle className="text-2xl">{artwork.title}</CardTitle>
+                    <CardTitle className="text-center text-2xl">
+                      {artwork.title}
+                    </CardTitle>
+
+                    <p>{artwork.artist?.name}</p>
                   </CardHeader>
                 </Card>
               </Link>
@@ -143,6 +147,7 @@ export function LandingExhibitions() {
           <h2 className="hover-opacity text-brand">Featured Exhibitions</h2>
         </Link>
       </header>
+
       <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
         {exhibitions.map(exhibition => {
           return (

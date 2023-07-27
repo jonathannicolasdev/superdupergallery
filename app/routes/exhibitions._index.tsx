@@ -96,7 +96,7 @@ export default function RouteComponent() {
 
       {count > 0 && (
         <section>
-          <ul className="flex flex-col items-center gap-10">
+          <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
             {exhibitions.map(exhibition => {
               return (
                 <li key={exhibition.id} className="w-full">
