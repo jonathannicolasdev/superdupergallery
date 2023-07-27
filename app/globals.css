@@ -163,11 +163,11 @@
   @apply bg-background text-foreground;
 }
 .uploadcare--menu__item.uploadcare--menu__item_current {
+  @apply bg-pink-950 text-pink-200;
+}
+.uploadcare--menu__item {
   @apply bg-secondary text-secondary-foreground;
 }
-/* .uploadcare--menu__item {
-  @apply focus:link hover:link bg-background text-foreground;
-} */
 /* .uploadcare--link,
 .uploadcare--link:link,
 .uploadcare--link:visited {
@@ -176,15 +176,16 @@
 /* .uploadcare--button:not(.uploadcare--button_primary) {
   @apply button-variant-outline;
 } */
-/* .uploadcare--button:not(.uploadcare--dialog__close) {
-  @apply button focus:link hover:link cursor-pointer;
-} */
-/* .uploadcare--dialog__close {
-  @apply link focus:link hover:link cursor-pointer;
-} */
-/* .uploadcare--widget__button {
-  @apply button-size-small button-variant-subtle;
-} */
+.uploadcare--button:not(.uploadcare--dialog__close) {
+  @apply cursor-pointer;
+}
+.uploadcare--dialog__close {
+  @apply cursor-pointer bg-white text-white hover:bg-gray-100 focus:bg-gray-100;
+}
+.uploadcare--widget__button {
+  @apply inline-flex items-center justify-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50;
+  @apply cursor-pointer border-2 border-primary bg-secondary text-secondary-foreground shadow hover:bg-secondary/50;
+}
 /* .uploadcare--button_primary {
   @apply button button-variant-subtle block border-none;
 } */
