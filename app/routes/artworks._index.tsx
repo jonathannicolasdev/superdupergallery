@@ -97,13 +97,13 @@ export default function ArtworksRoute() {
                   <li key={artwork.id} className="w-full">
                     <Link to={`/artworks/${artwork.slug}`}>
                       <Card className="hover-opacity h-full space-y-2">
-                        <CardHeader className="space-y-2 p-4">
+                        <CardHeader className="flex flex-col items-center space-y-2 p-4">
                           {artwork.images?.length > 0 &&
                             artwork.images[0]?.url && (
                               <Image
                                 src={`${artwork.images[0].url}`}
                                 alt={`${artwork.title}`}
-                                className="h-20 w-20"
+                                className="h-40 w-40"
                               />
                             )}
 

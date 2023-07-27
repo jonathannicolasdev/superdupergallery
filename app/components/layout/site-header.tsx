@@ -35,7 +35,7 @@ const navPublicItems: NavItem[] = [
 
 export function SiteHeader() {
   return (
-    <header className="p-4 lg:ml-16">
+    <header className="w-full max-w-7xl p-4 lg:pl-20">
       <div className="flex flex-wrap justify-between border-4 border-white lg:flex-nowrap">
         <div className="w-full max-w-[250px] border-r-4 border-white p-2">
           <NavLink to="/" className="flex gap-2">
@@ -63,7 +63,7 @@ export function SiteHeader() {
                 <li key={navItem.to}>
                   <NavLink
                     to={navItem.to}
-                    className="border-b-4 border-b-black pb-2 text-lg font-bold uppercase hover:border-b-4 hover:border-b-pink-600"
+                    className="border-b-4 border-b-black pb-2 text-sm font-bold uppercase hover:border-b-4 hover:border-b-pink-600 sm:text-base md:text-lg"
                   >
                     {navItem.text}
                   </NavLink>
