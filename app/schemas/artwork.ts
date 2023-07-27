@@ -16,4 +16,8 @@ export const schemaArtwork = z.object({
   title,
   medium,
   size,
+  multiple: z.string().optional(),
+  // These are texts because they were sent as stringified JSON from the client
+  fileInfo: z.string().optional(), // Contain one object
+  fileGroup: z.string().optional(), //  Contain array of multiple objects
 })

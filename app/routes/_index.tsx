@@ -6,7 +6,14 @@ import arrayShuffle from "array-shuffle"
 import { prisma } from "~/libs"
 import { createCacheHeaders } from "~/utils"
 import { useRootLoaderData } from "~/hooks"
-import { ArtworkCard, Button, Layout } from "~/components"
+import {
+  Button,
+  Card,
+  CardHeader,
+  CardTitle,
+  Image,
+  Layout,
+} from "~/components"
 
 export async function loader({ request }: LoaderArgs) {
   const artworks = await prisma.artwork.findMany({
@@ -81,12 +88,26 @@ export function LandingArtworks() {
           <h2 className="hover-opacity text-brand">Featured Artworks</h2>
         </Link>
       </header>
-      <ul className="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
         {artworks.map(artwork => {
           return (
             <li key={artwork.id} className="w-full">
-              <Link to={`/artworks/${artwork.slug}`} className="block">
-                <ArtworkCard artwork={artwork as any} />
+              <Link to={`/artworks/${artwork.slug}`}>
+                <Card className="hover-opacity h-full space-y-2">
+                  <CardHeader className="space-y-2 p-4">
+                    {artwork.images?.length > 0 && artwork.images[0]?.url && (
+                      <Image
+                        src={`${artwork.images[0].url}`}
+                        alt={`${artwork.title}`}
+                        className="h-20 w-20"
+                      />
+                    )}
+
+                    <div className="flex-grow" />
+
+                    <CardTitle className="text-2xl">{artwork.title}</CardTitle>
+                  </CardHeader>
+                </Card>
               </Link>
             </li>
           )

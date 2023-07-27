@@ -37,73 +37,6 @@ export const schemaUploadcareDemo = z.object({
   fileGroup: z.string().optional(), //  Contain array of multiple objects
 })
 
-export async function action({ request }: ActionArgs) {
-  const userSession = await authenticator.isAuthenticated(request)
-  const userFirst = await prisma.user.findFirst()
-  const userData = userSession || userFirst
-  invariant(userData, "User is not available")
-
-  const formData = await request.formData()
-  const submission = parse(formData, { schema: schemaUploadcareDemo })
-  if (!submission.value || submission.intent !== "submit") {
-    return badRequest(submission)
-  }
-
-  try {
-    // Transform checkbox "on" or null value to boolean
-    const multiple = submission?.value?.multiple === "on" ? true : false
-
-    // If not multiple, save one file info to database (Image table)
-    if (!multiple && submission?.value?.fileInfo) {
-      const fileInfo: FileInfo = JSON.parse(String(submission?.value?.fileInfo))
-      const newImage = await prisma.artworkImage.create({
-        data: {
-          url: String(fileInfo.cdnUrl),
-          userId: userData.id,
-        },
-      })
-      if (!newImage) {
-        return badRequest(submission)
-      }
-      return json({ ...submission, newImage })
-    }
-
-    // If multiple, save multiple files info to database (Image table)
-    if (multiple && submission?.value?.fileGroup) {
-      const fileGroup: FileGroup = JSON.parse(
-        String(submission?.value?.fileGroup),
-      )
-      const fileGroupNumbers = Array.from(Array(fileGroup?.count).keys())
-
-      if (fileGroup?.count <= 0 && fileGroupNumbers?.length <= 0) {
-        return badRequest(submission)
-      }
-
-      const files = fileGroupNumbers.map(number => {
-        return { cdnUrl: `${fileGroup?.cdnUrl}nth/${number}/` } as FileInfo
-      })
-
-      const newImages = await prisma.artworkImage.createMany({
-        data: files.map(file => {
-          return {
-            url: String(file.cdnUrl),
-            userId: userData.id,
-          }
-        }),
-      })
-      if (!newImages) {
-        return badRequest(submission)
-      }
-      return json({ ...submission, newImages })
-    }
-  } catch (error) {
-    console.error(error)
-    return serverError(submission)
-  }
-
-  return json(submission)
-}
-
 export default function Route() {
   const actionData = useActionData<typeof action>()
   const navigation = useNavigation()
@@ -198,7 +131,7 @@ export default function Route() {
               {/* If no file/files yet */}
               {!fileInfo && !fileGroup && (
                 <div className="flex h-[inherit] w-full select-none items-center justify-center">
-                  <p className="dim">
+                  <p>
                     {isMultiple ? "Some images" : "An image"} will be previewed
                     here
                   </p>
@@ -262,4 +195,71 @@ export default function Route() {
       </div>
     </Layout>
   )
+}
+
+export async function action({ request }: ActionArgs) {
+  const userSession = await authenticator.isAuthenticated(request)
+  const userFirst = await prisma.user.findFirst()
+  const userData = userSession || userFirst
+  invariant(userData, "User is not available")
+
+  const formData = await request.formData()
+  const submission = parse(formData, { schema: schemaUploadcareDemo })
+  if (!submission.value || submission.intent !== "submit") {
+    return badRequest(submission)
+  }
+
+  try {
+    // Transform checkbox "on" or null value to boolean
+    const multiple = submission?.value?.multiple === "on" ? true : false
+
+    // If not multiple, save one file info to database (Image table)
+    if (!multiple && submission?.value?.fileInfo) {
+      const fileInfo: FileInfo = JSON.parse(String(submission?.value?.fileInfo))
+      const newImage = await prisma.artworkImage.create({
+        data: {
+          url: String(fileInfo.cdnUrl),
+          userId: userData.id,
+        },
+      })
+      if (!newImage) {
+        return badRequest(submission)
+      }
+      return json({ ...submission, newImage })
+    }
+
+    // If multiple, save multiple files info to database (Image table)
+    if (multiple && submission?.value?.fileGroup) {
+      const fileGroup: FileGroup = JSON.parse(
+        String(submission?.value?.fileGroup),
+      )
+      const fileGroupNumbers = Array.from(Array(fileGroup?.count).keys())
+
+      if (fileGroup?.count <= 0 && fileGroupNumbers?.length <= 0) {
+        return badRequest(submission)
+      }
+
+      const files = fileGroupNumbers.map(number => {
+        return { cdnUrl: `${fileGroup?.cdnUrl}nth/${number}/` } as FileInfo
+      })
+
+      const newImages = await prisma.artworkImage.createMany({
+        data: files.map(file => {
+          return {
+            url: String(file.cdnUrl),
+            userId: userData.id,
+          }
+        }),
+      })
+      if (!newImages) {
+        return badRequest(submission)
+      }
+      return json({ ...submission, newImages })
+    }
+  } catch (error) {
+    console.error(error)
+    return serverError(submission)
+  }
+
+  return json(submission)
 }
