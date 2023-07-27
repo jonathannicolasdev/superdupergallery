@@ -30,7 +30,7 @@ export default function Index() {
     <Layout className="flex flex-col items-center justify-center gap-20 px-4 sm:px-8">
       <LandingHero />
       <LandingArtworks />
-      <LandingDevelopment />
+      <LandingStory />
     </Layout>
   )
 }
@@ -96,9 +96,16 @@ export function LandingArtworks() {
   )
 }
 
-export function LandingDevelopment() {
+export function LandingStory() {
   return (
     <article className="w-full max-w-3xl space-y-8 py-20">
+      <section>
+        <img
+          src="https://superdupergallery.com/images/cover.jpeg"
+          alt="Cover"
+          className="rounded"
+        />
+      </section>
       <section className="space-y-4">
         <div className="prose dark:prose-invert space-y-4">
           <h3 className="uppercase">
