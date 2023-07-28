@@ -82,9 +82,9 @@ export default function Route() {
   const isOwner = userSession?.id === user.id
 
   return (
-    <Layout className="flex flex-col items-center">
+    <Layout hasHeader={false} className="flex flex-col items-center">
       <section className="w-full max-w-3xl space-y-8 px-4 sm:px-8">
-        <header className="-mt-16 flex flex-wrap items-end justify-between">
+        <header className="mt-20 flex flex-wrap items-end justify-between">
           <div>
             <AvatarAuto
               className="mb-4 h-32 w-32 outline outline-4 outline-background"

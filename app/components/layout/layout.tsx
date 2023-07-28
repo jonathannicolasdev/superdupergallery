@@ -21,7 +21,9 @@ export function Layout({
       <div className="flex min-h-screen flex-col items-center">
         {hasHeader && <SiteHeader />}
 
-        <main className={cn("max-w-7xl flex-[1]", className)}>{children}</main>
+        <main className={cn("w-full max-w-7xl flex-[1]", className)}>
+          {children}
+        </main>
 
         {hasFooter && <Footer />}
       </div>

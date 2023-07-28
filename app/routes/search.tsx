@@ -48,7 +48,7 @@ export const loader = async ({ request }: LoaderArgs) => {
     return json({ query, count: 0, artworks: [], artists: [], users: [] })
   }
 
-  const [artworks, artists, users] = await prisma.$transaction([
+  const [artworks, artists] = await prisma.$transaction([
     prisma.artwork.findMany({
       orderBy: [{ title: "asc" }],
       where: {
@@ -75,38 +75,18 @@ export const loader = async ({ request }: LoaderArgs) => {
         image: true,
       },
     }),
-
-    prisma.user.findMany({
-      orderBy: [{ username: "asc" }],
-      where: {
-        OR: [
-          { name: { contains: query } },
-          { username: { contains: query } },
-          { nick: { contains: query } },
-        ],
-      },
-      select: {
-        id: true,
-        name: true,
-        username: true,
-        avatars: { select: { url: true } },
-        tags: { select: { symbol: true, name: true } },
-        profiles: { select: { headline: true, links: true } },
-      },
-    }),
   ])
 
   const artworksCount = artworks.length
-  const usersCount = users.length
+  const artistsCount = artists.length
 
-  const count = artworksCount + usersCount
+  const count = artworksCount + artistsCount
 
-  return json({ query, count, artworks, artists, users })
+  return json({ query, count, artworks, artists })
 }
 
 export default function Route() {
-  const { query, count, artworks, artists, users } =
-    useLoaderData<typeof loader>()
+  const { query, count, artworks, artists } = useLoaderData<typeof loader>()
 
   return (
     <Layout className="space-y-8 p-4">
@@ -189,38 +169,6 @@ export default function Route() {
                         </CardTitle>
                       </CardHeader>
                     </Card>
-                  </Link>
-                </li>
-              )
-            })}
-          </ul>
-        </section>
-      )}
-
-      {users.length > 0 && (
-        <section className="space-y-2">
-          <h2 className="text-pink-700">Users</h2>
-          <p className="text-muted-foreground">
-            Found {formatPluralItems("user", count)} with keyword "{query}"
-          </p>
-          <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3">
-            {users.map(user => {
-              return (
-                <li key={user.id}>
-                  <Link
-                    to={`/${user.username}`}
-                    className="hover-opacity flex gap-2 py-1"
-                  >
-                    <AvatarAuto
-                      className="h-14 w-14"
-                      src={user.avatars[0]?.url}
-                      alt={user.username}
-                      fallback={user.username[0].toUpperCase()}
-                    />
-                    <div>
-                      <h3 className="text-lg">{user.name}</h3>
-                      <p className="text-muted-foreground">@{user.username}</p>
-                    </div>
                   </Link>
                 </li>
               )
