@@ -156,6 +156,7 @@ async function seedExhibitions() {
     const createdExhibition = await prisma.exhibition.create({
       data: {
         userId: user.id,
+        edition: exhibition.edition,
         slug: createExhibitionSlug(exhibition.title),
         title: exhibition.title,
         date: new Date(String(exhibition.date)),
@@ -233,11 +234,13 @@ async function seedArtworks() {
           exhibitionId: exhibition?.id,
           artistId: artist?.id,
           userId: user.id,
-          slug: createArtworkSlug(artwork.title),
-          title: artwork.title,
+          slug: createArtworkSlug(artwork.title || "Untitled"),
+          title: artwork.title || "Untitled",
           medium: artwork.medium,
           size: artwork.size,
-          year: artwork.year,
+          year: artwork.year || 2021,
+          price: artwork.price || 0,
+          isSold: artwork?.isSold || false,
           images: { create: { url: String(artwork.imageURL) } },
         },
       })
