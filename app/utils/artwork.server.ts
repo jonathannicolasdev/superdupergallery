@@ -1,10 +1,9 @@
-import type { Artwork } from "@prisma/client"
+import { createSlug } from "~/utils"
+import type { DataArtwork } from "~/data"
 
-import { createNanoID, createSlug } from "~/utils"
+export function createArtworkSlug(artwork: DataArtwork) {
+  const title = createSlug(artwork.title || "Untitled")
+  const artistName = createSlug(artwork.artistName || "Unknown")
 
-export function createArtworkSlug(title: Artwork["title"]) {
-  const slug: string = createSlug(title)
-  const nanoID: string = createNanoID()
-
-  return `${slug}-${nanoID}`
+  return `${title}-${artistName}`
 }

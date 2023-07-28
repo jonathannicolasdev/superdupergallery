@@ -157,7 +157,7 @@ async function seedExhibitions() {
       data: {
         userId: user.id,
         edition: exhibition.edition,
-        slug: createExhibitionSlug(exhibition.title),
+        slug: createExhibitionSlug(exhibition),
         title: exhibition.title,
         date: new Date(String(exhibition.date)),
         images: { create: { url: String(exhibition.imageURL) } },
@@ -234,7 +234,7 @@ async function seedArtworks() {
           exhibitionId: exhibition?.id,
           artistId: artist?.id,
           userId: user.id,
-          slug: createArtworkSlug(artwork.title || "Untitled"),
+          slug: createArtworkSlug(artwork),
           title: artwork.title || "Untitled",
           medium: artwork.medium,
           size: artwork.size,

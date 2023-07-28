@@ -17,8 +17,8 @@ import {
 export async function loader({ request }: LoaderArgs) {
   const [artworks, exhibitions] = await prisma.$transaction([
     prisma.artwork.findMany({
-      orderBy: { createdAt: "asc" },
-      take: 10,
+      orderBy: { createdAt: "desc" },
+      take: 16,
       include: {
         images: true,
         artist: true,
@@ -27,7 +27,7 @@ export async function loader({ request }: LoaderArgs) {
     }),
 
     prisma.exhibition.findMany({
-      orderBy: { createdAt: "asc" },
+      orderBy: { date: "desc" },
       take: 10,
       include: {
         images: true,
@@ -153,7 +153,7 @@ export function LandingExhibitions() {
         {exhibitions.map(exhibition => {
           return (
             <li key={exhibition.id} className="w-full">
-              <Link to={`/artworks/${exhibition.slug}`}>
+              <Link to={`/exhibitions/${exhibition.slug}`}>
                 <Card className="hover-opacity h-full space-y-2">
                   <CardHeader className="flex flex-col items-center space-y-2 p-4">
                     {exhibition.images?.length > 0 &&
@@ -167,8 +167,11 @@ export function LandingExhibitions() {
 
                     <div className="flex-grow" />
 
-                    <CardTitle className="text-2xl">
-                      {exhibition.title}
+                    <CardTitle className="text-center text-2xl">
+                      {exhibition.edition && (
+                        <span>#{exhibition.edition} </span>
+                      )}
+                      <span>{exhibition.title}</span>
                     </CardTitle>
                   </CardHeader>
                 </Card>

@@ -3,7 +3,7 @@ import { json } from "@remix-run/node"
 import { Link, useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs"
-import { formatPluralItems } from "~/utils"
+import { createCacheHeaders, formatPluralItems } from "~/utils"
 import { useRootLoaderData } from "~/hooks"
 import {
   Button,
@@ -32,7 +32,7 @@ export async function loader({ request }: LoaderArgs) {
 
     return json(
       { query, count: artworks.length, artworks },
-      // { headers: createCacheHeaders(request, 60) },
+      { headers: createCacheHeaders(request, 5) },
     )
   }
 

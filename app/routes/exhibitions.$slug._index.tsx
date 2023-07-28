@@ -77,7 +77,7 @@ export default function ExhibitionsRoute() {
           />
         )}
 
-        <header className="space-y-8">
+        <header className="space-y-4">
           <h1 className="flex">
             <Link
               to={`/exhibitions/${exhibition.slug}`}
@@ -90,23 +90,23 @@ export default function ExhibitionsRoute() {
           <div className="space-y-4">
             <p>{formatDateOnly(String(exhibition.date))}</p>
           </div>
-        </header>
 
-        {exhibition?.artists.length > 0 && (
-          <section>
-            {exhibition.artists.map(artist => {
-              return (
-                <Link
-                  key={artist.id}
-                  to={`/artists/${artist.slug}`}
-                  className="hover-opacity"
-                >
-                  <span className="text-xl font-bold">{artist.name}</span>
-                </Link>
-              )
-            })}
-          </section>
-        )}
+          {exhibition?.artists.length > 0 && (
+            <div className="flex flex-wrap gap-4">
+              {exhibition.artists.map(artist => {
+                return (
+                  <Link
+                    key={artist.id}
+                    to={`/artists/${artist.slug}`}
+                    className="hover-opacity"
+                  >
+                    <span className="text-xl font-bold">{artist.name}</span>
+                  </Link>
+                )
+              })}
+            </div>
+          )}
+        </header>
 
         {exhibition?.artworks.length > 0 && (
           <section>

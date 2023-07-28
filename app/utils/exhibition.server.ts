@@ -1,10 +1,6 @@
-import type { Exhibition } from "@prisma/client"
+import { createSlug } from "~/utils"
+import type { DataExhibition } from "~/data"
 
-import { createNanoID, createSlug } from "~/utils"
-
-export function createExhibitionSlug(title: Exhibition["title"]) {
-  const slug: string = createSlug(title)
-  const nanoID: string = createNanoID()
-
-  return `${slug}-${nanoID}`
+export function createExhibitionSlug(exhibition: DataExhibition) {
+  return `${createSlug(exhibition.title)}`
 }

@@ -4,7 +4,7 @@ import type { V2_MetaFunction } from "@remix-run/react"
 import { Link, useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs"
-import { formatTitle, stringify } from "~/utils"
+import { createCacheHeaders, formatTitle, stringify } from "~/utils"
 import {
   Card,
   CardHeader,
@@ -54,7 +54,7 @@ export async function loader({ request }: LoaderArgs) {
 
     return json(
       { query, count: exhibitions.length, exhibitions },
-      // { headers: createCacheHeaders(request, 60) },
+      { headers: createCacheHeaders(request, 5) },
     )
   }
 
