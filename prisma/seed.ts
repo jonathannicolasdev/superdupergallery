@@ -10,7 +10,7 @@ import {
 } from "~/utils"
 import {
   dataArtists,
-  dataArtworks,
+  dataArtworksInExhibitions,
   dataExhibitions,
   dataUserRoles,
   dataUsers,
@@ -204,27 +204,49 @@ async function seedArtworks() {
   const allExhibitions = await prisma.exhibition.findMany()
   const allArtists = await prisma.artist.findMany()
 
-  for (const artwork of dataArtworks) {
+  for (const artworkInExhibition of dataArtworksInExhibitions) {
+    const exhibitionName = artworkInExhibition.exhibitionName
     const exhibition = allExhibitions.find(
-      exhibition => exhibition.title === artwork.exhibitionName,
+      exhibition => exhibition.title === exhibitionName,
     )
-    const artist = allArtists.find(artist => artist.name === artwork.artistName)
+    if (!exhibition) {
+      console.log(`Exhibition ${artworkInExhibition.exhibitionName} not found`)
+      return null
+    }
 
-    const createdArtwork = await prisma.artwork.create({
-      data: {
-        exhibitionId: exhibition?.id,
-        artistId: artist?.id,
-        userId: user.id,
-        slug: createArtworkSlug(artwork.title),
-        title: artwork.title,
-        medium: artwork.medium,
-        size: artwork.size,
-        year: artwork.year,
-        images: { create: { url: String(artwork.imageURL) } },
-      },
-    })
-    if (!createdArtwork) return null
-    console.info(`✅ Artwork "${createdArtwork.slug}" created`)
+    for (const artwork of artworkInExhibition.artworks) {
+      const artist = allArtists.find(
+        artist => artist.name === artwork.artistName,
+      )
+      if (!artist) {
+        console.log(`Artist ${artwork.artistName} not found`)
+        return null
+      }
+
+      const connectedExhibition = await prisma.exhibition.update({
+        where: { id: exhibition.id },
+        data: { artists: { connect: { id: artist.id } } },
+      })
+
+      const createdArtwork = await prisma.artwork.create({
+        data: {
+          exhibitionId: exhibition?.id,
+          artistId: artist?.id,
+          userId: user.id,
+          slug: createArtworkSlug(artwork.title),
+          title: artwork.title,
+          medium: artwork.medium,
+          size: artwork.size,
+          year: artwork.year,
+          images: { create: { url: String(artwork.imageURL) } },
+        },
+      })
+      if (!createdArtwork) return null
+
+      console.info(
+        `✅ Artwork "${createdArtwork.slug}" in "${connectedExhibition.title}"`,
+      )
+    }
   }
 }
 
