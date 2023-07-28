@@ -216,10 +216,12 @@ model ArtistImage {
 model Exhibition {
   id String @id @default(cuid())
 
+  edition     Int?
   title       String
   slug        String?
   date        DateTime?
   description String?   @db.Text
+  isSold      Boolean?  @default(false)
 
   images   ExhibitionImage[]
   artists  Artist[]
