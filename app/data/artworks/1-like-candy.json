@@ -25,7 +25,7 @@
     "medium": "Acrylic On Canvas",
     "size": "36\" x 36\"",
     "price": 40000,
-    "imageURL": "https://media.graphassets.com/buSCdJDcTpSHszovGd1T"
+    "imageURL": "https://media.graphassets.com/resize=fit:scale,height:400/buSCdJDcTpSHszovGd1T"
   },
   {
     "artistName": "Tokwa Penaflorida",
@@ -33,7 +33,7 @@
     "medium": "Acrylic on canvas",
     "size": "12\" x 12\"",
     "price": 0,
-    "imageURL": "https://media.graphassets.com/xSDBUZfwTpeLQSf72qUA"
+    "imageURL": "https://media.graphassets.com/resize=fit:scale,height:400/xSDBUZfwTpeLQSf72qUA"
   },
   {
     "artistName": "Anton Bolardo",
@@ -42,7 +42,7 @@
     "size": "24\" x 36\"",
     "price": 0,
     "isSold": true,
-    "imageURL": "https://media.graphassets.com/DMWgIi0RXSX24GvuKfZh"
+    "imageURL": "https://media.graphassets.com/resize=fit:scale,height:400/DMWgIi0RXSX24GvuKfZh"
   },
   {
     "artistName": "Gabriel Colico",
@@ -50,7 +50,7 @@
     "medium": "Acrylic On Canvas",
     "size": "24\" x 36\"",
     "price": 35998,
-    "imageURL": "https://media.graphassets.com/AcGRIJamTqCZYyvBpYp4"
+    "imageURL": "https://media.graphassets.com/resize=fit:scale,height:400/AcGRIJamTqCZYyvBpYp4"
   },
   {
     "artistName": "Gabriel Colico",
@@ -58,7 +58,7 @@
     "medium": "Acrylic On Canvas",
     "size": "24\" x 36\"",
     "price": 36000,
-    "imageURL": "https://media.graphassets.com/WulRjqxhQlKWz05WB5sc"
+    "imageURL": "https://media.graphassets.com/resize=fit:scale,height:400/WulRjqxhQlKWz05WB5sc"
   },
   {
     "artistName": "Tisha Paculba",
@@ -66,7 +66,7 @@
     "medium": "Oil On Canvas",
     "size": "24\" x 18\"",
     "price": 30000,
-    "imageURL": "https://media.graphassets.com/4mLvGFIYS3W0Fb7iR9s9"
+    "imageURL": "https://media.graphassets.com/resize=fit:scale,height:400/4mLvGFIYS3W0Fb7iR9s9"
   },
   {
     "artistName": "Tisha Paculba",
@@ -74,7 +74,7 @@
     "medium": "Oil On Canvas",
     "size": "12\" x 16\"",
     "price": 20000,
-    "imageURL": "https://media.graphassets.com/lMWE6BLhQyaxoqkaL7dG"
+    "imageURL": "https://media.graphassets.com/resize=fit:scale,height:400/lMWE6BLhQyaxoqkaL7dG"
   },
   {
     "artistName": "Tisha Paculba",
@@ -82,7 +82,7 @@
     "medium": "Oil On canvas",
     "size": "9\" x 11\"",
     "price": 15000,
-    "imageURL": "https://media.graphassets.com/q4Or5AiRSXO5e9mB5vdr"
+    "imageURL": "https://media.graphassets.com/resize=fit:scale,height:400/q4Or5AiRSXO5e9mB5vdr"
   },
   {
     "artistName": "Bea Aben",
@@ -90,7 +90,7 @@
     "medium": "Mixed Media on Water Color Paper",
     "size": "14\" x 18\"",
     "price": 18000,
-    "imageURL": "https://media.graphassets.com/GvnGUSlNTcGgeRctLNEV"
+    "imageURL": "https://media.graphassets.com/resize=fit:scale,height:400/GvnGUSlNTcGgeRctLNEV"
   },
   {
     "artistName": "Bea Aben",
@@ -98,7 +98,7 @@
     "medium": "Mixed Media On Watercolor Paper",
     "size": "14\" x 18\"",
     "price": 18000,
-    "imageURL": "https://media.graphassets.com/IlQi4jwMSeu36JB5SjVC"
+    "imageURL": "https://media.graphassets.com/resize=fit:scale,height:400/IlQi4jwMSeu36JB5SjVC"
   },
   {
     "artistName": "Bea Aben",
@@ -106,6 +106,6 @@
     "medium": "Mixed Media On Watercolor Paper",
     "size": "31.5\" x 23.5\"",
     "price": 44000,
-    "imageURL": "https://media.graphassets.com/Y8Hv48n3RX25bNDDcjme"
+    "imageURL": "https://media.graphassets.com/resize=fit:scale,height:400/Y8Hv48n3RX25bNDDcjme"
   }
 ]
