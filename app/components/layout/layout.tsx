@@ -15,15 +15,16 @@ export function Layout({
   hasFooter = true,
 }: Props) {
   return (
-    <div className="flex min-h-screen flex-col lg:items-center">
+    <div className="lg:ml-16">
       <HeaderNavigation />
-      {hasHeader && <SiteHeader />}
 
-      <main className={cn("max-w-7xl flex-[1] lg:ml-16", className)}>
-        {children}
-      </main>
+      <div className="flex min-h-screen flex-col items-center">
+        {hasHeader && <SiteHeader />}
 
-      {hasFooter && <Footer className="lg:ml-16" />}
+        <main className={cn("max-w-7xl flex-[1]", className)}>{children}</main>
+
+        {hasFooter && <Footer />}
+      </div>
     </div>
   )
 }

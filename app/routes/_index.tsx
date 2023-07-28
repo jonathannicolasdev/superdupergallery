@@ -100,6 +100,7 @@ export function LandingArtworks() {
           <h2 className="hover-opacity text-brand">Featured Artworks</h2>
         </Link>
       </header>
+
       <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
         {artworks.map(artwork => {
           return (
@@ -111,7 +112,7 @@ export function LandingArtworks() {
                       <Image
                         src={`${artwork.images[0].url}`}
                         alt={`${artwork.title}`}
-                        className="h-40 w-40"
+                        className="h-60 w-60 object-contain"
                       />
                     )}
 
@@ -160,7 +161,7 @@ export function LandingExhibitions() {
                         <Image
                           src={`${exhibition.images[0].url}`}
                           alt={`${exhibition.title}`}
-                          className="h-40 w-40"
+                          className="h-60 w-60 object-contain"
                         />
                       )}
 
