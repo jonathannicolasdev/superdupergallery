@@ -137,6 +137,7 @@ model Artwork {
   medium String // canvas, acrylic
   size   String // width, height, length
   price  Int?
+  isSold Boolean? @default(false)
 
   images ArtworkImage[]
 
@@ -221,7 +222,6 @@ model Exhibition {
   slug        String?
   date        DateTime?
   description String?   @db.Text
-  isSold      Boolean?  @default(false)
 
   images   ExhibitionImage[]
   artists  Artist[]

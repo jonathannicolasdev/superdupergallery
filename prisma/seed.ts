@@ -158,7 +158,7 @@ async function seedExhibitions() {
         userId: user.id,
         slug: createExhibitionSlug(exhibition.title),
         title: exhibition.title,
-        date: exhibition.date,
+        date: new Date(String(exhibition.date)),
         images: { create: { url: String(exhibition.imageURL) } },
       },
     })
