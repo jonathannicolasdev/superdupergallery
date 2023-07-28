@@ -36,8 +36,8 @@ const navPublicItems: NavItem[] = [
 export function SiteHeader() {
   return (
     <header className="w-full max-w-7xl p-4 lg:pl-20">
-      <div className="flex flex-wrap justify-between border-4 border-white lg:flex-nowrap">
-        <div className="w-full max-w-[250px] border-r-4 border-white p-2">
+      <div className="flex flex-wrap justify-between border-2 border-white lg:flex-nowrap">
+        <div className="flex w-full justify-center border-white p-2 sm:max-w-[250px] sm:justify-start">
           <NavLink to="/" className="flex gap-2">
             <img
               src="/images/superdupergallery.png"
@@ -52,12 +52,12 @@ export function SiteHeader() {
           </NavLink>
         </div>
 
-        <div className="flex w-full max-w-[250px] items-center justify-center p-2">
+        <div className="hidden w-full max-w-[200px] items-center justify-center border-white px-6 py-2 sm:flex sm:border-l-2">
           <p>Contemporary Art Gallery based in 🇵🇭 QC, Philippines</p>
         </div>
 
-        <nav className="flex w-full items-center justify-center border-t-4 border-white px-10 py-4 lg:border-l-4 lg:border-t-0">
-          <ul className="flex flex-wrap gap-4">
+        <nav className="flex w-full items-center justify-center border-t-2 border-white px-10 py-4 lg:border-l-2 lg:border-t-0">
+          <ul className="flex flex-wrap justify-center gap-4">
             {navPublicItems.map(navItem => {
               return (
                 <li key={navItem.to}>

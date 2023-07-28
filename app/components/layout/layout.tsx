@@ -15,7 +15,7 @@ export function Layout({
   hasFooter = true,
 }: Props) {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col lg:items-center">
       <HeaderNavigation />
       {hasHeader && <SiteHeader />}
 

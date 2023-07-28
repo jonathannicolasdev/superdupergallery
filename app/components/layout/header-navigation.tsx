@@ -76,7 +76,7 @@ export function HeaderNavigation() {
     <header
       className={cn(
         "z-10 select-none",
-        "border-gray-900 bg-white dark:border-gray-800 dark:bg-black",
+        "border-white bg-white dark:bg-black",
         "fixed bottom-0 left-0 flex w-full items-center justify-center border-t-2",
         "lg:top-0 lg:h-screen lg:w-16 lg:border-r-2 lg:border-t-0",
       )}
