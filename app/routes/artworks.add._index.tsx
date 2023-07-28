@@ -114,7 +114,7 @@ export default function ArtworksAddRoute() {
               <ArtworkImageUploader />
 
               <Button type="submit" name="intent" disabled={isSubmitting}>
-                Add New Artwork
+                Add Artwork
               </Button>
             </fieldset>
           </Form>
@@ -172,7 +172,7 @@ export function ArtworkImageUploader() {
       <div>
         <Card
           data-id="preview-uploaded-files"
-          className="flex min-h-[10rem] w-full items-center p-2"
+          className="flex min-h-[10rem] w-full items-center rounded border-2 border-border bg-card p-2"
         >
           {/* If no file/files yet */}
           {!fileGroup && (
