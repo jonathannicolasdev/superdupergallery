@@ -3,7 +3,15 @@ import { Link, useLoaderData, type V2_MetaFunction } from "@remix-run/react"
 
 import { prisma } from "~/libs"
 import { createCacheHeaders, formatPluralItems, formatTitle } from "~/utils"
-import { AvatarAuto, Card, CardTitle, Debug, Layout, SearchForm } from "~/components"
+import {
+  AvatarAuto,
+  Card,
+  CardDescription,
+  CardTitle,
+  Debug,
+  Layout,
+  SearchForm,
+} from "~/components"
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   const query = data?.query
@@ -31,9 +39,10 @@ export const loader = async ({ request }: LoaderArgs) => {
 
   if (!query) {
     const artists = await prisma.artist.findMany({
-      orderBy: { updatedAt: "asc" },
+      orderBy: { name: "asc" },
       include: {
         image: { select: { url: true } },
+        artworks: { select: { id: true } },
       },
     })
 
@@ -47,9 +56,10 @@ export const loader = async ({ request }: LoaderArgs) => {
     where: {
       OR: [{ name: { contains: query } }],
     },
-    orderBy: { updatedAt: "asc" },
+    orderBy: { name: "asc" },
     include: {
       image: { select: { url: true } },
+      artworks: { select: { id: true } },
     },
   })
 
@@ -109,9 +119,10 @@ export default function Route() {
                         )}
 
                         <div className="flex flex-col justify-between">
-                          <CardTitle className="text-xl sm:text-2xl">
-                            {artist.name}
-                          </CardTitle>
+                          <CardTitle className="text-xl">{artist.name}</CardTitle>
+                          <CardDescription>
+                            {formatPluralItems("artwork", artist.artworks.length)}
+                          </CardDescription>
                         </div>
                       </Card>
                     </Link>

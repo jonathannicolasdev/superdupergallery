@@ -1,7 +1,12 @@
 import type { LoaderArgs } from "@remix-run/node"
 import { json } from "@remix-run/node"
 import { Link, useLoaderData } from "@remix-run/react"
-import { DoubleArrowLeftIcon, DoubleArrowRightIcon } from "@radix-ui/react-icons"
+import {
+  CaretLeftIcon,
+  CaretRightIcon,
+  DoubleArrowLeftIcon,
+  DoubleArrowRightIcon,
+} from "@radix-ui/react-icons"
 
 import { cn, prisma } from "~/libs"
 import { createCacheHeaders, formatPluralItems } from "~/utils"
@@ -18,10 +23,13 @@ import {
 export async function loader({ request }: LoaderArgs) {
   const url = new URL(request.url)
 
-  const query = url.searchParams.get("q") || undefined
-  const page = Number(url.searchParams.get("page")) || 1
-  const limit = Number(url.searchParams.get("limit")) || 10
+  const defaultPage = 1
+  const defaultLimit = 12
   const maxPaginationNumber = 10
+
+  const query = url.searchParams.get("q") || undefined
+  const page = Number(url.searchParams.get("page")) || defaultPage
+  const limit = Number(url.searchParams.get("limit")) || defaultLimit
 
   let where = {}
   if (query) {
@@ -35,7 +43,7 @@ export async function loader({ request }: LoaderArgs) {
     prisma.artwork.findMany({
       skip,
       take: limit,
-      orderBy: { updatedAt: "asc" },
+      orderBy: { exhibition: { edition: "desc" } },
       include: { images: true, artist: true, exhibition: true },
       where,
     }),
@@ -160,17 +168,27 @@ function Pagination() {
   const { query, page, limit, totalPages, navigationItems } =
     useLoaderData<typeof loader>()
 
-  const renderArrowLink = (direction: string, icon: React.ReactNode) => {
+  const renderArrowLink = (
+    direction: string,
+    icon: React.ReactNode,
+    targetPage: number,
+  ) => {
     const isPrev = direction === "prev"
     const isNext = direction === "next"
+    const isFirst = direction === "first"
+    const isLast = direction === "last"
 
-    const newPage = isPrev ? page - 1 : page + 1
+    const newPage = isPrev ? page - 1 : isNext ? page + 1 : targetPage
     const isPossible =
-      page === newPage || (isPrev && page > 1) || (isNext && page < totalPages)
+      (isFirst && page !== 1) ||
+      (isLast && page !== totalPages) ||
+      (!isFirst && !isLast && page === newPage) ||
+      (isPrev && page > 1) ||
+      (isNext && page < totalPages)
 
     if (!isPossible) {
       return (
-        <span className="flex w-8 select-none justify-center px-2 opacity-20">
+        <span className="flex w-8 select-none justify-center px-1 opacity-20">
           {icon}
         </span>
       )
@@ -178,40 +196,49 @@ function Pagination() {
 
     return (
       <Link
-        to={`/artworks?q=${query || ""}&limit=${limit}&page=${newPage}`}
-        className="flex w-8 justify-center px-2 text-gray-500 hover:text-white"
+        to={`/artworks?q=${query || ""}&limit=${limit}&page=${targetPage}`}
+        className="flex w-8 justify-center px-1 text-gray-500 hover:text-white"
       >
         {icon}
       </Link>
     )
   }
 
+  const renderArrowMostLink = (direction: string, icon: React.ReactNode) => {
+    const targetPage = direction === "first" ? 1 : totalPages
+    return renderArrowLink(direction, icon, targetPage)
+  }
+
   return (
     <nav className="flex items-center justify-center gap-4">
-      {renderArrowLink("prev", <DoubleArrowLeftIcon className="h-10 w-10" />)}
+      {renderArrowMostLink("first", <DoubleArrowLeftIcon className="icon" />)}
+      {renderArrowLink("prev", <CaretLeftIcon className="icon" />, page - 1)}
 
-      <ul className="flex gap-2">
-        {navigationItems.map(({ pageNumber, to }, index) => {
-          const isActive = page === pageNumber
-          return (
-            <li key={index}>
-              <Link
-                to={to}
-                className={cn(
-                  "flex w-8 justify-center",
-                  "hover-opacity rounded p-2 font-bold",
-                  isActive && "bg-pink-600 text-white",
-                  !isActive && "text-gray-500 hover:text-white",
-                )}
-              >
-                {pageNumber}
-              </Link>
-            </li>
-          )
-        })}
-      </ul>
+      {page > 0 && (
+        <ul className="flex gap-4">
+          {navigationItems.map(({ pageNumber, to }, index) => {
+            const isActive = page === pageNumber
+            return (
+              <li key={index}>
+                <Link
+                  to={to}
+                  className={cn(
+                    "flex w-8 justify-center",
+                    "hover-opacity rounded p-2 font-bold",
+                    isActive && "bg-pink-600 text-white",
+                    !isActive && "text-gray-500 hover:text-white",
+                  )}
+                >
+                  {pageNumber}
+                </Link>
+              </li>
+            )
+          })}
+        </ul>
+      )}
 
-      {renderArrowLink("next", <DoubleArrowRightIcon className="h-10 w-10" />)}
+      {renderArrowLink("next", <CaretRightIcon className="icon" />, page + 1)}
+      {renderArrowMostLink("last", <DoubleArrowRightIcon className="icon" />)}
     </nav>
   )
 }
