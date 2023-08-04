@@ -203,7 +203,7 @@ async function seedArtworks() {
   for (const artworkInExhibition of dataArtworksInExhibitions) {
     const exhibitionTitle = artworkInExhibition.exhibitionTitle
     const exhibition = allExhibitions.find(
-      exhibition => exhibition.title === exhibitionTitle,
+      exhibition => exhibition.title.toLowerCase() === exhibitionTitle.toLowerCase(),
     )
     if (!exhibition) {
       console.log(`Exhibition ${artworkInExhibition.exhibitionTitle} not found`)
