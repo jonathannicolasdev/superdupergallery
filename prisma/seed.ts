@@ -5,6 +5,7 @@ import { createArtistSlug, createArtworkSlug, createExhibitionSlug } from "~/uti
 import {
   dataArtists,
   dataArtworksInExhibitions,
+  dataArtworkStatuses,
   dataExhibitions,
   dataUserRoles,
   dataUsers,
@@ -17,6 +18,7 @@ import dataUsersCredentials from "~/data/users-credentials.json"
 const enabledItems = [
   "userRoles",
   "userTags",
+  "artworkStatuses",
   "users",
   "exhibitions",
   "artists",
@@ -28,6 +30,7 @@ async function main() {
     userRoles: seedUserRoles,
     userTags: seedUserTags,
     users: seedUsers,
+    artworkStatuses: seedArtworkStatuses,
     exhibitions: seedExhibitions,
     artists: seedArtists,
     artworks: seedArtworks,
@@ -49,7 +52,7 @@ async function seedUserRoles() {
   await prisma.userRole.createMany({
     data: dataUserRoles,
   })
-  console.info(`✅ Created user roles`)
+  console.info(`✅ Created ${dataUserRoles.length} user roles`)
 }
 
 async function seedUserTags() {
@@ -60,7 +63,18 @@ async function seedUserTags() {
   await prisma.userTag.createMany({
     data: dataUserTags,
   })
-  console.info(`✅ Created user tags`)
+  console.info(`✅ Created ${dataUserTags.length} user tags`)
+}
+
+async function seedArtworkStatuses() {
+  console.info("🟢 Seed artwork statuses...")
+  await prisma.artworkStatus.deleteMany()
+  console.info("🟡 Deleted existing artwork statuses...")
+
+  await prisma.artworkStatus.createMany({
+    data: dataArtworkStatuses,
+  })
+  console.info(`✅ Created ${dataArtworkStatuses.length} artwork statuses`)
 }
 
 async function seedUsers() {
@@ -84,25 +98,25 @@ async function seedUsers() {
 
   // Get existing tags
   const tags = await prisma.userTag.findMany()
-  const COLLABORATOR = tags.find(tag => tag.symbol === "COLLABORATOR")
-  const ARTIST = tags.find(tag => tag.symbol === "artistName")
+  const TEAM = tags.find(tag => tag.symbol === "TEAM")
+  const ARTIST = tags.find(tag => tag.symbol === "ARTIST")
   const UNKNOWN = tags.find(tag => tag.symbol === "UNKNOWN")
-  if (!COLLABORATOR || !ARTIST || !UNKNOWN) return null
+  if (!TEAM || !ARTIST || !UNKNOWN) return null
 
   // Setup data users to connect to the tag ids
   const dataUsersWithTags = dataUsers.map(user => {
     const tags = user.tags?.map(tag => {
-      if (tag === "COLLABORATOR") return { id: COLLABORATOR.id }
-      if (tag === "artistName") return { id: ARTIST.id }
+      if (tag === "TEAM") return { id: TEAM.id }
+      if (tag === "ARTIST") return { id: ARTIST.id }
       return { id: UNKNOWN.id }
     })
 
-    const isCollaborator = user.tags?.find(tag => tag === "COLLABORATOR")
+    const isTEAM = user.tags?.find(tag => tag === "TEAM")
 
     return {
       ...user,
       tags: { connect: tags },
-      role: { connect: { id: isCollaborator ? ADMIN.id : NORMAL.id } },
+      role: { connect: { id: isTEAM ? ADMIN.id : NORMAL.id } },
       avatars: { create: { url: createAvatarImageURL(user.username) } },
     }
   })
@@ -132,7 +146,7 @@ async function seedUsers() {
       create: user,
     })
 
-    console.info(`✅ User "${upsertedUser.username}" upserted`)
+    console.info(`✅ 👤 User "${upsertedUser.username}" upserted`)
   }
 }
 
@@ -160,7 +174,7 @@ async function seedExhibitions() {
       },
     })
     if (!createdExhibition) return null
-    console.info(`✅ Exhibition "${createdExhibition.slug}" created`)
+    console.info(`✅ 🗓️ Exhibition "${createdExhibition.slug}" created`)
   }
 }
 
@@ -184,7 +198,7 @@ async function seedArtists() {
       },
     })
     if (!createdArtist) return null
-    console.info(`✅ Artist "${createdArtist.slug}" created`)
+    console.info(`✅ 🧑‍🎨 Artist "${createdArtist.slug}" created`)
   }
 }
 
@@ -198,15 +212,25 @@ async function seedArtworks() {
   })
   if (!user) return null
 
-  const allExhibitions = await prisma.exhibition.findMany()
+  const manyExhibitions = await prisma.exhibition.findMany()
+  if (!manyExhibitions) return null
+
+  // Get existing artwork statuses
+  const statuses = await prisma.artworkStatus.findMany()
+  const AVAILABLE = statuses.find(status => status.symbol === "AVAILABLE")
+  const SOLD = statuses.find(status => status.symbol === "SOLD")
+  const PULLED_OUT = statuses.find(status => status.symbol === "PULLED-OUT")
+  const RESERVED = statuses.find(status => status.symbol === "RESERVED")
+  const UNKNOWN = statuses.find(status => status.symbol === "UNKNOWN")
+  if (!AVAILABLE || !SOLD || !PULLED_OUT || !RESERVED || !UNKNOWN) return null
 
   for (const artworkInExhibition of dataArtworksInExhibitions) {
     const exhibitionTitle = artworkInExhibition.exhibitionTitle
-    const exhibition = allExhibitions.find(
+    const exhibition = manyExhibitions.find(
       exhibition => exhibition.title.toLowerCase() === exhibitionTitle.toLowerCase(),
     )
     if (!exhibition) {
-      console.error(`🔴 Exhibition ${artworkInExhibition.exhibitionTitle} not found`)
+      console.error(`🔴 🗓️ Exhibition ${artworkInExhibition.exhibitionTitle} not found`)
       return null
     }
 
@@ -230,6 +254,14 @@ async function seedArtworks() {
         data: { artists: { connect: { id: artist.id } } },
       })
 
+      let status
+      if (artwork.statusSymbol === "AVAILABLE") status = AVAILABLE
+      else if (artwork.statusSymbol === "SOLD") status = SOLD
+      else if (artwork.statusSymbol === "PULLED-OUT") status = PULLED_OUT
+      else if (artwork.statusSymbol === "RESERVED") status = RESERVED
+      else status = UNKNOWN
+      if (!status) return null
+
       const createdArtwork = await prisma.artwork.create({
         data: {
           userId: user.id,
@@ -242,12 +274,13 @@ async function seedArtworks() {
           year: artwork.year || 2023,
           price: artwork.price || 0,
           images: { create: { url: String(artwork.imageURL) } },
+          statusId: status.id,
         },
       })
       if (!createdArtwork) return null
 
       console.info(
-        `✅ "${connectedExhibition.edition} ${connectedExhibition.title}" has Artwork "${createdArtwork.slug}"`,
+        `✅ 🗓️ Exhibition "${connectedExhibition.edition} ${connectedExhibition.title}" has 🖼️ Artwork "${createdArtwork.slug}" is ${status.symbol}`,
       )
     }
   }

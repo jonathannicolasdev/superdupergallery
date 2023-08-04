@@ -10,10 +10,7 @@ export type DataUser = Pick<User, "name" | "username"> & {
   profiles?: { create: DataUserProfile | DataUserProfile[] }
 }
 
-export type DataUserProfile = Pick<
-  UserProfile,
-  "headline" | "bio" | "modeName"
-> & {
+export type DataUserProfile = Pick<UserProfile, "headline" | "bio" | "modeName"> & {
   isPrimary?: UserProfile["isPrimary"]
   sequence?: UserProfile["sequence"]
 }
@@ -23,7 +20,7 @@ export const dataUsers: DataUser[] = [
     name: "Administrator",
     username: "admin",
     nick: "Admin",
-    tags: ["COLLABORATOR"],
+    tags: ["TEAM"],
     profiles: {
       create: { headline: "The Ruler", bio: "I'm Admin.", modeName: "Admin" },
     },
@@ -32,12 +29,12 @@ export const dataUsers: DataUser[] = [
     name: "Jonathan Nicolas",
     username: "jo",
     nick: "Jo",
-    tags: ["COLLABORATOR"],
+    tags: ["TEAM"],
   },
   {
     name: "M Haidar Hanif",
     username: "haidar",
     nick: "Haidar",
-    tags: ["COLLABORATOR"],
+    tags: ["TEAM"],
   },
 ]

@@ -1,4 +1,5 @@
 export * from "./artists"
+export * from "./artwork-statuses"
 export * from "./artworks"
 export * from "./exhibitions"
 export * from "./user-roles"
