@@ -2,12 +2,7 @@
 import bcrypt from "bcryptjs"
 
 import { createAvatarImageURL, prisma } from "~/libs"
-import {
-  createArtistSlug,
-  createArtworkSlug,
-  createExhibitionSlug,
-  log,
-} from "~/utils"
+import { createArtistSlug, createArtworkSlug, createExhibitionSlug, log } from "~/utils"
 import {
   dataArtists,
   dataArtworksInExhibitions,
@@ -91,7 +86,7 @@ async function seedUsers() {
   // Get existing tags
   const tags = await prisma.userTag.findMany()
   const COLLABORATOR = tags.find(tag => tag.symbol === "COLLABORATOR")
-  const ARTIST = tags.find(tag => tag.symbol === "ARTIST")
+  const ARTIST = tags.find(tag => tag.symbol === "artistName")
   const UNKNOWN = tags.find(tag => tag.symbol === "UNKNOWN")
   if (!COLLABORATOR || !ARTIST || !UNKNOWN) return null
 
@@ -99,7 +94,7 @@ async function seedUsers() {
   const dataUsersWithTags = dataUsers.map(user => {
     const tags = user.tags?.map(tag => {
       if (tag === "COLLABORATOR") return { id: COLLABORATOR.id }
-      if (tag === "ARTIST") return { id: ARTIST.id }
+      if (tag === "artistName") return { id: ARTIST.id }
       return { id: UNKNOWN.id }
     })
 
@@ -206,22 +201,22 @@ async function seedArtworks() {
   const allArtists = await prisma.artist.findMany()
 
   for (const artworkInExhibition of dataArtworksInExhibitions) {
-    const exhibitionName = artworkInExhibition.exhibitionName
+    const exhibitionTitle = artworkInExhibition.exhibitionTitle
     const exhibition = allExhibitions.find(
-      exhibition => exhibition.title === exhibitionName,
+      exhibition => exhibition.title === exhibitionTitle,
     )
     if (!exhibition) {
-      console.log(`Exhibition ${artworkInExhibition.exhibitionName} not found`)
+      console.log(`Exhibition ${artworkInExhibition.exhibitionTitle} not found`)
       return null
     }
 
     for (const artwork of artworkInExhibition.artworks) {
-      const artist = allArtists.find(
-        artist => artist.name === artwork.artistName,
-      )
+      let artist
+      artist = allArtists.find(artist => artist.name === artwork.artistName)
       if (!artist) {
-        console.log(`Artist ${artwork.artistName} not found`)
-        return null
+        artist = await prisma.artist.create({
+          data: { name: artwork.artistName },
+        })
       }
 
       const connectedExhibition = await prisma.exhibition.update({
@@ -235,12 +230,11 @@ async function seedArtworks() {
           artistId: artist?.id,
           userId: user.id,
           slug: createArtworkSlug(artwork),
-          title: artwork.title || "Untitled",
-          medium: artwork.medium,
-          size: artwork.size,
-          year: artwork.year || 2021,
+          title: artwork.title || "Untitled Artwork",
+          medium: artwork.medium || "No Medium Info",
+          size: artwork.size || "No Size Info",
+          year: artwork.year || 2023,
           price: artwork.price || 0,
-          isSold: artwork?.isSold || false,
           images: { create: { url: String(artwork.imageURL) } },
         },
       })

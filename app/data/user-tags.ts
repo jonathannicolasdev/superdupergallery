@@ -6,7 +6,7 @@ export type DataUserTag = Pick<UserTag, "name" | "symbol"> & {
   description?: UserTag["description"]
 }
 
-export type DataUserTagSymbol = "COLLABORATOR" | "ARTIST" | "UNKNOWN"
+export type DataUserTagSymbol = "COLLABORATOR" | "artistName" | "UNKNOWN"
 
 export const dataUserTags: DataUserTag[] = [
   {
@@ -15,6 +15,6 @@ export const dataUserTags: DataUserTag[] = [
     sequence: 1,
     description: "Super Duper Gallery team members.",
   },
-  { symbol: "ARTIST", name: "Artist" },
+  { symbol: "artistName", name: "Artist" },
   { symbol: "UNKNOWN", name: "Unknown" },
 ]

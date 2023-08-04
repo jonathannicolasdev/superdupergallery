@@ -6,12 +6,12 @@ export type DataArtist = Pick<Artist, "name"> & {
 }
 
 export const dataArtists: DataArtist[] = [
-  { name: "Aldrin Tamildes" },
+  { name: "Alburoto" },
   { name: "Angellica Lorente" },
-  { name: "Anton Bolardo" },
+  { name: "Jelly Fish Kisses" },
   { name: "Bea Aben" },
   { name: "Expi Perez" },
-  { name: "Gabriel Colico" },
+  { name: "Gab Colico" },
   { name: "Jessa Almirol" },
   { name: "John Loyd Benz De Leon" },
   { name: "Paulo Amparo" },

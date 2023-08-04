@@ -1,0 +1,62 @@
+[
+  {
+    "sequence": 1,
+    "imageURL": null,
+    "artistName": "Satar Kaldera",
+    "title": "Tears of Blood",
+    "medium": "Acrylic on Canvas",
+    "size": "34 x 34 inches",
+    "year": 2023,
+    "price": 100000,
+    "statusSymbol": "AVAILABLE",
+    "remarks": ""
+  },
+  {
+    "sequence": 2,
+    "imageURL": null,
+    "artistName": "Satar Kaldera",
+    "title": "Mr. Noir Butterfly",
+    "medium": "Acrylic on Canvas",
+    "size": "34 x 34 inches",
+    "year": 2023,
+    "price": 100000,
+    "statusSymbol": "AVAILABLE",
+    "remarks": ""
+  },
+  {
+    "sequence": 3,
+    "imageURL": null,
+    "artistName": "Satar Kaldera",
+    "title": "I Can't Fucking Die",
+    "medium": "Acrylic on Canvas",
+    "size": "34 x 34 inches",
+    "year": 2023,
+    "price": 100000,
+    "statusSymbol": "AVAILABLE",
+    "remarks": ""
+  },
+  {
+    "sequence": 4,
+    "imageURL": null,
+    "artistName": "Satar Kaldera",
+    "title": "Hard-Working Gang",
+    "medium": "Acrylic on Canvas",
+    "size": "34 x 34 inches",
+    "year": 2023,
+    "price": 100000,
+    "statusSymbol": "AVAILABLE",
+    "remarks": ""
+  },
+  {
+    "sequence": 5,
+    "imageURL": null,
+    "artistName": "Satar Kaldera",
+    "title": "Silent Night",
+    "medium": "Acrylic on Canvas",
+    "size": "34 x 34 inches",
+    "year": 2023,
+    "price": 100000,
+    "statusSymbol": "AVAILABLE",
+    "remarks": ""
+  }
+]

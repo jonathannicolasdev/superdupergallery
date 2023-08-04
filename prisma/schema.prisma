@@ -137,25 +137,42 @@ model Artwork {
   medium String // canvas, acrylic
   size   String // width, height, length
   price  Int?
-  isSold Boolean? @default(false)
+
+  status   ArtworkStatus? @relation(fields: [statusId], references: [id])
+  statusId String?
 
   images ArtworkImage[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  userId String?
   user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String?
 
-  artistId String?
   artist   Artist? @relation(fields: [artistId], references: [id])
+  artistId String?
 
   exhibition   Exhibition? @relation(fields: [exhibitionId], references: [id])
   exhibitionId String?
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@index([userId])
   @@index([artistId])
   @@index([exhibitionId])
+  @@index([statusId])
+}
+
+model ArtworkStatus {
+  id String @id @default(cuid())
+
+  symbol      String  @unique // "SOLD"
+  name        String  @unique // "Sold"
+  sequence    Int?    @unique // 1 | 2 | 3 | ...
+  description String? @db.Text // "Sold to a buyer"
+
+  artworks Artwork[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model ArtworkImage {

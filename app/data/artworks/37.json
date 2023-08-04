@@ -1,0 +1,110 @@
+[
+  {
+    "sequence": 1,
+    "imageURL": null,
+    "artistName": "DBCO",
+    "title": "Tears of Blood",
+    "medium": "Acrylic on Canvas",
+    "size": "34 x 34 inches",
+    "year": 2023,
+    "price": 48000,
+    "statusSymbol": "AVAILABLE",
+    "remarks": "Pulled out 05/10/23"
+  },
+  {
+    "sequence": 2,
+    "imageURL": null,
+    "artistName": "DBCO",
+    "title": "Mr. Noir Butterfly",
+    "medium": "Acrylic on Canvas",
+    "size": "34 x 34 inches",
+    "year": 2023,
+    "price": 38500,
+    "statusSymbol": "AVAILABLE",
+    "remarks": "Pulled out 05/10/23"
+  },
+  {
+    "sequence": 3,
+    "imageURL": null,
+    "artistName": "DBCO",
+    "title": "I Can't Fucking Die",
+    "medium": "Acrylic on Canvas",
+    "size": "34 x 34 inches",
+    "year": 2021,
+    "price": 58000,
+    "statusSymbol": "AVAILABLE",
+    "remarks": "Pulled out 05/10/23"
+  },
+  {
+    "sequence": 4,
+    "imageURL": null,
+    "artistName": "DBCO",
+    "title": "Hard-Working Gang",
+    "medium": "Acrylic on Canvas",
+    "size": "34 x 34 inches",
+    "year": 2021,
+    "price": null,
+    "statusSymbol": "NOT FOR SALE",
+    "remarks": "Pulled out 05/10/23"
+  },
+  {
+    "sequence": 5,
+    "imageURL": null,
+    "artistName": "DBCO",
+    "title": "Silent Night",
+    "medium": "Acrylic on Canvas",
+    "size": "34 x 34 inches",
+    "year": 2023,
+    "price": 52000,
+    "statusSymbol": "AVAILABLE",
+    "remarks": "Pulled out 05/10/23"
+  },
+  {
+    "sequence": 6,
+    "imageURL": null,
+    "artistName": "KGPHEE",
+    "title": "New York?",
+    "medium": "Oil on Canvas",
+    "size": "36 x 24 inches",
+    "year": 2022,
+    "price": 94000,
+    "statusSymbol": "PULLED-OUT",
+    "remarks": ""
+  },
+  {
+    "sequence": 7,
+    "imageURL": null,
+    "artistName": "KGPHEE",
+    "title": "House On The Hill",
+    "medium": "Oil on Canvas",
+    "size": "36 x 12 inches",
+    "year": 2023,
+    "price": 88000,
+    "statusSymbol": "PULLED-OUT",
+    "remarks": ""
+  },
+  {
+    "sequence": 8,
+    "imageURL": null,
+    "artistName": "KGPHEE",
+    "title": "Sundown Food Fest (Part 1)",
+    "medium": "Oil on Canvas",
+    "size": "12 x 36 inches",
+    "year": 2023,
+    "price": 88000,
+    "statusSymbol": "PULLED-OUT",
+    "remarks": ""
+  },
+  {
+    "sequence": 9,
+    "imageURL": null,
+    "artistName": "KGPHEE",
+    "title": "Sundown Food Fest (Part 2)",
+    "medium": "Oil on Canvas",
+    "size": "12 x 36 inches",
+    "year": 2023,
+    "price": 88000,
+    "statusSymbol": "PULLED-OUT",
+    "remarks": ""
+  }
+]

@@ -1,0 +1,98 @@
+[
+  {
+    "sequence": 1,
+    "imageURL": null,
+    "artistName": "Hope Baylon",
+    "title": "Untitled (1)",
+    "medium": "Acrylic on Canvas",
+    "size": "15.75 x 19.7 inches",
+    "year": 2023,
+    "price": 28000,
+    "statusSymbol": "AVAILABLE",
+    "remarks": ""
+  },
+  {
+    "sequence": 2,
+    "imageURL": null,
+    "artistName": "Hope Baylon",
+    "title": "Untitled (2)",
+    "medium": "Acrylic on Canvas",
+    "size": "15.75 x 19.7 inches",
+    "year": 2023,
+    "price": 28000,
+    "statusSymbol": "AVAILABLE",
+    "remarks": ""
+  },
+  {
+    "sequence": 3,
+    "imageURL": null,
+    "artistName": "Hope Baylon",
+    "title": "Untitled (3)",
+    "medium": "Acrylic on Canvas",
+    "size": "15.75 x 19.7 inches",
+    "year": 2023,
+    "price": 28000,
+    "statusSymbol": "AVAILABLE",
+    "remarks": ""
+  },
+  {
+    "sequence": 4,
+    "imageURL": null,
+    "artistName": "Hope Baylon",
+    "title": "Untitled (4)",
+    "medium": "Acrylic on Canvas",
+    "size": "19.7 x 27.6 inches",
+    "year": 2023,
+    "price": 48000,
+    "statusSymbol": "AVAILABLE",
+    "remarks": ""
+  },
+  {
+    "sequence": 5,
+    "imageURL": null,
+    "artistName": "Hope Baylon",
+    "title": "Untitled (5)",
+    "medium": "Acrylic on Canvas",
+    "size": "19.7 x 27.6 inches",
+    "year": 2023,
+    "price": 48000,
+    "statusSymbol": "AVAILABLE",
+    "remarks": ""
+  },
+  {
+    "sequence": 6,
+    "imageURL": null,
+    "artistName": "Hope Baylon",
+    "title": "Untitled (6)",
+    "medium": "Acrylic on Canvas",
+    "size": "19.7 x 27.6 inches",
+    "year": 2023,
+    "price": 48000,
+    "statusSymbol": "AVAILABLE",
+    "remarks": ""
+  },
+  {
+    "sequence": 7,
+    "imageURL": null,
+    "artistName": "Hope Baylon",
+    "title": "Untitled (7)",
+    "medium": "Acrylic on Canvas",
+    "size": "19.7 x 27.6 inches",
+    "year": 2023,
+    "price": 48000,
+    "statusSymbol": "AVAILABLE",
+    "remarks": ""
+  },
+  {
+    "sequence": 8,
+    "imageURL": null,
+    "artistName": "Hope Baylon",
+    "title": "Self-Portrait",
+    "medium": "Acrylic on Canvas",
+    "size": "19.7 x 27.6 inches",
+    "year": 2023,
+    "price": 48000,
+    "statusSymbol": "AVAILABLE",
+    "remarks": ""
+  }
+]

@@ -1,0 +1,110 @@
+[
+  {
+    "sequence": 1,
+    "imageURL": null,
+    "artistName": "Kenneth Santiago",
+    "title": "Wala Akong Matandaan sa Isanlibong Pakiramdam",
+    "medium": "Acrylic on Canvas",
+    "size": "48 x 60 inches",
+    "year": 2023,
+    "price": 88000,
+    "statusSymbol": "PULLED-OUT",
+    "remarks": ""
+  },
+  {
+    "sequence": 2,
+    "imageURL": null,
+    "artistName": "Kenneth Santiago",
+    "title": "Pag Intindi sa mga Bagay na Hindi Masabi",
+    "medium": "Acrylic on Canvas",
+    "size": "12 x 16 inches",
+    "year": 2023,
+    "price": 9000,
+    "statusSymbol": "PULLED-OUT",
+    "remarks": "In storage given as gfit to Jonathan from artist"
+  },
+  {
+    "sequence": 3,
+    "imageURL": null,
+    "artistName": "Kenneth Santiago",
+    "title": "Untitled",
+    "medium": "Acrylic on Canvas",
+    "size": "24 x 22 inches",
+    "year": 2023,
+    "price": 15000,
+    "statusSymbol": "RESERVED",
+    "remarks": ""
+  },
+  {
+    "sequence": 4,
+    "imageURL": null,
+    "artistName": "Kenneth Santiago",
+    "title": "How Long Will These Flowers Last?",
+    "medium": "Acrylic on Canvas",
+    "size": "40 x 36 inches",
+    "year": 2022,
+    "price": 46000,
+    "statusSymbol": "PULLED-OUT",
+    "remarks": ""
+  },
+  {
+    "sequence": 5,
+    "imageURL": null,
+    "artistName": "Kenneth Santiago",
+    "title": "Intrapersonal",
+    "medium": "Acrylic on Canvas",
+    "size": "40 x 36 inches",
+    "year": 2023,
+    "price": 46000,
+    "statusSymbol": "PULLED-OUT",
+    "remarks": ""
+  },
+  {
+    "sequence": 6,
+    "imageURL": null,
+    "artistName": "Kenneth Santiago",
+    "title": "Let Them Grow",
+    "medium": "Acrylic on Canvas",
+    "size": "30 x 24 inches",
+    "year": 2023,
+    "price": 24000,
+    "statusSymbol": "PULLED-OUT",
+    "remarks": ""
+  },
+  {
+    "sequence": 7,
+    "imageURL": null,
+    "artistName": "Kenneth Santiago",
+    "title": "Portrait of a Flower",
+    "medium": "Acrylic on Canvas",
+    "size": "40 x 36 inches",
+    "year": 2023,
+    "price": 46000,
+    "statusSymbol": "RESERVED",
+    "remarks": "SDG c/o Jonathan"
+  },
+  {
+    "sequence": 8,
+    "imageURL": null,
+    "artistName": "Kenneth Santiago",
+    "title": "Flower Love",
+    "medium": "Acrylic on Canvas",
+    "size": "24 x 24 inches",
+    "year": 2023,
+    "price": 18000,
+    "statusSymbol": "PULLED-OUT",
+    "remarks": ""
+  },
+  {
+    "sequence": 9,
+    "imageURL": null,
+    "artistName": "Kenneth Santiago",
+    "title": "Flower of Death",
+    "medium": "Acrylic on Canvas",
+    "size": "24 x 24 inches",
+    "year": 2023,
+    "price": 18000,
+    "statusSymbol": "PULLED-OUT",
+    "remarks": ""
+  }
+]

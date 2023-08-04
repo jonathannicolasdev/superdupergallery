@@ -1,0 +1,74 @@
+[
+  {
+    "sequence": 1,
+    "imageURL": null,
+    "artistName": "Maui Reyes",
+    "title": "Claus Road Blues",
+    "medium": "Acrylic on Canvas",
+    "size": "24 x 24 inches",
+    "year": 2023,
+    "price": 20000,
+    "statusSymbol": "AVAILABLE",
+    "remarks": ""
+  },
+  {
+    "sequence": 2,
+    "imageURL": null,
+    "artistName": "Maui Reyes",
+    "title": "Pizzicato",
+    "medium": "Acrylic on Canvas",
+    "size": "24 x 24 inches",
+    "year": 2023,
+    "price": 20000,
+    "statusSymbol": "AVAILABLE",
+    "remarks": ""
+  },
+  {
+    "sequence": 3,
+    "imageURL": null,
+    "artistName": "Maxime Stamati",
+    "title": "Le Che",
+    "medium": "Oil on Canvas",
+    "size": "45 x 35 inches",
+    "year": 2023,
+    "price": 70000,
+    "statusSymbol": "AVAILABLE",
+    "remarks": ""
+  },
+  {
+    "sequence": 4,
+    "imageURL": null,
+    "artistName": "Maxime Stamati",
+    "title": "Crazy",
+    "medium": "Oil on Canvas",
+    "size": "45 x 31 inches",
+    "year": 2023,
+    "price": 70000,
+    "statusSymbol": "AVAILABLE",
+    "remarks": ""
+  },
+  {
+    "sequence": 5,
+    "imageURL": null,
+    "artistName": "Maxime Stamati",
+    "title": "Brazil",
+    "medium": "Oil on Canvas",
+    "size": "57 x 44 inches",
+    "year": 2023,
+    "price": 70000,
+    "statusSymbol": "AVAILABLE",
+    "remarks": ""
+  },
+  {
+    "sequence": 6,
+    "imageURL": null,
+    "artistName": "Maxime Stamati",
+    "title": "L’Arlequin",
+    "medium": "Oil on Canvas",
+    "size": "57 x 44 inches",
+    "year": 2023,
+    "price": 70000,
+    "statusSymbol": "SOLD",
+    "remarks": ""
+  }
+]

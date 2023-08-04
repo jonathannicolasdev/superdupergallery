@@ -1,0 +1,62 @@
+[
+  {
+    "sequence": 1,
+    "imageURL": null,
+    "artistName": "Paulo Amparo",
+    "title": "Euthymia In Plain Sight",
+    "medium": "Acrylic on Canvas",
+    "size": "36 x 48 inches",
+    "year": 2022,
+    "price": 50000,
+    "statusSymbol": "PULLED-OUT",
+    "remarks": ""
+  },
+  {
+    "sequence": 2,
+    "imageURL": null,
+    "artistName": "Paulo Amparo",
+    "title": "Chuck The Spectator",
+    "medium": "Acrylic on Canvas",
+    "size": "37 x 48 inches",
+    "year": 2022,
+    "price": 50000,
+    "statusSymbol": "PULLED-OUT",
+    "remarks": ""
+  },
+  {
+    "sequence": 3,
+    "imageURL": null,
+    "artistName": "Paulo Amparo",
+    "title": "Ode To Hahaue (Mother)",
+    "medium": "Acrylic on Canvas",
+    "size": "38 x 48 inches",
+    "year": 2022,
+    "price": 50000,
+    "statusSymbol": "PULLED-OUT",
+    "remarks": ""
+  },
+  {
+    "sequence": 4,
+    "imageURL": null,
+    "artistName": "Paulo Amparo",
+    "title": "A Walk In Sunday Morning",
+    "medium": "Acrylic on Canvas",
+    "size": "39 x 48 inches",
+    "year": 2022,
+    "price": 50000,
+    "statusSymbol": "SOLD",
+    "remarks": ""
+  },
+  {
+    "sequence": 5,
+    "imageURL": null,
+    "artistName": "Paulo Amparo",
+    "title": "Bacchanal Of Twisted Mind",
+    "medium": "Acrylic on Canvas",
+    "size": "40 x 48 inches",
+    "year": 2022,
+    "price": 50000,
+    "statusSymbol": "PULLED-OUT",
+    "remarks": ""
+  }
+]

@@ -8,7 +8,7 @@ module.exports = {
   htmlWhitespaceSensitivity: "css",
   insertPragma: false,
   jsxSingleQuote: false,
-  printWidth: 80,
+  printWidth: 90,
   proseWrap: "always",
   quoteProps: "as-needed",
   requirePragma: false,
@@ -41,8 +41,5 @@ module.exports = {
     "",
     "^[./]",
   ],
-  plugins: [
-    require("@ianvs/prettier-plugin-sort-imports"),
-    require("prettier-plugin-tailwindcss"),
-  ],
+  plugins: [require("@ianvs/prettier-plugin-sort-imports"), require("prettier-plugin-tailwindcss")],
 }

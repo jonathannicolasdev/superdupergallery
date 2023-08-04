@@ -1,10 +1,10 @@
 import type { Exhibition } from "@prisma/client"
 
-import exhibitionsAll from "./all-exhibitions.json"
+import dataAllExhibitions from "./all-exhibitions.json"
 
 export type DataExhibition = Pick<Exhibition, "edition" | "title"> & {
   date?: string
   imageURL?: string
 }
 
-export const dataExhibitions: DataExhibition[] = exhibitionsAll
+export const dataExhibitions: DataExhibition[] = dataAllExhibitions

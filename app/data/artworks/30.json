@@ -1,0 +1,110 @@
+[
+  {
+    "sequence": 1,
+    "imageURL": null,
+    "artistName": "Eugine Dominguez",
+    "title": "Untitled (hikab)",
+    "medium": "Oil on Canvas",
+    "size": "24 x 32 inches",
+    "year": 2023,
+    "price": 30000,
+    "statusSymbol": "AVAILABLE",
+    "remarks": ""
+  },
+  {
+    "sequence": 2,
+    "imageURL": null,
+    "artistName": "Eugine Dominguez",
+    "title": "Untitled (position 2)",
+    "medium": "Oil on Canvas",
+    "size": "16 x 19 inches",
+    "year": 2023,
+    "price": 0.14,
+    "statusSymbol": "AVAILABLE",
+    "remarks": ""
+  },
+  {
+    "sequence": 3,
+    "imageURL": null,
+    "artistName": "Eugine Dominguez",
+    "title": "Untitled (position 1)",
+    "medium": "Oil on Canvas",
+    "size": "19 x 16 inches",
+    "year": 2023,
+    "price": 0.14,
+    "statusSymbol": "AVAILABLE",
+    "remarks": ""
+  },
+  {
+    "sequence": 4,
+    "imageURL": null,
+    "artistName": "Alelia Ariola",
+    "title": "In The Darkness, We Find The Light",
+    "medium": "Oil on Canvas",
+    "size": "30 x 40 inches",
+    "year": 2023,
+    "price": 60000,
+    "statusSymbol": "PULLED-OUT",
+    "remarks": ""
+  },
+  {
+    "sequence": 5,
+    "imageURL": null,
+    "artistName": "Alelia Ariola",
+    "title": "Slow Down",
+    "medium": "Oil on Canvas",
+    "size": "30 x 40 inches",
+    "year": 2023,
+    "price": 60000,
+    "statusSymbol": "PULLED-OUT",
+    "remarks": ""
+  },
+  {
+    "sequence": 6,
+    "imageURL": null,
+    "artistName": "Alelia Ariola",
+    "title": "What If You Can",
+    "medium": "Oil on Canvas",
+    "size": "30 x 40 inches",
+    "year": 2023,
+    "price": 60000,
+    "statusSymbol": "PULLED-OUT",
+    "remarks": ""
+  },
+  {
+    "sequence": 7,
+    "imageURL": null,
+    "artistName": "Jono Pisano",
+    "title": "Fire Breathers",
+    "medium": "Oil on Canvas",
+    "size": "24 x 18 inches",
+    "year": 2023,
+    "price": 50000,
+    "statusSymbol": "PULLED-OUT",
+    "remarks": "05/31/23"
+  },
+  {
+    "sequence": 8,
+    "imageURL": null,
+    "artistName": "Jono Pisano",
+    "title": "Foal Play",
+    "medium": "Color Pencil on Paper",
+    "size": "30 x 20 inches",
+    "year": 2023,
+    "price": 30000,
+    "statusSymbol": "PULLED-OUT",
+    "remarks": "05/31/23"
+  },
+  {
+    "sequence": 9,
+    "imageURL": null,
+    "artistName": "Jono Pisano",
+    "title": "Good People - Bad Ideas",
+    "medium": "Oil on Canvas",
+    "size": "18 x 24 inches",
+    "year": 2023,
+    "price": 50000,
+    "statusSymbol": "PULLED-OUT",
+    "remarks": "05/31/23"
+  }
+]

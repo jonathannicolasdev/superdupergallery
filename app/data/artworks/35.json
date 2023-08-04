@@ -1,0 +1,86 @@
+[
+  {
+    "sequence": 1,
+    "imageURL": null,
+    "artistName": "John Loyd Benz De Leon",
+    "title": "Blinded Binoculars",
+    "medium": "Acrylic on Wood Cutout",
+    "size": "36 x 24 inches",
+    "year": 2023,
+    "price": 28000,
+    "statusSymbol": "AVAILABLE",
+    "remarks": ""
+  },
+  {
+    "sequence": 2,
+    "imageURL": null,
+    "artistName": "John Loyd Benz De Leon",
+    "title": "Mr. Noir Butterfly",
+    "medium": "Acrylic on Wood Cutout",
+    "size": "36 x 24 inches",
+    "year": 2023,
+    "price": 28000,
+    "statusSymbol": "AVAILABLE",
+    "remarks": ""
+  },
+  {
+    "sequence": 3,
+    "imageURL": null,
+    "artistName": "John Loyd Benz De Leon",
+    "title": "Ranger",
+    "medium": "Acrylic on Wood Cutout",
+    "size": "24 x 24 inches",
+    "year": 2023,
+    "price": 19000,
+    "statusSymbol": "SOLD",
+    "remarks": "Mikael Daes"
+  },
+  {
+    "sequence": 4,
+    "imageURL": null,
+    "artistName": "John Loyd Benz De Leon",
+    "title": "Sour Grapes",
+    "medium": "Acrylic on Wood Cutout",
+    "size": "24 x 18 inches",
+    "year": 2023,
+    "price": 14000,
+    "statusSymbol": "SOLD",
+    "remarks": "w/ 2,000 disc't Inna Fidellaga kristinafidellaga@gmail.com"
+  },
+  {
+    "sequence": 5,
+    "imageURL": null,
+    "artistName": "John Loyd Benz De Leon",
+    "title": "Insight",
+    "medium": "Acrylic on Wood Cutout",
+    "size": "24 x 18 inches",
+    "year": 2023,
+    "price": 14000,
+    "statusSymbol": "SOLD",
+    "remarks": ""
+  },
+  {
+    "sequence": 6,
+    "imageURL": null,
+    "artistName": "John Loyd Benz De Leon",
+    "title": "The Quiver",
+    "medium": "Acrylic on Wood Cutout",
+    "size": "24 x 18 inches",
+    "year": 2023,
+    "price": 14000,
+    "statusSymbol": "SOLD",
+    "remarks": "picked up by JT 5/11/23"
+  },
+  {
+    "sequence": 7,
+    "imageURL": null,
+    "artistName": "John Loyd Benz De Leon",
+    "title": "Acid Rain",
+    "medium": "Acrylic on Wood Cutout",
+    "size": "24 x 18 inches",
+    "year": 2023,
+    "price": 14000,
+    "statusSymbol": "AVAILABLE",
+    "remarks": ""
+  }
+]

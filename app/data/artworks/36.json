@@ -1,0 +1,110 @@
+[
+  {
+    "sequence": 1,
+    "imageURL": null,
+    "artistName": "Sola",
+    "title": "Desolation I",
+    "medium": "Acrylic on Canvas",
+    "size": "24 x 16 inches",
+    "year": 2023,
+    "price": 14000,
+    "statusSymbol": "AVAILABLE",
+    "remarks": ""
+  },
+  {
+    "sequence": 2,
+    "imageURL": null,
+    "artistName": "Sola",
+    "title": "Desolation II",
+    "medium": "Acrylic on Canvas",
+    "size": "25 x 16 inches",
+    "year": 2023,
+    "price": 14000,
+    "statusSymbol": "AVAILABLE",
+    "remarks": ""
+  },
+  {
+    "sequence": 3,
+    "imageURL": null,
+    "artistName": "Sola",
+    "title": "Desolation III",
+    "medium": "Acrylic on Canvas",
+    "size": "26 x 16 inches",
+    "year": 2023,
+    "price": 14000,
+    "statusSymbol": "AVAILABLE",
+    "remarks": ""
+  },
+  {
+    "sequence": 4,
+    "imageURL": null,
+    "artistName": "Sola",
+    "title": "Desolation IV",
+    "medium": "Acrylic on Canvas",
+    "size": "27 x 16 inches",
+    "year": 2023,
+    "price": 14000,
+    "statusSymbol": "AVAILABLE",
+    "remarks": ""
+  },
+  {
+    "sequence": 5,
+    "imageURL": null,
+    "artistName": "Sola",
+    "title": "Dead Stare",
+    "medium": "Acrylic on Canvas",
+    "size": "24 x 36 inches",
+    "year": 2023,
+    "price": 24000,
+    "statusSymbol": "AVAILABLE",
+    "remarks": ""
+  },
+  {
+    "sequence": 6,
+    "imageURL": null,
+    "artistName": "Sola",
+    "title": "Sunken I",
+    "medium": "Acrylic on Canvas",
+    "size": "24 x 36 inches",
+    "year": 2023,
+    "price": 24000,
+    "statusSymbol": "AVAILABLE",
+    "remarks": ""
+  },
+  {
+    "sequence": 7,
+    "imageURL": null,
+    "artistName": "Sola",
+    "title": "Sunken II",
+    "medium": "Acrylic on Canvas",
+    "size": "24 x 36 inches",
+    "year": 2023,
+    "price": 24000,
+    "statusSymbol": "AVAILABLE",
+    "remarks": ""
+  },
+  {
+    "sequence": 8,
+    "imageURL": null,
+    "artistName": "Sola",
+    "title": "Sunken III",
+    "medium": "Acrylic on Canvas",
+    "size": "24 x 24 inches",
+    "year": 2023,
+    "price": 18000,
+    "statusSymbol": "AVAILABLE",
+    "remarks": ""
+  },
+  {
+    "sequence": 9,
+    "imageURL": null,
+    "artistName": "Sola",
+    "title": "Lurking In Silence",
+    "medium": "Acrylic on Canvas",
+    "size": "18 x 24 inches",
+    "year": 2023,
+    "price": 15000,
+    "statusSymbol": "AVAILABLE",
+    "remarks": ""
+  }
+]
