@@ -180,7 +180,7 @@ async function seedArtists() {
         userId: user.id,
         slug: createArtistSlug(artist.name),
         name: artist.name,
-        bio: artist?.bio || "",
+        bio: artist.bio || `Bio of ${artist.name}`,
       },
     })
     if (!createdArtist) return null
@@ -215,14 +215,13 @@ async function seedArtworks() {
       artist = await prisma.artist.findUnique({ where: { name: artwork.artistName } })
 
       if (!artist) {
-        const newArtist = {
-          name: artwork.artistName,
-          slug: createArtistSlug(artwork.artistName),
-        }
-        artist = await prisma.artist.upsert({
-          where: { name: newArtist.name },
-          update: newArtist,
-          create: newArtist,
+        artist = await prisma.artist.create({
+          data: {
+            userId: user.id,
+            name: artwork.artistName,
+            slug: createArtistSlug(artwork.artistName),
+            bio: `Bio of ${artwork.artistName}`,
+          },
         })
       }
 
@@ -233,9 +232,9 @@ async function seedArtworks() {
 
       const createdArtwork = await prisma.artwork.create({
         data: {
+          userId: user.id,
           exhibitionId: exhibition?.id,
           artistId: artist?.id,
-          userId: user.id,
           slug: createArtworkSlug(artwork),
           title: artwork.title || "Untitled Artwork",
           medium: artwork.medium || "No Medium Info",
@@ -248,7 +247,7 @@ async function seedArtworks() {
       if (!createdArtwork) return null
 
       console.info(
-        `✅ Artwork "${createdArtwork.slug}" in "${connectedExhibition.title}"`,
+        `✅ "${connectedExhibition.edition} ${connectedExhibition.title}" has Artwork "${createdArtwork.slug}"`,
       )
     }
   }

@@ -2,7 +2,8 @@ import { prisma } from "~/libs"
 import { log } from "~/utils"
 
 async function main() {
-  await getUsers()
+  // await getUsers()
+  await getArtists()
 }
 
 async function getUsers() {
@@ -17,6 +18,20 @@ async function getUsers() {
     orderBy: { createdAt: "asc" },
   })
   log(users)
+}
+
+async function getArtists() {
+  console.info("🟢 Get artists...")
+  const users = await prisma.artist.findMany({
+    select: { name: true },
+    orderBy: { name: "asc" },
+  })
+
+  users.forEach(user => {
+    console.log({ name: user.name })
+  })
+
+  // console.log(users)
 }
 
 main()
