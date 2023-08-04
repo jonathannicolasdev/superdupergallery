@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import bcrypt from "bcryptjs"
 
 import { createAvatarImageURL, prisma } from "~/libs"
-import { createArtistSlug, createArtworkSlug, createExhibitionSlug, log } from "~/utils"
+import { createArtistSlug, createArtworkSlug, createExhibitionSlug } from "~/utils"
 import {
   dataArtists,
   dataArtworksInExhibitions,
@@ -198,7 +197,6 @@ async function seedArtworks() {
   if (!user) return null
 
   const allExhibitions = await prisma.exhibition.findMany()
-  const allArtists = await prisma.artist.findMany()
 
   for (const artworkInExhibition of dataArtworksInExhibitions) {
     const exhibitionTitle = artworkInExhibition.exhibitionTitle
@@ -206,16 +204,23 @@ async function seedArtworks() {
       exhibition => exhibition.title.toLowerCase() === exhibitionTitle.toLowerCase(),
     )
     if (!exhibition) {
-      console.log(`Exhibition ${artworkInExhibition.exhibitionTitle} not found`)
+      console.error(`🔴 Exhibition ${artworkInExhibition.exhibitionTitle} not found`)
       return null
     }
 
     for (const artwork of artworkInExhibition.artworks) {
       let artist
-      artist = allArtists.find(artist => artist.name === artwork.artistName)
+      artist = await prisma.artist.findUnique({ where: { name: artwork.artistName } })
+
       if (!artist) {
-        artist = await prisma.artist.create({
-          data: { name: artwork.artistName },
+        const newArtist = {
+          name: artwork.artistName,
+          slug: createArtistSlug(artwork.artistName),
+        }
+        artist = await prisma.artist.upsert({
+          where: { name: newArtist.name },
+          update: newArtist,
+          create: newArtist,
         })
       }
 

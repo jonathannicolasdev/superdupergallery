@@ -196,8 +196,8 @@ model ArtworkImage {
 model Artist {
   id String @id @default(cuid())
 
-  slug String?
-  name String
+  slug String  @unique
+  name String  @unique
   bio  String? @db.Text
 
   image       ArtistImage?
