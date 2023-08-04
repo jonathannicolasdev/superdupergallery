@@ -84,14 +84,10 @@ export default function RouteComponent() {
           <span>Exhibitions</span>
         </h1>
         <p className="text-muted-foreground">
-          An art exhibition is traditionally the space in which art objects meet
-          an audience. The exhibit is universally understood to be for some
-          temporary period.
+          An art exhibition is traditionally the space in which art objects meet an
+          audience. The exhibit is universally understood to be for some temporary period.
         </p>
-        <SearchForm
-          action="/exhibitions"
-          placeholder="Search for exhibitions!"
-        />
+        <SearchForm action="/exhibitions" placeholder="Search for exhibitions!" />
       </header>
 
       {count > 0 && (
@@ -111,13 +107,10 @@ export default function RouteComponent() {
                           />
                         )}
 
-                        <CardTitle className="text-2xl">
-                          {exhibition.title}
-                        </CardTitle>
+                        <CardTitle className="text-2xl">{exhibition.title}</CardTitle>
 
                         <p>
-                          {exhibition.description ||
-                            "(Exhibition has no description)"}
+                          {exhibition.description || "(Exhibition has no description)"}
                         </p>
                       </CardHeader>
                     </Card>

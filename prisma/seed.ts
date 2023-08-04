@@ -169,7 +169,9 @@ async function seedExhibitions() {
         title: exhibition.title,
         date: new Date(String(exhibition.date)),
         description: `Description of "${exhibition.title}"`,
-        images: { create: { url: String(exhibition.imageURL) } },
+        images: {
+          create: { url: exhibition.imageURL || "https://placehold.co/500x500" },
+        },
         isPublished: exhibition.isPublished,
       },
     })
@@ -189,12 +191,14 @@ async function seedArtists() {
   if (!user) return null
 
   for (const artist of dataArtists) {
+    const slug = createArtistSlug(artist.name)
     const createdArtist = await prisma.artist.create({
       data: {
         userId: user.id,
-        slug: createArtistSlug(artist.name),
+        slug,
         name: artist.name,
         bio: artist.bio || `Bio of ${artist.name}`,
+        image: { create: { url: createAvatarImageURL(slug) } },
       },
     })
     if (!createdArtist) return null
@@ -273,7 +277,7 @@ async function seedArtworks() {
           size: artwork.size || "No Size Info",
           year: artwork.year || 2023,
           price: artwork.price || 0,
-          images: { create: { url: String(artwork.imageURL) } },
+          images: { create: { url: artwork.imageURL || "https://placehold.co/500x500" } },
           statusId: status.id,
         },
       })
