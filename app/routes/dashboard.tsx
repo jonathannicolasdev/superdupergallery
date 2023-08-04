@@ -18,14 +18,14 @@ const navItems = [
   { to: "images", name: "Images", icon: "images", isMetric: true, items: [] },
   {
     to: "artworks",
-    name: "artworks",
+    name: "Artworks",
     icon: "artworks",
     isMetric: true,
     items: [
-      { to: "artwork-statuses", name: "artwork Statuses", icon: "artworkStatus" },
-      { to: "artwork-categories", name: "artwork Categories", icon: "artworkCategory" },
-      { to: "artwork-tags", name: "artwork Tags", icon: "artworkTag" },
-      { to: "artwork-images", name: "artwork Images", icon: "artworkImage" },
+      { to: "artwork-statuses", name: "Artwork Statuses", icon: "artworkStatus" },
+      { to: "artwork-categories", name: "Artwork Categories", icon: "artworkCategory" },
+      { to: "artwork-tags", name: "Artwork Tags", icon: "artworkTag" },
+      { to: "artwork-images", name: "Artwork Images", icon: "artworkImage" },
     ],
   },
   { to: "/admin/search", name: "Search on Admin", icon: "searchAdmin", items: [] },
@@ -65,19 +65,23 @@ export function AdminSidebar() {
         "hidden sm:block",
         "sticky top-0 h-screen", // sticky sidebar
         "min-w-fit space-y-4 p-2 sm:flex sm:flex-col sm:p-4",
-        "border-surface-200 dark:border-surface-700 dark:bg-surface-900 border-r-2 bg-white",
+        "border-r-2 border-white bg-background",
       )}
     >
       <div className="flex items-center justify-between">
         <NavLink
           prefetch="intent"
-          to="/admin"
+          to="/"
           className="block min-w-fit transition-opacity hover:opacity-80"
         >
-          SDG
+          <img
+            src="/images/superdupergallery.png"
+            alt="Super Duper Gallery"
+            className="h-12 w-12"
+          />
         </NavLink>
         <div className="flex items-center">
-          <Button asChild size="sm" type="submit" variant="destructive">
+          <Button asChild size="xs" type="submit" variant="destructive">
             <Link to="/logout">Logout</Link>
           </Button>
         </div>

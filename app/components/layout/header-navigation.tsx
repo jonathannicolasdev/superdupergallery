@@ -28,7 +28,6 @@ const navPublicItems: NavItem[] = [
     text: "Home",
     icon: <HomeIcon className="icon" />,
   },
-
   {
     to: "/artworks",
     text: "Artworks",
