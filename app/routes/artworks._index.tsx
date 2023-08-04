@@ -90,7 +90,7 @@ export default function ArtworksRoute() {
         </h1>
       </header>
 
-      <section id="artworks" className="w-full space-y-4">
+      <section className="w-full space-y-4">
         <SearchForm action="/artworks" placeholder="Search artworks with keyword..." />
 
         {query && count <= 0 && (
@@ -121,12 +121,12 @@ export default function ArtworksRoute() {
                 <li key={artwork.id} className="w-full">
                   <Link to={`/artworks/${artwork.slug}`}>
                     <Card className="hover-opacity h-full space-y-2">
-                      <CardHeader className="flex flex-col items-center space-y-2 p-4">
+                      <CardHeader className="flex flex-col items-center space-y-2">
                         {artwork.images?.length > 0 && artwork.images[0]?.url && (
                           <Image
                             src={`${artwork.images[0].url}`}
                             alt={`${artwork.title}`}
-                            className="h-60 w-60 object-contain"
+                            className="w-full object-contain"
                           />
                         )}
 

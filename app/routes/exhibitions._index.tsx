@@ -4,7 +4,7 @@ import type { V2_MetaFunction } from "@remix-run/react"
 import { Link, useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs"
-import { createCacheHeaders, formatTitle, stringify } from "~/utils"
+import { createCacheHeaders, formatPluralItems, formatTitle, stringify } from "~/utils"
 import {
   Card,
   CardHeader,
@@ -74,7 +74,7 @@ export async function loader({ request }: LoaderArgs) {
 }
 
 export default function RouteComponent() {
-  const { count, exhibitions } = useLoaderData<typeof loader>()
+  const { query, count, exhibitions } = useLoaderData<typeof loader>()
 
   return (
     <Layout className="space-y-8 p-4">
@@ -87,34 +87,49 @@ export default function RouteComponent() {
           An art exhibition is traditionally the space in which art objects meet an
           audience. The exhibit is universally understood to be for some temporary period.
         </p>
-        <SearchForm action="/exhibitions" placeholder="Search for exhibitions!" />
       </header>
+
+      <section className="w-full space-y-4">
+        <SearchForm action="/exhibitions" placeholder="Search for exhibitions" />
+
+        {query && count <= 0 && (
+          <p className="text-muted-foreground">
+            No exhibition found with keyword "{query}"
+          </p>
+        )}
+
+        {!query && count > 0 && (
+          <p className="text-muted-foreground">
+            {formatPluralItems("exhibition", count)}
+          </p>
+        )}
+
+        {query && count > 0 && (
+          <p className="text-muted-foreground">
+            Found {formatPluralItems("exhibition", count)} with keyword "{query}"
+          </p>
+        )}
+      </section>
 
       {count > 0 && (
         <section>
-          <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
+          <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-8 md:grid-cols-3 lg:grid-cols-4">
             {exhibitions.map(exhibition => {
               return (
                 <li key={exhibition.id} className="w-full">
                   <Link to={`/exhibitions/${exhibition.slug}`}>
-                    <Card className="hover-opacity h-full space-y-2">
-                      <CardHeader className="flex flex-col space-y-2 p-4">
-                        {exhibition.images[0]?.url && (
-                          <Image
-                            src={`${exhibition.images[0].url}`}
-                            alt={`${exhibition.title}`}
-                            className="h-60 w-60 object-contain"
-                          />
-                        )}
+                    <Card className="hover-opacity flex h-full flex-col space-y-2">
+                      {exhibition.images[0]?.url && (
+                        <Image
+                          src={`${exhibition.images[0].url}`}
+                          alt={`${exhibition.title}`}
+                          className="w-full object-contain"
+                        />
+                      )}
 
-                        <CardTitle className="text-2xl">
-                          {exhibition.edition}. {exhibition.title}
-                        </CardTitle>
-
-                        <p>
-                          {exhibition.description || "(Exhibition has no description)"}
-                        </p>
-                      </CardHeader>
+                      <CardTitle className="text-2xl">
+                        {exhibition.edition}. {exhibition.title}
+                      </CardTitle>
                     </Card>
                   </Link>
                 </li>
