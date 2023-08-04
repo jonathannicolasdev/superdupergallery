@@ -152,8 +152,10 @@ async function seedUsers() {
 
 async function seedExhibitions() {
   console.info("🟢 Seed exhibitions...")
-  await prisma.exhibition.deleteMany()
   console.info("🟡 Deleted existing exhibitions...")
+  await prisma.exhibition.deleteMany()
+  console.info("🟡 Deleted existing exhibition images...")
+  await prisma.exhibitionImage.deleteMany()
 
   const user = await prisma.user.findFirst({
     where: { username: "admin" },
@@ -182,8 +184,10 @@ async function seedExhibitions() {
 
 async function seedArtists() {
   console.info("🟢 Seed artists...")
-  await prisma.artist.deleteMany()
   console.info("🟡 Deleted existing artists...")
+  await prisma.artist.deleteMany()
+  console.info("🟡 Deleted existing artist images...")
+  await prisma.artistImage.deleteMany()
 
   const user = await prisma.user.findFirst({
     where: { username: "admin" },
@@ -208,8 +212,10 @@ async function seedArtists() {
 
 async function seedArtworks() {
   console.info("🟢 Seed artworks...")
-  await prisma.artwork.deleteMany()
   console.info("🟡 Deleted existing artworks...")
+  await prisma.artwork.deleteMany()
+  console.info("🟡 Deleted existing artwork images...")
+  await prisma.artworkImage.deleteMany()
 
   const user = await prisma.user.findFirst({
     where: { username: "admin" },

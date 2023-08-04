@@ -2,36 +2,10 @@ import type { ActionArgs, LoaderArgs } from "@remix-run/node"
 import { redirect } from "@remix-run/node"
 import { Link, NavLink, Outlet } from "@remix-run/react"
 
+import { navItems } from "~/configs"
 import { cn } from "~/libs"
 import { requireUserSession } from "~/utils"
 import { Button, buttonVariants } from "~/components"
-
-const navItems = [
-  { to: "/dashboard", name: "Overview", icon: "dashboard", items: [], end: true },
-  {
-    to: "users",
-    name: "Users",
-    icon: "users",
-    isMetric: true,
-    items: [{ to: "user-roles", name: "User Roles", icon: "userRole" }],
-  },
-  { to: "images", name: "Images", icon: "images", isMetric: true, items: [] },
-  {
-    to: "artworks",
-    name: "Artworks",
-    icon: "artworks",
-    isMetric: true,
-    items: [
-      { to: "artwork-statuses", name: "Artwork Statuses", icon: "artworkStatus" },
-      { to: "artwork-categories", name: "Artwork Categories", icon: "artworkCategory" },
-      { to: "artwork-tags", name: "Artwork Tags", icon: "artworkTag" },
-      { to: "artwork-images", name: "Artwork Images", icon: "artworkImage" },
-    ],
-  },
-  { to: "/admin/search", name: "Search on Admin", icon: "searchAdmin", items: [] },
-  { to: "/search", name: "Search on Site", icon: "search", items: [] },
-  { to: "/", name: "Go to site", icon: "appWindow", items: [] },
-]
 
 export async function loader({ request }: LoaderArgs) {
   const { userIsAllowed } = await requireUserSession(request, ["ADMIN", "MANAGER", "EDITOR"])
@@ -43,22 +17,22 @@ export async function loader({ request }: LoaderArgs) {
 
 export default function DashboardRoute() {
   return (
-    <AdminLayout>
+    <DashboardLayout>
       <Outlet />
-    </AdminLayout>
+    </DashboardLayout>
   )
 }
 
-export function AdminLayout({ children }: { children: React.ReactNode }) {
+export function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex">
-      <AdminSidebar />
+      <DashboardSidebar />
       <main className="grow pb-10">{children}</main>
     </div>
   )
 }
 
-export function AdminSidebar() {
+export function DashboardSidebar() {
   return (
     <aside
       className={cn(
@@ -111,7 +85,8 @@ export function AdminSidebar() {
                 {/* <Icon name={navItem.icon} /> */}
                 <span>{navItem.name}</span>
               </NavLink>
-              {navItem.items.length > 0 && (
+
+              {navItem?.items && navItem.items.length > 0 && (
                 <ul className="ms-4 space-y-1">
                   {navItem.items.map(item => {
                     return (
