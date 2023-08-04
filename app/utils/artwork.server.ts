@@ -1,7 +1,6 @@
 import { createSlug } from "~/utils"
-import type { DataArtwork } from "~/data"
 
-export function createArtworkSlug(artwork: DataArtwork) {
+export function createArtworkSlug(artwork: { title: string; artistName: string }) {
   const title = createSlug(artwork.title || "Untitled")
   const artistName = createSlug(artwork.artistName || "Unknown")
 

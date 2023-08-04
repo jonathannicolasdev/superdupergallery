@@ -59,15 +59,8 @@ export default function ArtworksAddRoute() {
 
         <section className="space-y-4 rounded bg-gray-900 p-4">
           <Form {...form.props} replace method="PUT" className="space-y-6">
-            <fieldset
-              disabled={isSubmitting}
-              className="space-y-4 disabled:opacity-80"
-            >
-              <input
-                hidden
-                {...conform.input(userId)}
-                defaultValue={userData.id}
-              />
+            <fieldset disabled={isSubmitting} className="space-y-4 disabled:opacity-80">
+              <input hidden {...conform.input(userId)} defaultValue={userData.id} />
 
               <FormField>
                 <FormLabel htmlFor={title.id}>Title</FormLabel>
@@ -161,12 +154,7 @@ export function ArtworkImageUploader() {
           // checked, not defaultChecked because dynamic value
           checked={isMultiple}
         />
-        <Input
-          type="hidden"
-          name="fileGroup"
-          value={stringify(fileGroup)}
-          readOnly
-        />
+        <Input type="hidden" name="fileGroup" value={stringify(fileGroup)} readOnly />
       </div>
 
       <div>
@@ -246,9 +234,7 @@ export async function action({ request }: ActionArgs) {
 
     // If multiple, save multiple files info to database (Image table)
     if (multiple && submission?.value?.fileGroup) {
-      const fileGroup: FileGroup = JSON.parse(
-        String(submission?.value?.fileGroup),
-      )
+      const fileGroup: FileGroup = JSON.parse(String(submission?.value?.fileGroup))
       const fileGroupNumbers = Array.from(Array(fileGroup?.count).keys())
 
       if (fileGroup?.count <= 0 && fileGroupNumbers?.length <= 0) {
@@ -274,10 +260,14 @@ export async function action({ request }: ActionArgs) {
       const createdArtwork = await prisma.artwork.create({
         data: {
           userId: submission.value.userId,
-          slug: createArtworkSlug(submission.value.title),
+          slug: createArtworkSlug({
+            title: submission.value.title,
+            artistName: "unknown-artist",
+          }),
           title: submission.value.title,
           medium: submission.value.medium,
           size: submission.value.size,
+          // TODO: Connect to existing artist
         },
       })
 

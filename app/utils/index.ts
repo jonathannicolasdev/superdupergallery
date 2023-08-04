@@ -1,6 +1,7 @@
 export * from "./artist.server"
 export * from "./artwork.server"
 export * from "./cache.server"
+export * from "./color"
 export * from "./datetime"
 export * from "./exhibition.server"
 export * from "./http"

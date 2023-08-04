@@ -6,7 +6,7 @@ import invariant from "tiny-invariant"
 
 import { prisma } from "~/libs"
 import { createCacheHeaders } from "~/utils"
-import { Button, Layout } from "~/components"
+import { Badge, Button, Image, Layout } from "~/components"
 
 export async function loader({ request, params }: LoaderArgs) {
   invariant(params.slug, "Artwork slug not found")
@@ -15,7 +15,8 @@ export async function loader({ request, params }: LoaderArgs) {
     where: { slug: params.slug },
     include: {
       images: true,
-      artist: true,
+      artist: { include: { image: { select: { url: true } } } },
+      status: true,
     },
   })
   if (!artwork) return notFound({ artwork: null })
@@ -38,8 +39,7 @@ export default function ArtworksRoute() {
               className="h-40 object-contain"
             />
             <h2>
-              Artwork <span className="text-pink-500">"{params.slug}"</span> is
-              not found
+              Artwork <span className="text-pink-500">"{params.slug}"</span> is not found
             </h2>
             <Button asChild>
               <Link to="/artworks">Back to All Artworks</Link>
@@ -62,14 +62,23 @@ export default function ArtworksRoute() {
         )}
 
         <header className="space-y-8">
-          {artwork.artist && (
-            <Link
-              to={`/artists/${artwork.artist.slug}`}
-              className="hover-opacity"
-            >
-              <span className="text-xl font-bold">{artwork.artist.name}</span>
-            </Link>
-          )}
+          <div className="flex">
+            {artwork.artist && (
+              <Link
+                to={`/artists/${artwork.artist.slug}`}
+                className="hover-opacity flex items-center gap-2"
+              >
+                {artwork.artist.image?.url && (
+                  <Image
+                    src={`${artwork.artist.image.url}`}
+                    alt={`${artwork.artist.name}`}
+                    className="h-10 w-10"
+                  />
+                )}
+                <span className="text-xl font-bold">{artwork.artist.name}</span>
+              </Link>
+            )}
+          </div>
 
           <h1 className="flex">
             <Link to={`/artworks/${artwork.slug}`} className="hover-opacity">
@@ -81,6 +90,10 @@ export default function ArtworksRoute() {
             <p>{artwork.year}</p>
             <p>Medium: {artwork.medium || "Unknown Medium"}</p>
             <p>Size: {artwork.size || "Unknown Size"}</p>
+            <p className="flex items-center gap-2">
+              <span>Status: </span>
+              <Badge>{artwork.status?.name}</Badge>
+            </p>
           </div>
         </header>
       </div>
