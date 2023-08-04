@@ -21,22 +21,46 @@ export async function loader({ request }: LoaderArgs) {
   const query = url.searchParams.get("q") || undefined
   const page = Number(url.searchParams.get("page")) || 1
   const limit = Number(url.searchParams.get("limit")) || 10
+  const maxPaginationNumber = 10
 
   let where = {}
   if (query) {
     where = { OR: [{ title: { contains: query } }, { medium: { contains: query } }] }
   }
 
-  const totalItems = await prisma.artwork.count({ where })
-  const totalPages = Math.ceil(totalItems / limit)
   const skip = (page - 1) * limit
 
-  const artworks = await prisma.artwork.findMany({
-    skip,
-    take: limit,
-    orderBy: { updatedAt: "asc" },
-    include: { images: true, artist: true, exhibition: true },
-    where,
+  const [totalItems, artworks] = await prisma.$transaction([
+    prisma.artwork.count({ where }),
+    prisma.artwork.findMany({
+      skip,
+      take: limit,
+      orderBy: { updatedAt: "asc" },
+      include: { images: true, artist: true, exhibition: true },
+      where,
+    }),
+  ])
+
+  const totalPages = Math.ceil(totalItems / limit)
+
+  const visiblePageCount = Math.min(maxPaginationNumber, totalPages)
+  let startPage = Math.max(1, page - Math.floor(visiblePageCount / 2))
+  let endPage = Math.min(totalPages, startPage + visiblePageCount - 1)
+
+  if (endPage - startPage + 1 < visiblePageCount) {
+    startPage = Math.max(1, endPage - visiblePageCount + 1)
+  }
+
+  const navigationItems = Array.from({ length: endPage - startPage + 1 }, (_, index) => {
+    const pageNumber = startPage + index
+
+    const queryParams = new URLSearchParams({
+      q: query || "",
+      limit: limit.toString() || "",
+      page: pageNumber.toString() || "",
+    }).toString()
+
+    return { pageNumber, to: `/artworks?${queryParams}` }
   })
 
   return json(
@@ -48,13 +72,14 @@ export async function loader({ request }: LoaderArgs) {
       totalPages,
       page,
       limit,
+      navigationItems,
     },
     { headers: createCacheHeaders(request, 5) },
   )
 }
 
 export default function ArtworksRoute() {
-  const { query, count, artworks, totalPages } = useLoaderData<typeof loader>()
+  const { query, count, artworks, page, totalPages } = useLoaderData<typeof loader>()
 
   return (
     <Layout className="space-y-8 p-4">
@@ -72,14 +97,21 @@ export default function ArtworksRoute() {
           <p className="text-muted-foreground">No artwork found with keyword "{query}"</p>
         )}
 
-        {query && count > 0 && (
+        {!query && count > 0 && (
           <p className="text-muted-foreground">
-            Found {formatPluralItems("artwork", count)} with keyword "{query}"
+            {formatPluralItems("artwork", count)} in page {page}
           </p>
         )}
 
-        {totalPages > 1 && <ArtworksPagination />}
+        {query && count > 0 && (
+          <p className="text-muted-foreground">
+            Found {formatPluralItems("artwork", count)} with keyword "{query}" in page{" "}
+            {page}
+          </p>
+        )}
       </section>
+
+      {totalPages > 1 && <Pagination />}
 
       {count > 0 && (
         <section>
@@ -115,7 +147,7 @@ export default function ArtworksRoute() {
         </section>
       )}
 
-      {totalPages > 1 && <ArtworksPagination />}
+      {totalPages > 1 && <Pagination />}
 
       <section>
         <Debug>{artworks}</Debug>
@@ -124,49 +156,30 @@ export default function ArtworksRoute() {
   )
 }
 
-function ArtworksPagination() {
-  const { query, page, limit, totalPages } = useLoaderData<typeof loader>()
-  const maxPaginationNumber = 10
-
-  const renderPageLinks = () => {
-    const visiblePageCount = Math.min(maxPaginationNumber, totalPages)
-    let startPage = Math.max(1, page - Math.floor(visiblePageCount / 2))
-    let endPage = Math.min(totalPages, startPage + visiblePageCount - 1)
-
-    if (endPage - startPage + 1 < visiblePageCount) {
-      startPage = Math.max(1, endPage - visiblePageCount + 1)
-    }
-
-    return Array.from({ length: endPage - startPage + 1 }, (_, index) => {
-      const pageNum = startPage + index
-
-      const queryParams = new URLSearchParams({
-        q: query || "",
-        page: pageNum.toString() || "",
-        limit: limit.toString() || "",
-      }).toString()
-
-      return {
-        pageNum,
-        to: `/artworks?${queryParams}`,
-      }
-    })
-  }
+function Pagination() {
+  const { query, page, limit, totalPages, navigationItems } =
+    useLoaderData<typeof loader>()
 
   const renderArrowLink = (direction: string, icon: React.ReactNode) => {
-    const newPage = direction === "prev" ? page - 1 : page + 1
-    const linkTo = `/artworks?q=${query || ""}&page=${newPage}&limit=${limit}`
+    const isPrev = direction === "prev"
+    const isNext = direction === "next"
+
+    const newPage = isPrev ? page - 1 : page + 1
+    const isPossible =
+      page === newPage || (isPrev && page > 1) || (isNext && page < totalPages)
+
+    if (!isPossible) {
+      return (
+        <span className="flex w-8 select-none justify-center px-2 opacity-20">
+          {icon}
+        </span>
+      )
+    }
 
     return (
       <Link
-        to={linkTo}
-        className={`hover-opacity ${
-          page === newPage ||
-          (direction === "prev" && page > 1) ||
-          (direction === "next" && page < totalPages)
-            ? ""
-            : "opacity-20"
-        }`}
+        to={`/artworks?q=${query || ""}&limit=${limit}&page=${newPage}`}
+        className="flex w-8 justify-center px-2 text-gray-500 hover:text-white"
       >
         {icon}
       </Link>
@@ -174,40 +187,31 @@ function ArtworksPagination() {
   }
 
   return (
-    <nav>
-      <ul className="flex items-center justify-center gap-4 font-bold">
-        {renderArrowLink(
-          "prev",
-          <li>
-            <DoubleArrowLeftIcon className="h-5 w-5" />
-          </li>,
-        )}
+    <nav className="flex items-center justify-center gap-4">
+      {renderArrowLink("prev", <DoubleArrowLeftIcon className="h-10 w-10" />)}
 
-        {renderPageLinks().map(({ pageNum, to }, index) => {
-          const isActive = page === pageNum
+      <ul className="flex gap-2">
+        {navigationItems.map(({ pageNumber, to }, index) => {
+          const isActive = page === pageNumber
           return (
             <li key={index}>
               <Link
                 to={to}
                 className={cn(
-                  "hover-opacity rounded p-2",
-                  isActive && "bg-blue-500 text-white",
+                  "flex w-8 justify-center",
+                  "hover-opacity rounded p-2 font-bold",
+                  isActive && "bg-pink-600 text-white",
                   !isActive && "text-gray-500 hover:text-white",
                 )}
               >
-                {pageNum}
+                {pageNumber}
               </Link>
             </li>
           )
         })}
-
-        {renderArrowLink(
-          "next",
-          <li>
-            <DoubleArrowRightIcon className="h-5 w-5" />
-          </li>,
-        )}
       </ul>
+
+      {renderArrowLink("next", <DoubleArrowRightIcon className="h-10 w-10" />)}
     </nav>
   )
 }
