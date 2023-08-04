@@ -44,7 +44,7 @@ export async function loader({ request }: LoaderArgs) {
 
   if (!query) {
     const exhibitions = await prisma.exhibition.findMany({
-      orderBy: { date: "asc" },
+      orderBy: { edition: "asc" },
       include: {
         images: true,
         artworks: true,
@@ -59,7 +59,7 @@ export async function loader({ request }: LoaderArgs) {
   }
 
   const exhibitions = await prisma.exhibition.findMany({
-    orderBy: { date: "asc" },
+    orderBy: { edition: "asc" },
     include: {
       images: true,
       artworks: true,
@@ -107,7 +107,9 @@ export default function RouteComponent() {
                           />
                         )}
 
-                        <CardTitle className="text-2xl">{exhibition.title}</CardTitle>
+                        <CardTitle className="text-2xl">
+                          {exhibition.edition}. {exhibition.title}
+                        </CardTitle>
 
                         <p>
                           {exhibition.description || "(Exhibition has no description)"}
