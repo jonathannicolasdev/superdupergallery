@@ -114,8 +114,7 @@ export function NavigationList({ navItems }: { navItems: NavItem[] }) {
                   return cn(
                     "flex max-w-lg items-center justify-center gap-2 rounded p-2 font-bold",
                     isActive ||
-                      (navItem.to === "/profile" &&
-                        checkIfActiveUsername(location, userData))
+                      (navItem.to === "/profile" && checkIfActiveUsername(location, userData))
                       ? "dark:bg-pink-950 dark:hover:bg-pink-900"
                       : "hover:bg-gray-800",
                   )
@@ -143,9 +142,6 @@ export function NavigationList({ navItems }: { navItems: NavItem[] }) {
 
 // Because the navigation has a Link to /profile route
 // But if we are in the /$username route, then we have to check it
-export function checkIfActiveUsername(
-  location: Location,
-  userData: UserData | undefined,
-) {
+export function checkIfActiveUsername(location: Location, userData: UserData | undefined) {
   return location?.pathname === `/${userData?.username}`
 }

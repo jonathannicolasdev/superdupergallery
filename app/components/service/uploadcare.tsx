@@ -62,9 +62,7 @@ export function UploadcareWidget(props: UploadcareWidgetProps) {
       {ENV.UPLOADCARE_PUBLIC_KEY && (
         <div className="queue-center h-8 w-full">
           <Widget
-            publicKey={
-              isDemo ? "demopublickey" : publicKey || ENV.UPLOADCARE_PUBLIC_KEY
-            }
+            publicKey={isDemo ? "demopublickey" : publicKey || ENV.UPLOADCARE_PUBLIC_KEY}
             onChange={handleChange}
             multiple={multiple}
             tabs={tabs}
@@ -78,10 +76,7 @@ export function UploadcareWidget(props: UploadcareWidgetProps) {
       )}
 
       {ENV.UPLOADCARE_PUBLIC_KEY && (
-        <Debug
-          name="nodeEnv, widgetProps, widgetFileState"
-          isAlwaysShow={isAlwaysShowDebug}
-        >
+        <Debug name="nodeEnv, widgetProps, widgetFileState" isAlwaysShow={isAlwaysShowDebug}>
           {{ ENV, props, widgetFileState }}
         </Debug>
       )}

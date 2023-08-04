@@ -10,12 +10,7 @@ import { Cross2Icon } from "@radix-ui/react-icons"
 import { cn } from "~/libs"
 import { stringify } from "~/utils"
 import { useRootLoaderData } from "~/hooks"
-import {
-  buttonVariants,
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "~/components"
+import { buttonVariants, Collapsible, CollapsibleContent, CollapsibleTrigger } from "~/components"
 
 export function Debug({
   name,
@@ -48,10 +43,7 @@ export function Debug({
             )}
           >
             {name ? <code>DEBUG: {name}</code> : <code>DEBUG</code>}
-            <span
-              onClick={() => setIsVisible(false)}
-              className="rounded p-2 hover:bg-destructive"
-            >
+            <span onClick={() => setIsVisible(false)} className="rounded p-2 hover:bg-destructive">
               <Cross2Icon />
             </span>
           </div>

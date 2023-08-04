@@ -1,10 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect } from "react"
-import type {
-  LinksFunction,
-  LoaderArgs,
-  V2_MetaFunction,
-} from "@remix-run/node"
+import type { LinksFunction, LoaderArgs, V2_MetaFunction } from "@remix-run/node"
 import { json, redirect } from "@remix-run/node"
 import {
   isRouteErrorResponse,
@@ -87,10 +83,7 @@ export const loader = async ({ request }: LoaderArgs) => {
     return redirect(`/logout`)
   }
 
-  return json(
-    { ENV, nodeEnv, userSession, userData },
-    { headers: createCacheHeaders(request, 5) },
-  )
+  return json({ ENV, nodeEnv, userSession, userData }, { headers: createCacheHeaders(request, 5) })
 }
 
 export default function App() {

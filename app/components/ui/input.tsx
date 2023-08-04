@@ -5,8 +5,7 @@ import { EyeClosedIcon, EyeOpenIcon } from "@radix-ui/react-icons"
 import { cn } from "~/libs"
 import { Button } from "~/components"
 
-export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {}
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, ...props }, ref) => {
@@ -52,11 +51,7 @@ function InputPassword({
         onClick={handleClick}
         className="absolute inset-y-0 right-0 my-1.5 me-1.5 flex gap-2"
       >
-        {isShown ? (
-          <EyeClosedIcon className="h-4 w-4" />
-        ) : (
-          <EyeOpenIcon className="h-4 w-4" />
-        )}
+        {isShown ? <EyeClosedIcon className="h-4 w-4" /> : <EyeOpenIcon className="h-4 w-4" />}
         <span>{isShown ? "Hide" : "Show"}</span>
       </Button>
     </div>

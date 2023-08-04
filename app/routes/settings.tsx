@@ -54,10 +54,7 @@ interface SidebarNavProps extends React.HTMLAttributes<HTMLElement> {
 
 export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
   return (
-    <nav
-      className={cn("flex w-full gap-2 overflow-auto sm:flex-col", className)}
-      {...props}
-    >
+    <nav className={cn("flex w-full gap-2 overflow-auto sm:flex-col", className)} {...props}>
       {items.map(item => (
         <NavLink
           key={item.to}

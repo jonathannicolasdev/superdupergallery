@@ -13,9 +13,7 @@ export interface UserSession {
 }
 
 export interface UserData
-  extends NonNullable<
-    Prisma.PromiseReturnType<typeof model.user.query.getForSession>
-  > {}
+  extends NonNullable<Prisma.PromiseReturnType<typeof model.user.query.getForSession>> {}
 
 export type AuthStrategy = (typeof AuthStrategies)[keyof typeof AuthStrategies]
 

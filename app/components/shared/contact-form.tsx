@@ -23,9 +23,7 @@ export function ContactForm() {
       <div className="space-y-6">
         <CardHeader className="p-0">
           <CardTitle>Send Us a Message</CardTitle>
-          <CardDescription>
-            If you need help or want to showcase your artworks
-          </CardDescription>
+          <CardDescription>If you need help or want to showcase your artworks</CardDescription>
         </CardHeader>
 
         <CardContent className="space-y-6 p-0">
@@ -48,10 +46,7 @@ export function ContactForm() {
             <div className="grid gap-2">
               <Label htmlFor="priority-level">Priority Level</Label>
               <Select defaultValue="3">
-                <SelectTrigger
-                  id="priority-level"
-                  className="line-clamp-1 w-full truncate"
-                >
+                <SelectTrigger id="priority-level" className="line-clamp-1 w-full truncate">
                   <SelectValue placeholder="Expected priority" />
                 </SelectTrigger>
                 <SelectContent>

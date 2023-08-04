@@ -6,12 +6,7 @@ export type DataArtworkStatus = Pick<ArtworkStatus, "name" | "symbol"> & {
   description?: ArtworkStatus["description"]
 }
 
-export type DataArtworkStatusSymbol =
-  | "AVAILABLE"
-  | "SOLD"
-  | "PULLED-OUT"
-  | "RESERVED"
-  | "UNKNOWN"
+export type DataArtworkStatusSymbol = "AVAILABLE" | "SOLD" | "PULLED-OUT" | "RESERVED" | "UNKNOWN"
 
 export const dataArtworkStatuses: DataArtworkStatus[] = [
   {

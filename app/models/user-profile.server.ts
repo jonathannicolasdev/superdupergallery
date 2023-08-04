@@ -20,10 +20,7 @@ export const query = {
 }
 
 export const mutation = {
-  async updateModeName({
-    id,
-    modeName,
-  }: z.infer<typeof schemaUserProfileModeName>) {
+  async updateModeName({ id, modeName }: z.infer<typeof schemaUserProfileModeName>) {
     const userProfile = await prisma.userProfile.update({
       where: { id },
       data: { modeName },
@@ -34,10 +31,7 @@ export const mutation = {
     return { userProfile, error: null }
   },
 
-  async updateHeadline({
-    id,
-    headline,
-  }: z.infer<typeof schemaUserProfileHeadline>) {
+  async updateHeadline({ id, headline }: z.infer<typeof schemaUserProfileHeadline>) {
     const userProfile = await prisma.userProfile.update({
       where: { id },
       data: { headline },

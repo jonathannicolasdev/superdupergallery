@@ -5,15 +5,7 @@ import { Link, useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs"
 import { createCacheHeaders, formatPluralItems, formatTitle, stringify } from "~/utils"
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  Debug,
-  Image,
-  Layout,
-  SearchForm,
-} from "~/components"
+import { Card, CardHeader, CardTitle, Debug, Image, Layout, SearchForm } from "~/components"
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   const query = data?.query
@@ -84,8 +76,8 @@ export default function RouteComponent() {
           <span>Exhibitions</span>
         </h1>
         <p className="text-muted-foreground">
-          An art exhibition is traditionally the space in which art objects meet an
-          audience. The exhibit is universally understood to be for some temporary period.
+          An art exhibition is traditionally the space in which art objects meet an audience. The
+          exhibit is universally understood to be for some temporary period.
         </p>
       </header>
 
@@ -93,15 +85,11 @@ export default function RouteComponent() {
         <SearchForm action="/exhibitions" placeholder="Search for exhibitions" />
 
         {query && count <= 0 && (
-          <p className="text-muted-foreground">
-            No exhibition found with keyword "{query}"
-          </p>
+          <p className="text-muted-foreground">No exhibition found with keyword "{query}"</p>
         )}
 
         {!query && count > 0 && (
-          <p className="text-muted-foreground">
-            {formatPluralItems("exhibition", count)}
-          </p>
+          <p className="text-muted-foreground">{formatPluralItems("exhibition", count)}</p>
         )}
 
         {query && count > 0 && (

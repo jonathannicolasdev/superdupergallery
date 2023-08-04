@@ -14,11 +14,7 @@ export function ArtworkCard({ artwork }: Props) {
     <Card className="hover-opacity max-w-2xl">
       <CardHeader className="flex gap-4">
         {artwork?.images[0]?.url && (
-          <img
-            className="h-30 w-30"
-            src={artwork.images[0]?.url}
-            alt={artwork.title}
-          />
+          <img className="h-30 w-30" src={artwork.images[0]?.url} alt={artwork.title} />
         )}
 
         <div>

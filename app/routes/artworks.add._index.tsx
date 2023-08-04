@@ -64,11 +64,7 @@ export default function ArtworksAddRoute() {
 
               <FormField>
                 <FormLabel htmlFor={title.id}>Title</FormLabel>
-                <Input
-                  {...conform.input(title)}
-                  type="text"
-                  placeholder={`Some Creative Title`}
-                />
+                <Input {...conform.input(title)} type="text" placeholder={`Some Creative Title`} />
                 {title.error && (
                   <Alert variant="destructive" id={title.errorId}>
                     {title.error}
@@ -78,11 +74,7 @@ export default function ArtworksAddRoute() {
 
               <FormField>
                 <FormLabel htmlFor={medium.id}>Medium</FormLabel>
-                <Input
-                  {...conform.input(medium)}
-                  type="text"
-                  placeholder={`Ex: Canvas, Acrylic`}
-                />
+                <Input {...conform.input(medium)} type="text" placeholder={`Ex: Canvas, Acrylic`} />
                 {medium.error && (
                   <Alert variant="destructive" id={medium.errorId}>
                     {medium.error}
@@ -92,11 +84,7 @@ export default function ArtworksAddRoute() {
 
               <FormField>
                 <FormLabel htmlFor={size.id}>Size</FormLabel>
-                <Input
-                  {...conform.input(size)}
-                  type="text"
-                  placeholder={`Ex: 10" x 10" x 10"`}
-                />
+                <Input {...conform.input(size)} type="text" placeholder={`Ex: 10" x 10" x 10"`} />
                 {size.error && (
                   <Alert variant="destructive" id={size.errorId}>
                     {size.error}

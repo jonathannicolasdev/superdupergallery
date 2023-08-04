@@ -38,11 +38,7 @@ export default function Route() {
         <section className="relative hidden h-full flex-col bg-gray-950 p-10 text-white lg:flex lg:items-end">
           <Link to="/" className="hidden lg:block">
             <h1 className="flex items-center gap-2 text-2xl">
-              <img
-                src="/images/superdupergallery.png"
-                alt="Cat"
-                className="h-10"
-              />
+              <img src="/images/superdupergallery.png" alt="Cat" className="h-10" />
               <span className="text-brand">Super Duper Gallery</span>
             </h1>
           </Link>
@@ -50,8 +46,7 @@ export default function Route() {
           <div className="relative z-20 mt-auto">
             <blockquote className="space-y-2 text-right">
               <p className="text-lg font-semibold">
-                &ldquo;The artworks from 🐈 Super Duper Gallery are
-                extraordinary.&rdquo;
+                &ldquo;The artworks from 🐈 Super Duper Gallery are extraordinary.&rdquo;
               </p>
               <footer>— Art Collector</footer>
             </blockquote>

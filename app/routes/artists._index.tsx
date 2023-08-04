@@ -77,8 +77,8 @@ export default function Route() {
           <span>Artists</span>
         </h1>
         <p className="text-muted-foreground">
-          Artist is a person who produces artworks like paintings or drawings, as a
-          profession or hobby.
+          Artist is a person who produces artworks like paintings or drawings, as a profession or
+          hobby.
         </p>
       </header>
 

@@ -67,8 +67,7 @@ export default function Route() {
               className="h-40 object-contain"
             />
             <h2>
-              Exhibition <span className="text-pink-500">"{params.slug}"</span> is not
-              found
+              Exhibition <span className="text-pink-500">"{params.slug}"</span> is not found
             </h2>
             <Button asChild>
               <Link to="/exhibitions">Back to All Exhibitions</Link>
@@ -106,11 +105,7 @@ export default function Route() {
           <section className="flex flex-wrap gap-4">
             {exhibition.artists.map(artist => {
               return (
-                <Link
-                  key={artist.id}
-                  to={`/artists/${artist.slug}`}
-                  className="hover-opacity"
-                >
+                <Link key={artist.id} to={`/artists/${artist.slug}`} className="hover-opacity">
                   <span
                     className={cn(
                       "text-xl font-bold",
@@ -144,9 +139,7 @@ export default function Route() {
 
                           <div className="flex-grow" />
 
-                          <CardTitle className="text-center text-2xl">
-                            {artwork.title}
-                          </CardTitle>
+                          <CardTitle className="text-center text-2xl">{artwork.title}</CardTitle>
                         </CardHeader>
                       </Card>
                     </Link>

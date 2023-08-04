@@ -7,16 +7,11 @@ import { cn } from "~/libs"
  */
 
 interface Props
-  extends React.DetailedHTMLProps<
-    React.ImgHTMLAttributes<HTMLImageElement>,
-    HTMLImageElement
-  > {
+  extends React.DetailedHTMLProps<React.ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement> {
   src: string
   alt: string
 }
 
 export function Image({ src, alt, className, ...props }: Props) {
-  return (
-    <img src={src} alt={alt} className={cn("rounded", className)} {...props} />
-  )
+  return <img src={src} alt={alt} className={cn("rounded", className)} {...props} />
 }

@@ -47,8 +47,7 @@ export default function Route() {
   const [fileGroup, setFileGroup] = useState<FileGroup>()
   const [fileGroupNumbers, setFileGroupNumbers] = useState<number[]>()
 
-  const isSubmitEnabled =
-    (!isMultiple && fileInfo?.cdnUrl) || (isMultiple && fileGroup?.cdnUrl)
+  const isSubmitEnabled = (!isMultiple && fileInfo?.cdnUrl) || (isMultiple && fileGroup?.cdnUrl)
 
   // Keep in mind changing between multiple and not
   // after uploaded some file(s) could cause the expected behaviors
@@ -109,18 +108,8 @@ export default function Route() {
               // checked, not defaultChecked because dynamic value
               checked={isMultiple}
             />
-            <Input
-              type="hidden"
-              name="fileInfo"
-              value={stringify(fileInfo)}
-              readOnly
-            />
-            <Input
-              type="hidden"
-              name="fileGroup"
-              value={stringify(fileGroup)}
-              readOnly
-            />
+            <Input type="hidden" name="fileInfo" value={stringify(fileInfo)} readOnly />
+            <Input type="hidden" name="fileGroup" value={stringify(fileGroup)} readOnly />
           </div>
 
           <div>
@@ -131,10 +120,7 @@ export default function Route() {
               {/* If no file/files yet */}
               {!fileInfo && !fileGroup && (
                 <div className="flex h-[inherit] w-full select-none items-center justify-center">
-                  <p>
-                    {isMultiple ? "Some images" : "An image"} will be previewed
-                    here
-                  </p>
+                  <p>{isMultiple ? "Some images" : "An image"} will be previewed here</p>
                 </div>
               )}
 
@@ -180,8 +166,7 @@ export default function Route() {
           >
             {isLoading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
             <span>
-              {isLoading ? "Saving" : "Save"}{" "}
-              {isMultiple ? " Images" : " Image"}
+              {isLoading ? "Saving" : "Save"} {isMultiple ? " Images" : " Image"}
             </span>
           </Button>
         </Form>
@@ -230,9 +215,7 @@ export async function action({ request }: ActionArgs) {
 
     // If multiple, save multiple files info to database (Image table)
     if (multiple && submission?.value?.fileGroup) {
-      const fileGroup: FileGroup = JSON.parse(
-        String(submission?.value?.fileGroup),
-      )
+      const fileGroup: FileGroup = JSON.parse(String(submission?.value?.fileGroup))
       const fileGroupNumbers = Array.from(Array(fileGroup?.count).keys())
 
       if (fileGroup?.count <= 0 && fileGroupNumbers?.length <= 0) {

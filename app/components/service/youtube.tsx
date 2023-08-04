@@ -6,12 +6,7 @@ interface Props
   youtubeEmbedId: string
 }
 
-export const YouTubeVideo = ({
-  youtubeEmbedId,
-  title,
-  className,
-  ...props
-}: Props) => {
+export const YouTubeVideo = ({ youtubeEmbedId, title, className, ...props }: Props) => {
   return (
     <iframe
       title={title}

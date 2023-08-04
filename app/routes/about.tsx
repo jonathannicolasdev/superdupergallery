@@ -44,15 +44,8 @@ export default function RouteComponent() {
           <ul className="flex flex-wrap gap-10">
             {dataTeamMembers.map(person => {
               return (
-                <li
-                  key={person.slug}
-                  className="flex flex-col items-center gap-2"
-                >
-                  <img
-                    src={person.avatarImageURL}
-                    alt={person.name}
-                    className="h-80 w-80"
-                  />
+                <li key={person.slug} className="flex flex-col items-center gap-2">
+                  <img src={person.avatarImageURL} alt={person.name} className="h-80 w-80" />
                   <h3>{person.name}</h3>
                   <p className="text-xl">{person.role}</p>
                 </li>

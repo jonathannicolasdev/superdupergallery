@@ -1,12 +1,6 @@
 import type { ActionArgs, LoaderArgs } from "@remix-run/node"
 import { json, redirect } from "@remix-run/node"
-import {
-  Form,
-  Link,
-  useActionData,
-  useLoaderData,
-  useNavigation,
-} from "@remix-run/react"
+import { Form, Link, useActionData, useLoaderData, useNavigation } from "@remix-run/react"
 import { conform, parse, useForm } from "@conform-to/react"
 import { parse as parseZod } from "@conform-to/zod"
 import type { User } from "@prisma/client"
@@ -15,20 +9,9 @@ import type * as z from "zod"
 
 import { authenticator } from "~/services/auth.server"
 import { prisma } from "~/libs"
-import {
-  Alert,
-  Button,
-  FormDescription,
-  FormField,
-  FormLabel,
-  Input,
-} from "~/components"
+import { Alert, Button, FormDescription, FormField, FormLabel, Input } from "~/components"
 import { model } from "~/models"
-import {
-  schemaUserUpdateName,
-  schemaUserUpdateNick,
-  schemaUserUpdateUsername,
-} from "~/schemas"
+import { schemaUserUpdateName, schemaUserUpdateNick, schemaUserUpdateUsername } from "~/schemas"
 
 export const loader = async ({ request }: LoaderArgs) => {
   const userSession = await authenticator.isAuthenticated(request)
@@ -71,11 +54,7 @@ export default function Route() {
   )
 }
 
-export function UserUsernameForm({
-  user,
-}: {
-  user: Pick<User, "id" | "username">
-}) {
+export function UserUsernameForm({ user }: { user: Pick<User, "id" | "username"> }) {
   const actionData = useActionData<typeof action>()
   const navigation = useNavigation()
   const isSubmitting = navigation.state === "submitting"
@@ -91,10 +70,7 @@ export function UserUsernameForm({
 
   return (
     <Form {...form.props} replace method="PUT" className="space-y-6">
-      <fieldset
-        disabled={isSubmitting}
-        className="space-y-2 disabled:opacity-80"
-      >
+      <fieldset disabled={isSubmitting} className="space-y-2 disabled:opacity-80">
         <input hidden {...conform.input(id)} defaultValue={user.id} />
 
         <FormField>
@@ -106,8 +82,7 @@ export function UserUsernameForm({
             placeholder="yourname"
           />
           <FormDescription>
-            Your public username as @username and your URL namespace within
-            Super Duper Gallery
+            Your public username as @username and your URL namespace within Super Duper Gallery
           </FormDescription>
           {username.error && (
             <Alert variant="destructive" id={username.errorId}>
@@ -146,10 +121,7 @@ export function UserNameForm({ user }: { user: Pick<User, "id" | "name"> }) {
 
   return (
     <Form {...form.props} replace method="PUT" className="space-y-6">
-      <fieldset
-        disabled={isSubmitting}
-        className="space-y-2 disabled:opacity-80"
-      >
+      <fieldset disabled={isSubmitting} className="space-y-2 disabled:opacity-80">
         <input hidden {...conform.input(id)} defaultValue={user.id} />
 
         <FormField>
@@ -161,8 +133,8 @@ export function UserNameForm({ user }: { user: Pick<User, "id" | "name"> }) {
             placeholder="Your Full Name"
           />
           <FormDescription>
-            Please enter your full name, or a display name you are comfortable
-            with, can be real name or a pseudonym
+            Please enter your full name, or a display name you are comfortable with, can be real
+            name or a pseudonym
           </FormDescription>
           {name.error && (
             <Alert variant="destructive" id={name.errorId}>
@@ -201,10 +173,7 @@ export function UserNickForm({ user }: { user: Pick<User, "id" | "nick"> }) {
 
   return (
     <Form {...form.props} replace method="PUT" className="space-y-6">
-      <fieldset
-        disabled={isSubmitting}
-        className="space-y-2 disabled:opacity-80"
-      >
+      <fieldset disabled={isSubmitting} className="space-y-2 disabled:opacity-80">
         <input hidden {...conform.input(id)} defaultValue={user.id} />
 
         <FormField>

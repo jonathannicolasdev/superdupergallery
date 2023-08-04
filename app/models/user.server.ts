@@ -120,9 +120,7 @@ export const mutation = {
   }: Pick<User, "name" | "username" | "email"> & {
     password: string // unencrypted password at first
   }) {
-    const nameIsUnallowed = dataUsersUnallowed.find(
-      username => name.toLowerCase() === username,
-    )
+    const nameIsUnallowed = dataUsersUnallowed.find(username => name.toLowerCase() === username)
     if (nameIsUnallowed) {
       return { error: { name: `Name ${name} is not allowed` } }
     }
@@ -219,13 +217,8 @@ export const mutation = {
     return prisma.user.delete({ where: { email } })
   },
 
-  async updateUsername({
-    id,
-    username,
-  }: z.infer<typeof schemaUserUpdateUsername>) {
-    const usernameIsUnallowed = dataUsersUnallowed.find(
-      word => word === username.toLowerCase(),
-    )
+  async updateUsername({ id, username }: z.infer<typeof schemaUserUpdateUsername>) {
+    const usernameIsUnallowed = dataUsersUnallowed.find(word => word === username.toLowerCase())
 
     if (usernameIsUnallowed) {
       return { error: { username: `Username ${username} is not allowed` } }
@@ -238,10 +231,7 @@ export const mutation = {
       })
       return { user, error: null }
     } catch (error) {
-      if (
-        error instanceof Prisma.PrismaClientKnownRequestError &&
-        error.code === "P2002"
-      ) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
         return { error: { username: `Username ${username} is taken` } }
       }
       return { error: { username: "Username failed to update" } }
@@ -249,9 +239,7 @@ export const mutation = {
   },
 
   async updateName({ id, name }: z.infer<typeof schemaUserUpdateName>) {
-    const nameIsUnallowed = dataUsersUnallowed.find(
-      word => word === name.toLowerCase(),
-    )
+    const nameIsUnallowed = dataUsersUnallowed.find(word => word === name.toLowerCase())
     if (nameIsUnallowed) {
       return { error: { name: `Name ${name} is not allowed` } }
     }
@@ -265,9 +253,7 @@ export const mutation = {
   },
 
   async updateNick({ id, nick }: z.infer<typeof schemaUserUpdateNick>) {
-    const nickIsUnallowed = dataUsersUnallowed.find(
-      word => word === nick.toLowerCase(),
-    )
+    const nickIsUnallowed = dataUsersUnallowed.find(word => word === nick.toLowerCase())
     if (nickIsUnallowed) {
       return { error: { nick: `Nick ${nick} is not allowed` } }
     }
@@ -285,10 +271,7 @@ export const mutation = {
       const user = await prisma.user.update({ where: { id }, data: { email } })
       return { user, error: null }
     } catch (error) {
-      if (
-        error instanceof Prisma.PrismaClientKnownRequestError &&
-        error.code === "P2002"
-      ) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
         return { error: { email: `Email ${email} might already used` } }
       }
       return { error: { username: "Email failed to update" } }

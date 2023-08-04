@@ -10,15 +10,7 @@ import {
 
 import { cn, prisma } from "~/libs"
 import { createCacheHeaders, formatPluralItems } from "~/utils"
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  Debug,
-  Image,
-  Layout,
-  SearchForm,
-} from "~/components"
+import { Card, CardHeader, CardTitle, Debug, Image, Layout, SearchForm } from "~/components"
 
 export async function loader({ request }: LoaderArgs) {
   const url = new URL(request.url)
@@ -113,8 +105,7 @@ export default function ArtworksRoute() {
 
         {query && count > 0 && (
           <p className="text-muted-foreground">
-            Found {formatPluralItems("artwork", count)} with keyword "{query}" in page{" "}
-            {page}
+            Found {formatPluralItems("artwork", count)} with keyword "{query}" in page {page}
           </p>
         )}
       </section>
@@ -140,9 +131,7 @@ export default function ArtworksRoute() {
 
                         <div className="flex-grow" />
 
-                        <CardTitle className="text-center text-2xl">
-                          {artwork.title}
-                        </CardTitle>
+                        <CardTitle className="text-center text-2xl">{artwork.title}</CardTitle>
 
                         <p>{artwork.artist?.name}</p>
                       </CardHeader>
@@ -165,14 +154,9 @@ export default function ArtworksRoute() {
 }
 
 function Pagination() {
-  const { query, page, limit, totalPages, navigationItems } =
-    useLoaderData<typeof loader>()
+  const { query, page, limit, totalPages, navigationItems } = useLoaderData<typeof loader>()
 
-  const renderArrowLink = (
-    direction: string,
-    icon: React.ReactNode,
-    targetPage: number,
-  ) => {
+  const renderArrowLink = (direction: string, icon: React.ReactNode, targetPage: number) => {
     const isPrev = direction === "prev"
     const isNext = direction === "next"
     const isFirst = direction === "first"
@@ -187,11 +171,7 @@ function Pagination() {
       (isNext && page < totalPages)
 
     if (!isPossible) {
-      return (
-        <span className="flex w-8 select-none justify-center px-1 opacity-20">
-          {icon}
-        </span>
-      )
+      return <span className="flex w-8 select-none justify-center px-1 opacity-20">{icon}</span>
     }
 
     return (

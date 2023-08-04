@@ -26,9 +26,7 @@ export async function requireUserSession(
   invariant(userData, "User is not available")
 
   // Check role if expectedRoleSymbols exist
-  const userIsAllowed = expectedRoleSymbols
-    ? requireUserRole(userData, expectedRoleSymbols)
-    : true
+  const userIsAllowed = expectedRoleSymbols ? requireUserRole(userData, expectedRoleSymbols) : true
 
   return {
     userSession,
@@ -41,10 +39,7 @@ export async function requireUserSession(
 // Can be used client-side or server-side
 // This simulate a limited RBAC (Role Based Access Control) functionality
 // but obviously not perfect
-export function requireUserRole(
-  user: UserData,
-  expectedRoleSymbols?: UserRole["symbol"][],
-) {
+export function requireUserRole(user: UserData, expectedRoleSymbols?: UserRole["symbol"][]) {
   // Find if user's role is available in the list
   const userIsAllowed = checkIfUserIsAllowed(user, expectedRoleSymbols)
 
@@ -56,15 +51,10 @@ export function requireUserRole(
   }
 }
 
-export function checkIfUserIsAllowed(
-  user?: UserData,
-  expectedRoleSymbols?: UserRole["symbol"][],
-) {
+export function checkIfUserIsAllowed(user?: UserData, expectedRoleSymbols?: UserRole["symbol"][]) {
   if (!user) {
     return false
   }
-  const userIsAllowed = expectedRoleSymbols?.find(
-    symbol => user?.role?.symbol === symbol,
-  )
+  const userIsAllowed = expectedRoleSymbols?.find(symbol => user?.role?.symbol === symbol)
   return userIsAllowed ? true : false
 }

@@ -1,9 +1,6 @@
 import type { UserRole } from "@prisma/client"
 
-export type DataUserRole = Pick<
-  UserRole,
-  "sequence" | "symbol" | "name" | "description"
->
+export type DataUserRole = Pick<UserRole, "sequence" | "symbol" | "name" | "description">
 
 export const dataUserRoles: DataUserRole[] = [
   {

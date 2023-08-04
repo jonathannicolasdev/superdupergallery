@@ -4,12 +4,11 @@ import type * as LabelPrimitive from "@radix-ui/react-label"
 import { cn } from "~/libs"
 import { Label } from "~/components"
 
-const FormField = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLParagraphElement>
->(({ className, ...props }, ref) => {
-  return <div ref={ref} className={cn("space-y-2", className)} {...props} />
-})
+const FormField = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLParagraphElement>>(
+  ({ className, ...props }, ref) => {
+    return <div ref={ref} className={cn("space-y-2", className)} {...props} />
+  },
+)
 FormField.displayName = "FormField"
 
 const FormLabel = React.forwardRef<
@@ -24,13 +23,7 @@ const FormDescription = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, ...props }, ref) => {
-  return (
-    <p
-      ref={ref}
-      className={cn("text-[0.8rem] text-muted-foreground", className)}
-      {...props}
-    />
-  )
+  return <p ref={ref} className={cn("text-[0.8rem] text-muted-foreground", className)} {...props} />
 })
 FormDescription.displayName = "FormDescription"
 
@@ -39,11 +32,7 @@ const FormMessage = React.forwardRef<
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, children, ...props }, ref) => {
   return (
-    <p
-      ref={ref}
-      className={cn("text-[0.8rem] font-medium text-destructive", className)}
-      {...props}
-    >
+    <p ref={ref} className={cn("text-[0.8rem] font-medium text-destructive", className)} {...props}>
       {children}
     </p>
   )

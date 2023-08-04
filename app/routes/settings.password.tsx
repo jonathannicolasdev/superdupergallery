@@ -1,11 +1,6 @@
 import type { ActionArgs, LoaderArgs } from "@remix-run/node"
 import { json, redirect } from "@remix-run/node"
-import {
-  Form,
-  useActionData,
-  useLoaderData,
-  useNavigation,
-} from "@remix-run/react"
+import { Form, useActionData, useLoaderData, useNavigation } from "@remix-run/react"
 import { conform, parse, useForm } from "@conform-to/react"
 import { parse as parseZod } from "@conform-to/zod"
 import type { User } from "@prisma/client"
@@ -14,14 +9,7 @@ import type * as z from "zod"
 
 import { authenticator } from "~/services/auth.server"
 import { prisma } from "~/libs"
-import {
-  Alert,
-  Button,
-  FormDescription,
-  FormField,
-  FormLabel,
-  InputPassword,
-} from "~/components"
+import { Alert, Button, FormDescription, FormField, FormLabel, InputPassword } from "~/components"
 import { model } from "~/models"
 import { schemaUserUpdatePassword } from "~/schemas"
 
@@ -73,10 +61,7 @@ export function UserPasswordForm({ user }: { user: Pick<User, "id"> }) {
 
   return (
     <Form {...form.props} replace method="PUT" className="space-y-6">
-      <fieldset
-        disabled={isSubmitting}
-        className="space-y-4 disabled:opacity-80"
-      >
+      <fieldset disabled={isSubmitting} className="space-y-4 disabled:opacity-80">
         <input hidden {...conform.input(id)} defaultValue={user.id} />
 
         <FormField>
@@ -97,9 +82,7 @@ export function UserPasswordForm({ user }: { user: Pick<User, "id"> }) {
         </FormField>
 
         <FormField>
-          <FormLabel htmlFor={confirmPassword.id}>
-            Confirm New Password
-          </FormLabel>
+          <FormLabel htmlFor={confirmPassword.id}>Confirm New Password</FormLabel>
           <InputPassword
             {...conform.input(confirmPassword)}
             placeholder="Confirm your new password"

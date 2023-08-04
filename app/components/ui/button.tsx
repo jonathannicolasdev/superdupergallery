@@ -17,9 +17,9 @@ const buttonVariants = cva(
           "border-2 border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
         secondary:
           "border-2 border-secondary bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
-        ghost:
-          "border-2 border-background hover:bg-accent hover:text-accent-foreground",
+        ghost: "border-2 border-background hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        navlink: "text-xs hover:bg-pink-100 dark:hover:bg-pink-900 sm:text-sm",
       },
       size: {
         default: "h-9 px-4 py-2 text-base",
@@ -28,10 +28,20 @@ const buttonVariants = cva(
         lg: "h-10 rounded px-8 text-lg",
         icon: "h-9 w-9",
       },
+      align: {
+        default: "items-center justify-center text-center",
+        left: "items-center justify-start text-left",
+      },
+      // to be used with variant="navlink"
+      isActive: {
+        true: "bg-pink-100 dark:bg-pink-900",
+        false: "",
+      },
     },
     defaultVariants: {
       variant: "default",
       size: "default",
+      align: "default",
     },
   },
 )
@@ -46,11 +56,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button"
     return (
-      <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
-        ref={ref}
-        {...props}
-      />
+      <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />
     )
   },
 )

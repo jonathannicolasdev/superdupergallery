@@ -9,10 +9,7 @@ interface Props {
   placeholder?: string
 }
 
-export function SearchForm({
-  action = "/search",
-  placeholder = "Search",
-}: Props) {
+export function SearchForm({ action = "/search", placeholder = "Search" }: Props) {
   const isScreenLarge = useScreenLarge()
   const [searchParams] = useSearchParams()
   const query = searchParams.get("q") || ""

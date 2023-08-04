@@ -16,15 +16,11 @@ export function Footer({ className }: Props) {
   const today = new Date()
 
   return (
-    <footer
-      className={cn("flex justify-center pb-20 pt-80 lg:pb-10", className)}
-    >
+    <footer className={cn("flex justify-center pb-20 pt-80 lg:pb-10", className)}>
       <div className="flex flex-col flex-wrap items-center justify-center gap-4 text-muted-foreground sm:flex-row sm:gap-8">
         <p>
           <span>&copy; {today.getFullYear()} </span>
-          <Anchor href="https://github.com/superdupergallery">
-            🐈 Super Duper Gallery
-          </Anchor>
+          <Anchor href="https://github.com/superdupergallery">🐈 Super Duper Gallery</Anchor>
         </p>
 
         {/* <FooterNavigation /> */}

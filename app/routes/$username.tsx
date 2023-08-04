@@ -13,9 +13,7 @@ export const meta: V2_MetaFunction<typeof loader> = ({ params, data }) => {
   if (!data?.user) {
     return [
       {
-        title: formatTitle(
-          `Sorry, "${params.username}" is not found or this page isn't available`,
-        ),
+        title: formatTitle(`Sorry, "${params.username}" is not found or this page isn't available`),
       },
       {
         name: "description",
@@ -63,12 +61,10 @@ export default function Route() {
             />
             <h2>
               This page isn't available or{" "}
-              <span className="text-pink-500">"{params.username}"</span> is not
-              found
+              <span className="text-pink-500">"{params.username}"</span> is not found
             </h2>
             <p className="text-muted-foreground">
-              The link you followed may be broken, or the page may have been
-              removed.
+              The link you followed may be broken, or the page may have been removed.
             </p>
             <Button asChild>
               <Link to="/">Back to Home</Link>
@@ -113,9 +109,7 @@ export default function Route() {
 
         <div className="space-y-4">
           <h3>{user.profiles[0]?.headline}</h3>
-          <p className="prose dark:prose-invert whitespace-pre-wrap">
-            {user.profiles[0]?.bio}
-          </p>
+          <p className="prose dark:prose-invert whitespace-pre-wrap">{user.profiles[0]?.bio}</p>
         </div>
 
         <Debug name="user">{{ params, userSession, user }}</Debug>

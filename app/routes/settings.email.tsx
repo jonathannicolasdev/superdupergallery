@@ -1,11 +1,6 @@
 import type { ActionArgs, LoaderArgs } from "@remix-run/node"
 import { json, redirect } from "@remix-run/node"
-import {
-  Form,
-  useActionData,
-  useLoaderData,
-  useNavigation,
-} from "@remix-run/react"
+import { Form, useActionData, useLoaderData, useNavigation } from "@remix-run/react"
 import { conform, parse, useForm } from "@conform-to/react"
 import { parse as parseZod } from "@conform-to/zod"
 import type { User } from "@prisma/client"
@@ -14,14 +9,7 @@ import type * as z from "zod"
 
 import { authenticator } from "~/services/auth.server"
 import { prisma } from "~/libs"
-import {
-  Alert,
-  Button,
-  FormDescription,
-  FormField,
-  FormLabel,
-  Input,
-} from "~/components"
+import { Alert, Button, FormDescription, FormField, FormLabel, Input } from "~/components"
 import { model } from "~/models"
 import { schemaUserUpdateEmail } from "~/schemas"
 
@@ -71,10 +59,7 @@ export function UserEmailForm({ user }: { user: Pick<User, "id" | "email"> }) {
 
   return (
     <Form {...form.props} replace method="PUT" className="space-y-6">
-      <fieldset
-        disabled={isSubmitting}
-        className="space-y-2 disabled:opacity-80"
-      >
+      <fieldset disabled={isSubmitting} className="space-y-2 disabled:opacity-80">
         <input hidden {...conform.input(id)} defaultValue={user.id} />
 
         <FormField>
@@ -86,8 +71,7 @@ export function UserEmailForm({ user }: { user: Pick<User, "id" | "email"> }) {
             placeholder="you@yourname.com"
           />
           <FormDescription>
-            Please enter your most active email address, to use to log in with
-            Super Duper Gallery.
+            Please enter your most active email address, to use to log in with Super Duper Gallery.
           </FormDescription>
           {email.error && (
             <Alert variant="destructive" id={email.errorId}>

@@ -4,15 +4,12 @@ import { prisma } from "~/libs"
 import { HttpStatus } from "~/utils"
 
 export async function loader({ request }: LoaderArgs) {
-  const host =
-    request.headers.get("X-Forwarded-Host") ?? request.headers.get("host")
+  const host = request.headers.get("X-Forwarded-Host") ?? request.headers.get("host")
 
   try {
     const url = new URL(
       "/",
-      process.env.NODE_ENV === "development"
-        ? `http://${host}`
-        : `https://${host}`,
+      process.env.NODE_ENV === "development" ? `http://${host}` : `https://${host}`,
     )
 
     // If we can connect to the database and make a simple query

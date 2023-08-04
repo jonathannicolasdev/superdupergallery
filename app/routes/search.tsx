@@ -3,15 +3,7 @@ import { Link, useLoaderData, type V2_MetaFunction } from "@remix-run/react"
 
 import { prisma } from "~/libs"
 import { formatPluralItems, formatTitle } from "~/utils"
-import {
-  AvatarAuto,
-  Card,
-  CardHeader,
-  CardTitle,
-  Image,
-  Layout,
-  SearchForm,
-} from "~/components"
+import { AvatarAuto, Card, CardHeader, CardTitle, Image, Layout, SearchForm } from "~/components"
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   const query = data?.query || ""
@@ -95,9 +87,7 @@ export default function Route() {
           <img src="/images/cat-hole.png" alt="Cat" className="h-10" />
           <span>Search</span>
         </h1>
-        <p className="text-muted-foreground">
-          Find anything in Super Duper Gallery
-        </p>
+        <p className="text-muted-foreground">Find anything in Super Duper Gallery</p>
         <SearchForm />
       </header>
 
@@ -120,20 +110,17 @@ export default function Route() {
                   <Link to={`/artworks/${artwork.slug}`}>
                     <Card className="hover-opacity h-full space-y-2">
                       <CardHeader className="flex flex-col items-center space-y-2 p-4">
-                        {artwork.images?.length > 0 &&
-                          artwork.images[0]?.url && (
-                            <Image
-                              src={`${artwork.images[0].url}`}
-                              alt={`${artwork.title}`}
-                              className="h-40 w-40"
-                            />
-                          )}
+                        {artwork.images?.length > 0 && artwork.images[0]?.url && (
+                          <Image
+                            src={`${artwork.images[0].url}`}
+                            alt={`${artwork.title}`}
+                            className="h-40 w-40"
+                          />
+                        )}
 
                         <div className="flex-grow" />
 
-                        <CardTitle className="text-2xl">
-                          {artwork.title}
-                        </CardTitle>
+                        <CardTitle className="text-2xl">{artwork.title}</CardTitle>
                       </CardHeader>
                     </Card>
                   </Link>
@@ -164,9 +151,7 @@ export default function Route() {
                           className="h-20 w-20"
                         />
 
-                        <CardTitle className="text-2xl">
-                          {artist.name}
-                        </CardTitle>
+                        <CardTitle className="text-2xl">{artist.name}</CardTitle>
                       </CardHeader>
                     </Card>
                   </Link>

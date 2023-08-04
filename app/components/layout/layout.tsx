@@ -8,12 +8,7 @@ interface Props {
   hasFooter?: boolean
 }
 
-export function Layout({
-  className,
-  children,
-  hasHeader = true,
-  hasFooter = true,
-}: Props) {
+export function Layout({ className, children, hasHeader = true, hasFooter = true }: Props) {
   return (
     <div className="lg:ml-16">
       <HeaderNavigation />
@@ -21,9 +16,7 @@ export function Layout({
       <div className="flex min-h-screen flex-col items-center">
         {hasHeader && <SiteHeader />}
 
-        <main className={cn("w-full max-w-7xl flex-[1]", className)}>
-          {children}
-        </main>
+        <main className={cn("w-full max-w-7xl flex-[1]", className)}>{children}</main>
 
         {hasFooter && <Footer />}
       </div>

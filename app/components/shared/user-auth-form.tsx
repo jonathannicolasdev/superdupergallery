@@ -68,12 +68,7 @@ export const SocialAuthButton = ({
 
   return (
     <Form method="POST" action={`/auth/${provider}`} className="w-full">
-      <Button
-        type="submit"
-        variant="outline"
-        disabled={disabled || isLoading}
-        className="w-full"
-      >
+      <Button type="submit" variant="outline" disabled={disabled || isLoading} className="w-full">
         {isLoading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
         {!isLoading && icon}
         <span>{label}</span>

@@ -10,9 +10,7 @@ export type RootLoaderData = {
   userData: UserData | undefined
 }
 
-export function useMatchesData(
-  routeId: string,
-): Record<string, unknown> | RootLoaderData {
+export function useMatchesData(routeId: string): Record<string, unknown> | RootLoaderData {
   const matchingRoutes = useMatches()
   const route = useMemo(
     () => matchingRoutes.find(route => route.id === routeId),

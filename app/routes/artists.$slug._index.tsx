@@ -60,11 +60,7 @@ export default function ArtistsRoute() {
       <div className="space-y-10">
         <header className="flex flex-col items-center space-y-2">
           {artist.image?.url && (
-            <Image
-              src={`${artist.image.url}`}
-              alt={`${artist.name}`}
-              className="h-40 w-40"
-            />
+            <Image src={`${artist.image.url}`} alt={`${artist.name}`} className="h-40 w-40" />
           )}
           <h1 className="flex">
             <Link to={`/artists/${artist.slug}`} className="hover-opacity">
@@ -93,9 +89,7 @@ export default function ArtistsRoute() {
 
                           <div className="flex-grow" />
 
-                          <CardTitle className="text-center text-2xl">
-                            {artwork.title}
-                          </CardTitle>
+                          <CardTitle className="text-center text-2xl">{artwork.title}</CardTitle>
                         </CardHeader>
                       </Card>
                     </Link>
