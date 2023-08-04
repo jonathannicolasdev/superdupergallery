@@ -3,59 +3,209 @@
     "edition": 1,
     "title": "Like Candy",
     "date": "2021-10-10",
-    "imageURL": "https://ucarecdn.com/121e8b2a-01a1-491f-b0a9-af9d940086b9/-/preview/938x432/-/quality/smart/-/format/auto/"
+    "imageURL": "https://ucarecdn.com/121e8b2a-01a1-491f-b0a9-af9d940086b9/-/preview/938x432/-/quality/smart/-/format/auto/",
+    "isPublished": true
   },
   {
     "edition": 2,
     "title": "The Universe Smiles Back At You",
     "date": "2021-12-05",
-    "imageURL": "https://ucarecdn.com/edaa89d9-539e-41e8-bb03-3de34229ab2a/-/preview/938x432/-/quality/smart/-/format/auto/"
+    "imageURL": "https://ucarecdn.com/edaa89d9-539e-41e8-bb03-3de34229ab2a/-/preview/938x432/-/quality/smart/-/format/auto/",
+    "isPublished": true
   },
-  { "edition": 3, "title": "Double Burner", "date": "2021" },
-  { "edition": 4, "title": "Here Still", "date": "2021" },
-  { "edition": 5, "title": "Too Much Love Will Kill You", "date": "2021" },
-  { "edition": 6, "title": "Gorgonesque", "date": "2021" },
-  { "edition": 7, "title": "Shhhhh", "date": "2021" },
-  { "edition": 8, "title": "Forever Young", "date": "2021" },
-  { "edition": 9, "title": "Warm & Fuzzy Memories", "date": "2021" },
-  { "edition": 10, "title": "AC 50th Anniversary", "date": "2021" },
-  { "edition": 11, "title": "Coronial by Muklay", "date": "2021" },
-  { "edition": 12, "title": "A Day in Paradise", "date": "2021" },
-  { "edition": 13, "title": "13", "date": "2021" },
-  { "edition": 25, "title": "25", "date": "2022" },
-  { "edition": 26, "title": "Continuing", "date": "2022" },
-  { "edition": 27, "title": "Barely Placid", "date": "2022" },
-  { "edition": 28, "title": "High Jinks", "date": "2022" },
-  { "edition": 29, "title": "Erasing Traces", "date": "2022" },
-  { "edition": 30, "title": "Awake & Sleep", "date": "2022" },
-  { "edition": 31, "title": "AFP Dancing in Supernova", "date": "2022" },
-  { "edition": 32, "title": "Gathering Flowers", "date": "2022" },
-  { "edition": 33, "title": "Fragments", "date": "2022" },
-  { "edition": 34, "title": "Aesthetic Gang", "date": "2022" },
-  { "edition": 35, "title": "Dark Lenses", "date": "2022" },
-  { "edition": 36, "title": "Fill The Empty Room", "date": "2022" },
-  { "edition": 37, "title": "Flåner", "date": "2022" },
-  { "edition": 38, "title": "38", "date": "2022" },
-  { "edition": 39, "title": "Come Over", "date": "2022" },
-  { "edition": 40, "title": "Nawong", "date": "2022" },
-  { "edition": 41, "title": "41", "date": "2023" },
-  { "edition": 42, "title": "42", "date": "2023" },
+  {
+    "edition": 3,
+    "title": "Double Burner",
+    "date": "2021",
+    "isPublished": true
+  },
+  {
+    "edition": 4,
+    "title": "Here Still",
+    "date": "2021",
+    "isPublished": true
+  },
+  {
+    "edition": 5,
+    "title": "Too Much Love Will Kill You",
+    "date": "2021",
+    "isPublished": true
+  },
+  {
+    "edition": 6,
+    "title": "Gorgonesque",
+    "date": "2021",
+    "isPublished": true
+  },
+  {
+    "edition": 7,
+    "title": "Shhhhh",
+    "date": "2021",
+    "isPublished": true
+  },
+  {
+    "edition": 8,
+    "title": "Forever Young",
+    "date": "2021",
+    "isPublished": true
+  },
+  {
+    "edition": 9,
+    "title": "Warm & Fuzzy Memories",
+    "date": "2021",
+    "isPublished": true
+  },
+  {
+    "edition": 10,
+    "title": "AC 50th Anniversary",
+    "date": "2021",
+    "isPublished": true
+  },
+  {
+    "edition": 11,
+    "title": "Coronial by Muklay",
+    "date": "2021",
+    "isPublished": true
+  },
+  {
+    "edition": 12,
+    "title": "A Day in Paradise",
+    "date": "2021",
+    "isPublished": true
+  },
+  {
+    "edition": 13,
+    "title": "13",
+    "date": "2021",
+    "isPublished": false
+  },
+  {
+    "edition": 25,
+    "title": "25",
+    "date": "2022",
+    "isPublished": false
+  },
+  {
+    "edition": 26,
+    "title": "Continuing",
+    "date": "2022",
+    "isPublished": true
+  },
+  {
+    "edition": 27,
+    "title": "Barely Placid",
+    "date": "2022",
+    "isPublished": true
+  },
+  {
+    "edition": 28,
+    "title": "High Jinks",
+    "date": "2022",
+    "isPublished": true
+  },
+  {
+    "edition": 29,
+    "title": "Erasing Traces",
+    "date": "2022",
+    "isPublished": true
+  },
+  {
+    "edition": 30,
+    "title": "Awake & Sleep",
+    "date": "2022",
+    "isPublished": true
+  },
+  {
+    "edition": 31,
+    "title": "AFP Dancing in Supernova",
+    "date": "2022",
+    "isPublished": true
+  },
+  {
+    "edition": 32,
+    "title": "Gathering Flowers",
+    "date": "2022",
+    "isPublished": true
+  },
+  {
+    "edition": 33,
+    "title": "Fragments",
+    "date": "2022",
+    "isPublished": true
+  },
+  {
+    "edition": 34,
+    "title": "Aesthetic Gang",
+    "date": "2022",
+    "isPublished": true
+  },
+  {
+    "edition": 35,
+    "title": "Dark Lenses",
+    "date": "2022",
+    "isPublished": true
+  },
+  {
+    "edition": 36,
+    "title": "Fill The Empty Room",
+    "date": "2022",
+    "isPublished": true
+  },
+  {
+    "edition": 37,
+    "title": "Flåner",
+    "date": "2022",
+    "isPublished": true
+  },
+  {
+    "edition": 38,
+    "title": "38",
+    "date": "2022",
+    "isPublished": false
+  },
+  {
+    "edition": 39,
+    "title": "Come Over",
+    "date": "2022",
+    "isPublished": true
+  },
+  {
+    "edition": 40,
+    "title": "Nawong",
+    "date": "2022",
+    "isPublished": true
+  },
+  {
+    "edition": 41,
+    "title": "41",
+    "date": "2023",
+    "isPublished": false
+  },
+  {
+    "edition": 42,
+    "title": "42",
+    "date": "2023",
+    "isPublished": false
+  },
   {
     "edition": 43,
     "title": "Divine Foolishness",
     "date": "2023-06-11",
-    "imageURL": "https://ucarecdn.com/1e48a0fd-881f-4537-a076-0c37deb9ceda/-/preview/938x432/-/quality/smart/-/format/auto/"
+    "imageURL": "https://ucarecdn.com/1e48a0fd-881f-4537-a076-0c37deb9ceda/-/preview/938x432/-/quality/smart/-/format/auto/",
+    "isPublished": true
   },
   {
     "edition": 44,
     "title": "Journey",
     "date": "2023-06-11",
-    "imageURL": "https://ucarecdn.com/b352054e-065c-46c8-9142-53030bb18cb1/-/preview/938x432/-/quality/smart/-/format/auto/"
+    "imageURL": "https://ucarecdn.com/b352054e-065c-46c8-9142-53030bb18cb1/-/preview/938x432/-/quality/smart/-/format/auto/",
+    "isPublished": true
   },
   {
     "edition": 45,
     "title": "Wound",
     "date": "2023-07-15",
-    "imageURL": "https://ucarecdn.com/92d40530-041d-4fec-9da5-6e80464e9710/-/preview/938x432/-/quality/smart/-/format/auto/"
+    "imageURL": "https://ucarecdn.com/92d40530-041d-4fec-9da5-6e80464e9710/-/preview/938x432/-/quality/smart/-/format/auto/",
+    "isPublished": true
   }
 ]

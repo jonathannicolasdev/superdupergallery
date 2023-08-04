@@ -240,6 +240,8 @@ model Exhibition {
   date        DateTime?
   description String?   @db.Text
 
+  isPublished Boolean? @default(true)
+
   images   ExhibitionImage[]
   artists  Artist[]
   artworks Artwork[]
