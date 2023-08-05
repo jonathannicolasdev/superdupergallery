@@ -67,7 +67,7 @@ export function LandingHero() {
             artworks
           </p>
           {!userSession && (
-            <div className="flex flex-wrap justify-center gap-4">
+            <div className="flex flex-wrap justify-center gap-8">
               <Button size="lg" asChild>
                 <Link to="/artworks">Discover Artworks</Link>
               </Button>
@@ -97,7 +97,7 @@ export function LandingArtworks() {
         </Link>
       </header>
 
-      <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
+      <ul className="grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-8 md:grid-cols-3 lg:grid-cols-4">
         {artworks.map(artwork => {
           return (
             <li key={artwork.id} className="w-full">
@@ -137,7 +137,7 @@ export function LandingExhibitions() {
         </Link>
       </header>
 
-      <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
+      <ul className="grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-8 md:grid-cols-3 lg:grid-cols-4">
         {exhibitions.map(exhibition => {
           return (
             <li key={exhibition.id} className="w-full">

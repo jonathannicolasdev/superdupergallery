@@ -20,11 +20,11 @@ export function SiteHeader() {
     <header className="w-full max-w-7xl p-4">
       <div className="flex flex-wrap justify-between rounded border-2 border-white lg:flex-nowrap">
         <div className="flex w-full justify-center border-white p-2 sm:max-w-[250px] sm:justify-start">
-          <NavLink to="/" className="flex gap-2">
+          <NavLink to="/" className="flex items-center gap-2">
             <img
               src="/images/superdupergallery.png"
               alt="Super Duper Gallery"
-              className="h-24 w-24"
+              className="h-28 w-28"
             />
             <span className="flex flex-col justify-center gap-1 text-2xl font-bold uppercase">
               <span>Super</span>
