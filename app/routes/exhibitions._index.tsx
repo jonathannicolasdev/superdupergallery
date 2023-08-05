@@ -35,7 +35,7 @@ export async function loader({ request }: LoaderArgs) {
 
   if (!query) {
     const exhibitions = await prisma.exhibition.findMany({
-      orderBy: { edition: "asc" },
+      orderBy: { edition: "desc" },
       include: {
         images: true,
         artworks: true,
@@ -50,7 +50,7 @@ export async function loader({ request }: LoaderArgs) {
   }
 
   const exhibitions = await prisma.exhibition.findMany({
-    orderBy: { edition: "asc" },
+    orderBy: { edition: "desc" },
     include: {
       images: true,
       artworks: true,

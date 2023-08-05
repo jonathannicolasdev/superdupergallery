@@ -4,13 +4,13 @@ import { Link, useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs"
 import { formatDateAndRelative, formatPluralItems, formatTitle } from "~/utils"
-import { Card, Image, ImageExhibition } from "~/components"
+import { Card, ImageExhibition } from "~/components"
 
 export const meta: V2_MetaFunction = () => [{ title: formatTitle(`All Exhibitions`) }]
 
 export const loader = async ({ request }: LoaderArgs) => {
   const exhibitions = await prisma.exhibition.findMany({
-    orderBy: { edition: "asc" },
+    orderBy: { edition: "desc" },
     include: { images: true, artworks: true, artists: true },
   })
   return json({ count: exhibitions.length, exhibitions })
