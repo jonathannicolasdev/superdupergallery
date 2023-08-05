@@ -43,9 +43,7 @@ export default function RouteComponent() {
                         )}
                       </div>
                       <div className="col-span-3">
-                        <h4>
-                          #{exhibition.edition} {exhibition.title}
-                        </h4>
+                        <h4>{exhibition.title}</h4>
                         <div className="text-muted-foreground">
                           <p>{exhibition.slug}</p>
                           <p>

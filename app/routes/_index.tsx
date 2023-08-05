@@ -155,7 +155,6 @@ export function LandingExhibitions() {
                     <div className="flex-grow" />
 
                     <CardTitle className="text-center text-2xl">
-                      {exhibition.edition && <span>#{exhibition.edition} </span>}
                       <span>{exhibition.title}</span>
                     </CardTitle>
                   </CardHeader>

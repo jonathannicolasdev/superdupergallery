@@ -97,7 +97,7 @@ export default function Route() {
 
           <h1 className="flex">
             <Link to={`/exhibitions/${exhibition.slug}`} className="hover-opacity">
-              #{exhibition.edition} {exhibition.title || "Unknown Title"}
+              {exhibition.title}
             </Link>
           </h1>
 

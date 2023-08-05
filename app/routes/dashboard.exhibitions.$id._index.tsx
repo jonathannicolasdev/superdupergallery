@@ -31,9 +31,7 @@ export default function Route() {
       <header className="flex flex-wrap justify-between gap-4">
         <div className="space-y-4">
           <p>Exhibition</p>
-          <h1>
-            #{exhibition.edition} {exhibition.title}
-          </h1>
+          <h1>{exhibition.title}</h1>
           <div className="text-muted-foreground">
             <p>
               <span>ID: </span>

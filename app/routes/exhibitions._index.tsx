@@ -116,9 +116,7 @@ export default function RouteComponent() {
                         className="w-full object-contain"
                       />
 
-                      <CardTitle className="text-2xl">
-                        #{exhibition.edition} {exhibition.title}
-                      </CardTitle>
+                      <CardTitle className="text-2xl">{exhibition.title}</CardTitle>
                     </Card>
                   </Link>
                 </li>
