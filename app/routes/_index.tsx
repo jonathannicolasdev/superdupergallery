@@ -96,13 +96,14 @@ export function LandingArtworks() {
               <Link to={`/artworks/${artwork.slug}`}>
                 <Card className="hover-opacity h-full space-y-2">
                   <CardHeader className="flex flex-col items-center space-y-2 p-4">
-                    {artwork.images?.length > 0 && artwork.images[0]?.url && (
-                      <Image
-                        src={`${artwork.images[0].url}`}
-                        alt={`${artwork.title}`}
-                        className="h-60 w-60 object-contain"
-                      />
-                    )}
+                    <Image
+                      src={
+                        artwork?.images[0]?.url ||
+                        "https://placehold.co/500x500/111/FFF?text=Artwork"
+                      }
+                      alt={`${artwork.title}`}
+                      className="w-full object-contain"
+                    />
 
                     <div className="flex-grow" />
 
@@ -142,13 +143,14 @@ export function LandingExhibitions() {
               <Link to={`/exhibitions/${exhibition.slug}`}>
                 <Card className="hover-opacity h-full space-y-2">
                   <CardHeader className="flex flex-col items-center space-y-2 p-4">
-                    {exhibition.images?.length > 0 && exhibition.images[0]?.url && (
-                      <Image
-                        src={`${exhibition.images[0].url}`}
-                        alt={`${exhibition.title}`}
-                        className="h-60 w-60 object-contain"
-                      />
-                    )}
+                    <Image
+                      src={
+                        exhibition?.images[0]?.url ||
+                        "https://placehold.co/500x500/111/FFF?text=Exhibition"
+                      }
+                      alt={`${exhibition.title}`}
+                      className="h-80 border-2 border-white object-contain"
+                    />
 
                     <div className="flex-grow" />
 
