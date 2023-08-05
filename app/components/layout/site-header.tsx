@@ -12,7 +12,7 @@ const navPublicItems: NavItem[] = [
   { to: "/exhibitions", text: "Exhibitions" },
   { to: "/search", text: "Search" },
   { to: "/about", text: "About" },
-  { to: "/contact", text: "Contact" },
+  // { to: "/contact", text: "Contact" },
 ]
 
 export function SiteHeader() {
