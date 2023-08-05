@@ -3,7 +3,7 @@ import type { V2_MetaFunction } from "@remix-run/react"
 import { Link, useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs"
-import { formatDateOnly, formatPluralItems, formatTitle } from "~/utils"
+import { formatDateAndRelative, formatPluralItems, formatTitle } from "~/utils"
 import { Card, Image } from "~/components"
 
 export const meta: V2_MetaFunction = () => [{ title: formatTitle(`All Exhibitions`) }]
@@ -20,12 +20,10 @@ export default function RouteComponent() {
   const { count, exhibitions } = useLoaderData<typeof loader>()
   return (
     <>
-      <h1 className="flex items-center gap-2 text-4xl text-brand">Exhibitions</h1>
-
-      <section>
-        {count <= 0 && <p>No exhibition found</p>}
-        {count > 0 && <p>{formatPluralItems("exhibition", count)}</p>}
-      </section>
+      <header>
+        <h1 className="flex items-center gap-2 text-4xl text-brand">Exhibitions</h1>
+        <p>{formatPluralItems("exhibition", count)}</p>
+      </header>
 
       {count > 0 && (
         <section>
@@ -46,12 +44,12 @@ export default function RouteComponent() {
                       </div>
                       <div className="col-span-3">
                         <h4>
-                          {exhibition.edition}. {exhibition.title}
+                          #{exhibition.edition} {exhibition.title}
                         </h4>
                         <div className="text-muted-foreground">
                           <p>{exhibition.slug}</p>
                           <p>
-                            <time>{formatDateOnly(String(exhibition.date))}</time>
+                            <time>{formatDateAndRelative(exhibition.date)}</time>
                           </p>
                         </div>
                       </div>

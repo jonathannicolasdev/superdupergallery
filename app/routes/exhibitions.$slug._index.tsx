@@ -5,7 +5,12 @@ import { notFound } from "remix-utils"
 import invariant from "tiny-invariant"
 
 import { cn, prisma } from "~/libs"
-import { createCacheHeaders, formatDateOnly, getColorFromString } from "~/utils"
+import {
+  createCacheHeaders,
+  formatDateAndRelative,
+  formatPluralItems,
+  getColorFromString,
+} from "~/utils"
 import { Button, Card, CardHeader, CardTitle, Image, Layout } from "~/components"
 
 export async function loader({ request, params }: LoaderArgs) {
@@ -80,7 +85,7 @@ export default function Route() {
 
   return (
     <Layout className="flex justify-center p-10">
-      <div className="flex w-full flex-col flex-wrap justify-center gap-10 sm:flex-row">
+      <div className="flex w-full flex-col flex-wrap gap-10 sm:flex-row">
         <header className="space-y-4">
           {exhibition.images?.length > 0 && exhibition.images[0]?.url && (
             <Image
@@ -92,53 +97,52 @@ export default function Route() {
 
           <h1 className="flex">
             <Link to={`/exhibitions/${exhibition.slug}`} className="hover-opacity">
-              {exhibition.title || "Unknown Title"}
+              #{exhibition.edition} {exhibition.title || "Unknown Title"}
             </Link>
           </h1>
 
-          <div className="space-y-4">
-            <time>{formatDateOnly(String(exhibition.date))}</time>
-          </div>
+          <p className="space-y-4">
+            <time>{formatDateAndRelative(exhibition.date)}</time>
+          </p>
         </header>
 
         {exhibition?.artists.length > 0 && (
-          <section className="flex flex-wrap gap-4">
-            {exhibition.artists.map(artist => {
-              return (
-                <Link key={artist.id} to={`/artists/${artist.slug}`} className="hover-opacity">
-                  <span
-                    className={cn(
-                      "text-xl font-bold",
-                      `text-${getColorFromString(artist.slug)}-500`,
-                    )}
-                  >
-                    {artist.name}
-                  </span>
-                </Link>
-              )
-            })}
+          <section className="space-y-4">
+            <p>{formatPluralItems("artist", exhibition.artists.length)}</p>
+            <ul className="flex flex-wrap gap-4">
+              {exhibition.artists.map(artist => {
+                return (
+                  <Link key={artist.id} to={`/artists/${artist.slug}`} className="hover-opacity">
+                    <span
+                      className={cn(
+                        "text-xl font-bold",
+                        `text-${getColorFromString(artist.slug)}-500`,
+                      )}
+                    >
+                      {artist.name}
+                    </span>
+                  </Link>
+                )
+              })}
+            </ul>
           </section>
         )}
 
         {exhibition?.artworks.length > 0 && (
-          <section>
+          <section className="space-y-4">
+            <p>{formatPluralItems("artwork", exhibition.artworks.length)}</p>
             <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
               {exhibition.artworks.map(artwork => {
                 return (
                   <li key={artwork.id} className="w-full">
                     <Link to={`/artworks/${artwork.slug}`}>
                       <Card className="hover-opacity h-full space-y-2">
-                        <CardHeader className="flex flex-col items-center space-y-2 p-4">
-                          {artwork.images?.length > 0 && artwork.images[0]?.url && (
-                            <Image
-                              src={`${artwork.images[0].url}`}
-                              alt={`${artwork.title}`}
-                              className="h-60 w-60 object-contain"
-                            />
-                          )}
-
-                          <div className="flex-grow" />
-
+                        <CardHeader className="flex flex-col items-center space-y-2">
+                          <Image
+                            src={`${artwork?.images[0]?.url}`}
+                            alt={`${artwork.title}`}
+                            className="h-60 w-60 object-contain"
+                          />
                           <CardTitle className="text-center text-2xl">{artwork.title}</CardTitle>
                         </CardHeader>
                       </Card>

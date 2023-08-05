@@ -3,7 +3,7 @@ import type { LoaderArgs } from "@remix-run/node"
 import { Link, useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs"
-import { formatDateOnly, formatPluralItems } from "~/utils"
+import { formatDateAndRelative, formatPluralItems } from "~/utils"
 import { Card, Image } from "~/components"
 
 export async function loader({ request, params }: LoaderArgs) {
@@ -32,7 +32,7 @@ export default function Route() {
         <div className="space-y-4">
           <p>Exhibition</p>
           <h1>
-            {exhibition.edition}. {exhibition.title}
+            #{exhibition.edition} {exhibition.title}
           </h1>
           <div className="text-muted-foreground">
             <p>
@@ -44,8 +44,8 @@ export default function Route() {
               <code>{exhibition.slug}</code>
             </p>
             <p>
-              <span>Date Time: </span>
-              <time>{formatDateOnly(String(exhibition.date))}</time>
+              <span>Date: </span>
+              <time>{formatDateAndRelative(exhibition.date)}</time>
             </p>
           </div>
         </div>

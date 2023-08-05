@@ -116,7 +116,7 @@ export default function RouteComponent() {
                       )}
 
                       <CardTitle className="text-2xl">
-                        {exhibition.edition}. {exhibition.title}
+                        #{exhibition.edition} {exhibition.title}
                       </CardTitle>
                     </Card>
                   </Link>
