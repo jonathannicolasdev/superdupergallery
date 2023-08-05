@@ -41,7 +41,7 @@ export default function RouteComponent() {
         <div className="flex flex-col items-center">
           <h2>Our Team Members</h2>
 
-          <ul className="flex flex-wrap gap-10">
+          <ul className="flex flex-wrap gap-4">
             {dataTeamMembers.map(person => {
               return (
                 <li key={person.slug} className="flex flex-col items-center gap-2">

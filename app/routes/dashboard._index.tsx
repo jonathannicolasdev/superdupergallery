@@ -30,7 +30,7 @@ export default function Route() {
   const { userData, metrics } = useLoaderData<typeof loader>()
 
   return (
-    <div className="space-y-8 px-4">
+    <div className="space-y-8">
       <header className="space-y-4">
         <h1>Dashboard</h1>
         <div className="space-y-2">
