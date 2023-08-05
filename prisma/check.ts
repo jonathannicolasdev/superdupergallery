@@ -2,7 +2,7 @@ import { prisma } from "~/libs"
 import { log } from "~/utils"
 
 async function main() {
-  // await getUsers()
+  await getUsers()
   await getArtists()
 }
 
