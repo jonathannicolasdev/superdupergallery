@@ -16,13 +16,13 @@ import dataUsersCredentials from "~/data/users-credentials.json"
 
 // Enable and disable by commenting in/out the enabled items
 const enabledItems = [
-  // "userRoles",
-  // "userTags",
-  // "artworkStatuses",
-  // "users",
+  "userRoles",
+  "userTags",
+  "artworkStatuses",
+  "users",
   "exhibitions",
-  // "artists",
-  // "artworks",
+  "artists",
+  "artworks",
 ]
 
 async function main() {
@@ -152,10 +152,10 @@ async function seedUsers() {
 
 async function seedExhibitions() {
   console.info("🟢 Seed exhibitions...")
-  // console.info("🟡 Deleted existing exhibitions...")
-  // await prisma.exhibition.deleteMany()
-  // console.info("🟡 Deleted existing exhibition images...")
-  // await prisma.exhibitionImage.deleteMany()
+  console.info("🟡 Deleted existing exhibitions...")
+  await prisma.exhibition.deleteMany()
+  console.info("🟡 Deleted existing exhibition images...")
+  await prisma.exhibitionImage.deleteMany()
 
   const user = await prisma.user.findFirst({
     where: { username: "admin" },
@@ -163,23 +163,21 @@ async function seedExhibitions() {
   if (!user) return null
 
   for (const exhibition of dataExhibitions) {
-    await prisma.exhibition.update({
-      where: { slug: createExhibitionSlug(exhibition) },
-      data: { images: { set: [] } },
-    })
+    const exhibitionData = {
+      userId: user.id,
+      edition: exhibition.edition,
+      slug: createExhibitionSlug(exhibition),
+      title: exhibition.title,
+      date: new Date(String(exhibition.date)),
+      description: `Description of "${exhibition.title}"`,
+      images: exhibition.imageURL ? { create: { url: exhibition.imageURL } } : undefined,
+      isPublished: exhibition.isPublished,
+    }
 
-    const newExhibition = await prisma.exhibition.update({
+    const newExhibition = await prisma.exhibition.upsert({
       where: { slug: createExhibitionSlug(exhibition) },
-      data: {
-        userId: user.id,
-        edition: exhibition.edition,
-        slug: createExhibitionSlug(exhibition),
-        title: exhibition.title,
-        date: new Date(String(exhibition.date)),
-        description: `Description of "${exhibition.title}"`,
-        images: exhibition.imageURL ? { create: { url: exhibition.imageURL } } : undefined,
-        isPublished: exhibition.isPublished,
-      },
+      create: exhibitionData,
+      update: exhibitionData,
       include: { images: { select: { url: true } } },
     })
     console.info(`✅ 🗓️ Exhibition "${newExhibition.title}" updated`)
@@ -287,14 +285,14 @@ async function seedArtworks() {
           size: artwork.size || "No Size Info",
           year: artwork.year || 2023,
           price: artwork.price || 0,
-          images: { create: { url: artwork.imageURL || "https://placehold.co/500x500" } },
+          images: artwork.imageURL ? { create: { url: artwork.imageURL } } : undefined,
           statusId: status.id,
         },
       })
       if (!createdArtwork) return null
 
       console.info(
-        `✅ 🗓️ Exhibition "${connectedExhibition.edition} ${connectedExhibition.title}" has 🖼️ Artwork "${createdArtwork.slug}" is ${status.symbol}`,
+        `✅ 🗓️ Exhibition "${connectedExhibition.edition} ${connectedExhibition.title}" has 🖼️ Artwork "${createdArtwork.title}" is [${status.symbol}]`,
       )
     }
   }
