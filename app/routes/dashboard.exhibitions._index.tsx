@@ -3,7 +3,7 @@ import type { V2_MetaFunction } from "@remix-run/react"
 import { Link, useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs"
-import { formatPluralItems, formatTitle } from "~/utils"
+import { formatDateOnly, formatPluralItems, formatTitle } from "~/utils"
 import { Card, Image } from "~/components"
 
 export const meta: V2_MetaFunction = () => [{ title: formatTitle(`All Exhibitions`) }]
@@ -40,7 +40,7 @@ export default function RouteComponent() {
                           <Image
                             src={`${exhibition.images[0].url}`}
                             alt={`${exhibition.title}`}
-                            className="h-20 object-contain"
+                            className="h-24 object-contain"
                           />
                         )}
                       </div>
@@ -48,6 +48,12 @@ export default function RouteComponent() {
                         <h4>
                           {exhibition.edition}. {exhibition.title}
                         </h4>
+                        <div className="text-muted-foreground">
+                          <p>{exhibition.slug}</p>
+                          <p>
+                            <time>{formatDateOnly(String(exhibition.date))}</time>
+                          </p>
+                        </div>
                       </div>
                     </Card>
                   </Link>

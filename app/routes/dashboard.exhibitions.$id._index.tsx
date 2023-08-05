@@ -28,21 +28,26 @@ export default function Route() {
 
   return (
     <>
-      <header className="flex flex-wrap items-center justify-between gap-4">
+      <header className="flex flex-wrap justify-between gap-4">
         <div className="space-y-4">
-          <h1>{exhibition.title}</h1>
-          <p>
-            <span>ID: </span>
-            <code>{exhibition.id}</code>
-          </p>
-          <p>
-            <span>Slug: </span>
-            <code>{exhibition.slug}</code>
-          </p>
-          <p>
-            <span>Date Time: </span>
-            <time>{formatDateOnly(String(exhibition.date))}</time>
-          </p>
+          <p>Exhibition</p>
+          <h1>
+            {exhibition.edition}. {exhibition.title}
+          </h1>
+          <div className="text-muted-foreground">
+            <p>
+              <span>ID: </span>
+              <code>{exhibition.id}</code>
+            </p>
+            <p>
+              <span>Slug: </span>
+              <code>{exhibition.slug}</code>
+            </p>
+            <p>
+              <span>Date Time: </span>
+              <time>{formatDateOnly(String(exhibition.date))}</time>
+            </p>
+          </div>
         </div>
 
         <Image

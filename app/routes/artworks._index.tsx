@@ -19,7 +19,7 @@ export async function loader({ request }: LoaderArgs) {
   const defaultLimit = 12
   const maxPaginationNumber = 10
 
-  const query = url.searchParams.get("q") || undefined
+  const query = url.searchParams.get("q") || ""
   const page = Number(url.searchParams.get("page")) || defaultPage
   const limit = Number(url.searchParams.get("limit")) || defaultLimit
 
@@ -55,7 +55,7 @@ export async function loader({ request }: LoaderArgs) {
     const pageNumber = startPage + index
 
     const queryParams = new URLSearchParams({
-      q: query || "",
+      q: query,
       limit: limit.toString() || "",
       page: pageNumber.toString() || "",
     }).toString()
@@ -153,7 +153,7 @@ export default function ArtworksRoute() {
   )
 }
 
-function Pagination() {
+function Pagination({ routePath = "/artworks" }: { routePath?: string }) {
   const { query, page, limit, totalPages, navigationItems } = useLoaderData<typeof loader>()
 
   const renderArrowLink = (direction: string, icon: React.ReactNode, targetPage: number) => {
@@ -176,7 +176,7 @@ function Pagination() {
 
     return (
       <Link
-        to={`/artworks?q=${query || ""}&limit=${limit}&page=${targetPage}`}
+        to={`${routePath}?q=${query}&limit=${limit}&page=${targetPage}`}
         className="flex w-8 justify-center px-1 text-gray-500 hover:text-white"
       >
         {icon}
