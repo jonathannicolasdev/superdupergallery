@@ -2,7 +2,7 @@ import { json, type LoaderArgs } from "@remix-run/node"
 import { Link, useLoaderData, type V2_MetaFunction } from "@remix-run/react"
 
 import { prisma } from "~/libs"
-import { createCacheHeaders, formatPluralItems, formatTitle } from "~/utils"
+import { createCacheHeaders, formatPluralItems, formatTitle, getNameInitials } from "~/utils"
 import {
   AvatarAuto,
   Card,
@@ -109,14 +109,12 @@ export default function Route() {
                   <li key={artist.id} className="w-full">
                     <Link to={`/artists/${artist.slug}`}>
                       <Card className="hover-opacity flex max-w-2xl items-center gap-4">
-                        {artist.image?.url && (
-                          <AvatarAuto
-                            className="h-20 w-20"
-                            src={artist.image.url}
-                            alt={artist.name}
-                            fallback={artist.name[0].toUpperCase()}
-                          />
-                        )}
+                        <AvatarAuto
+                          src={artist.image?.url}
+                          alt={`${artist.name}`}
+                          fallback={getNameInitials(artist.name)}
+                          className="h-20 w-20"
+                        />
 
                         <div className="flex flex-col justify-between">
                           <CardTitle className="text-xl">{artist.name}</CardTitle>

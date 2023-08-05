@@ -2,7 +2,7 @@ import { json, type LoaderArgs } from "@remix-run/node"
 import { Link, useLoaderData, type V2_MetaFunction } from "@remix-run/react"
 
 import { prisma } from "~/libs"
-import { formatPluralItems, formatTitle } from "~/utils"
+import { formatPluralItems, formatTitle, getNameInitials } from "~/utils"
 import { AvatarAuto, Card, CardHeader, CardTitle, Image, Layout, SearchForm } from "~/components"
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
@@ -147,7 +147,7 @@ export default function Route() {
                         <AvatarAuto
                           src={artist.image?.url}
                           alt={`${artist.name}`}
-                          fallback={`${artist.name[0].toUpperCase()}`}
+                          fallback={getNameInitials(artist.name)}
                           className="h-20 w-20"
                         />
 

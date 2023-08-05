@@ -1,5 +1,6 @@
 import type { Artist } from "@prisma/client"
 
+import { getNameInitials } from "~/utils"
 import { AvatarAuto, Card, CardHeader, CardTitle } from "~/components"
 
 interface Props {
@@ -17,7 +18,7 @@ export function ArtistCard({ artist }: Props) {
             className="h-24 w-24"
             src={artist.images[0]?.url}
             alt={artist.name}
-            fallback={artist.name[0].toUpperCase()}
+            fallback={getNameInitials(artist.name)}
           />
         )}
 
