@@ -16,7 +16,7 @@ export function Footer({ className }: Props) {
   const today = new Date()
 
   return (
-    <footer className={cn("flex justify-center px-4 pb-20 pt-80 lg:pb-10", className)}>
+    <footer className={cn("flex justify-center px-4 pb-20 pt-40 lg:pb-10", className)}>
       <div className="flex flex-wrap justify-center gap-8 text-center text-muted-foreground sm:text-left">
         <Link to="/">
           <img

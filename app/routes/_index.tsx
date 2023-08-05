@@ -6,6 +6,7 @@ import { prisma } from "~/libs"
 import { createCacheHeaders } from "~/utils"
 import { useRootLoaderData } from "~/hooks"
 import {
+  Anchor,
   Button,
   Card,
   CardHeader,
@@ -227,6 +228,16 @@ export function LandingStory() {
             and even play.
           </p>
         </div>
+      </section>
+
+      <section>
+        <Anchor href="https://goo.gl/maps/2nvSCizCzoK3xwjo8">
+          <img
+            src="/images/superdupergallery-maps.png"
+            alt="Maps"
+            className="hover-opacity rounded border-2 border-white"
+          />
+        </Anchor>
       </section>
     </article>
   )
