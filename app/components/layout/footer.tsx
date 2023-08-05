@@ -16,14 +16,49 @@ export function Footer({ className }: Props) {
   const today = new Date()
 
   return (
-    <footer className={cn("flex justify-center pb-20 pt-80 lg:pb-10", className)}>
-      <div className="flex flex-col flex-wrap items-center justify-center gap-4 text-muted-foreground sm:flex-row sm:gap-8">
-        <p>
-          <span>&copy; {today.getFullYear()} </span>
-          <Anchor href="https://github.com/superdupergallery">🐈 Super Duper Gallery</Anchor>
-        </p>
+    <footer className={cn("flex justify-center px-4 pb-20 pt-80 lg:pb-10", className)}>
+      <div className="flex flex-wrap justify-center gap-8 text-center text-muted-foreground sm:text-left">
+        <Link to="/">
+          <img
+            src="/images/superdupergallery.png"
+            alt="Super Duper Gallery"
+            className="hover-opacity h-12 w-12"
+          />
+        </Link>
 
-        {/* <FooterNavigation /> */}
+        <div className="space-y-4">
+          <p>
+            <Anchor href="https://goo.gl/maps/NGtoAsrkYFCH1cud8">
+              <address>
+                <span>No.8-A 11th Jamboree, </span>
+                <span>Diliman, </span>
+                <span>Quezon City, </span>
+                <span>1103 Metro Manila, </span>
+                <span>Philippines</span>
+              </address>
+            </Anchor>
+          </p>
+
+          <p>
+            <Anchor href="mailto:superdupergallery@gmail.com">
+              <span>superdupergallery@gmail.com</span>
+            </Anchor>
+          </p>
+
+          <p>
+            <span>&copy; {today.getFullYear()} </span>
+            <span>🐈 Super Duper Gallery</span>
+          </p>
+        </div>
+
+        {/* <div>
+          <Anchor href="https://instagram.com/superdupergallery">
+            <img src="/images/instagram.svg" alt="Instagram" />
+          </Anchor>
+          <Anchor href="https://facebook.com/superdupergallery">
+            <img src="/images/facebook.svg" alt="Facebook" />
+          </Anchor>
+        </div> */}
       </div>
     </footer>
   )
