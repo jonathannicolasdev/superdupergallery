@@ -14,9 +14,9 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        brand: ["Anybody", ...defaultTheme.fontFamily.sans],
-        sans: ["PT Sans", ...defaultTheme.fontFamily.sans],
-        mono: ["PT Mono", ...defaultTheme.fontFamily.mono],
+        brand: ["Titillium Web", ...defaultTheme.fontFamily.sans],
+        sans: ["Noto Sans", ...defaultTheme.fontFamily.sans],
+        mono: ["Noto Sans Mono", ...defaultTheme.fontFamily.mono],
       },
       colors: {
         border: "hsl(var(--border))",

@@ -45,7 +45,7 @@ export function SiteHeader() {
                 <li key={navItem.to}>
                   <NavLink
                     to={navItem.to}
-                    className="border-b-4 border-b-black pb-2 text-sm font-bold uppercase hover:border-b-4 hover:border-b-pink-600 sm:text-base md:text-lg"
+                    className="border-b-4 border-b-black pb-2 text-sm font-bold uppercase tracking-widest hover:border-b-4 hover:border-b-pink-600 sm:text-base md:text-lg"
                   >
                     {navItem.text}
                   </NavLink>

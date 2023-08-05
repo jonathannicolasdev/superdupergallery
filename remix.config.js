@@ -1,4 +1,4 @@
-console.info("🐈 Super Duper Gallery is running")
+console.info("🐈 Super Duper Gallery is running\n")
 
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {

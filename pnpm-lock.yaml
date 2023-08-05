@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: true
@@ -14,13 +14,13 @@ dependencies:
   '@conform-to/zod':
     specifier: 0.7.4
     version: 0.7.4(@conform-to/dom@0.7.4)(zod@3.21.4)
-  '@fontsource/anybody':
+  '@fontsource/noto-sans':
     specifier: 5.0.7
     version: 5.0.7
-  '@fontsource/pt-mono':
+  '@fontsource/noto-sans-mono':
     specifier: 5.0.7
     version: 5.0.7
-  '@fontsource/pt-sans':
+  '@fontsource/titillium-web':
     specifier: 5.0.7
     version: 5.0.7
   '@hookform/resolvers':
@@ -2016,16 +2016,16 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /@fontsource/anybody@5.0.7:
-    resolution: {integrity: sha512-fus4YDNKLC5a0LwYYfpyJEO1ZB8zaL+KGQuJe4IF+Ba2p8dqHE5ne2Ow0K6zy3PrHQ45u6zuF/Xzz3RFfTR2yQ==}
+  /@fontsource/noto-sans-mono@5.0.7:
+    resolution: {integrity: sha512-yu8EKPwt2b9Wf3ZYuUB7hRnMLOtVpMkyMrBaUtWumlkEiWrtCwTkuPeMqF3F0oyfApg0QLiv2rpHhfhbUjD4Vw==}
     dev: false
 
-  /@fontsource/pt-mono@5.0.7:
-    resolution: {integrity: sha512-MqkNRcOU5ij4cV+d6rz7dulZwEgDQ9xfWqlAwu+JmA3OnBFZMBOqnIFvv0+3NeVC3jHxFMLVV6C/0IBNN0mvdg==}
+  /@fontsource/noto-sans@5.0.7:
+    resolution: {integrity: sha512-fo8mRRAG6W+5dt2METY/iVq3coRwNn+t7yjJvTlJ5waiV94Yoxu4h3ANvyJ7BaG6iYa/0Q/hp+xf/NNTtbOuGA==}
     dev: false
 
-  /@fontsource/pt-sans@5.0.7:
-    resolution: {integrity: sha512-+rdFty5Lg7zY/RJbnI8hhBCUre47REkYAPz8cYQXrclOTpqJSHeMq06/u8buEsWCA/ddiyI4gGV4sOXre/l3XA==}
+  /@fontsource/titillium-web@5.0.7:
+    resolution: {integrity: sha512-7dMx2EFNNXb1ITPil4fFjz/TWNginmgf1CEVsZm1z4LTwHowqv8vkXL1VChzqOHrEgx8VGxhCmmvIeWRJNlNrg==}
     dev: false
 
   /@gar/promisify@1.1.3:

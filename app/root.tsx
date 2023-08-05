@@ -14,9 +14,9 @@ import {
   useNavigation,
   useRouteError,
 } from "@remix-run/react"
-import brandFontStyles from "@fontsource/anybody/600.css"
-import monoFontStyles from "@fontsource/pt-mono/index.css"
-import sansFontStyles from "@fontsource/pt-sans/index.css"
+import monoFontStyles from "@fontsource/noto-sans-mono/index.css"
+import sansFontStyles from "@fontsource/noto-sans/index.css"
+import brandFontStyles from "@fontsource/titillium-web/900.css"
 import { Analytics } from "@vercel/analytics/react"
 import NProgress from "nprogress"
 
@@ -28,27 +28,10 @@ import { Layout } from "./components"
 import styles from "./globals.css"
 
 export const links: LinksFunction = () => [
-  {
-    rel: "shortcut icon",
-    href: "/favicon.ico",
-  },
-  {
-    rel: "icon",
-    type: "image/png",
-    sizes: "32x32",
-    href: "/favicon-32x32.png",
-  },
-  {
-    rel: "icon",
-    type: "image/png",
-    sizes: "16x16",
-    href: "/favicon-16x16.png",
-  },
-  {
-    rel: "apple-touch-icon",
-    sizes: "180x180",
-    href: "/apple-touch-icon-precomposed.png",
-  },
+  { rel: "shortcut icon", href: "/favicon.ico" },
+  { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon-32x32.png" },
+  { rel: "icon", type: "image/png", sizes: "16x16", href: "/favicon-16x16.png" },
+  { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon-precomposed.png" },
   { rel: "stylesheet", href: brandFontStyles },
   { rel: "stylesheet", href: sansFontStyles },
   { rel: "stylesheet", href: monoFontStyles },
