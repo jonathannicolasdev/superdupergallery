@@ -10,7 +10,6 @@ import {
   Card,
   CardHeader,
   CardTitle,
-  Image,
   ImageArtwork,
   ImageExhibition,
   Layout,

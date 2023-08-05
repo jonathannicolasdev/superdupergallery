@@ -1,20 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { json, type LoaderArgs } from "@remix-run/node"
 import type { V2_MetaFunction } from "@remix-run/react"
 import { Link, useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs"
-import { createCacheHeaders, formatPluralItems, formatTitle, stringify } from "~/utils"
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  Debug,
-  Image,
-  ImageExhibition,
-  Layout,
-  SearchForm,
-} from "~/components"
+import { createCacheHeaders, formatPluralItems, formatTitle } from "~/utils"
+import { Card, CardTitle, ImageExhibition, Layout, SearchForm } from "~/components"
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   const query = data?.query

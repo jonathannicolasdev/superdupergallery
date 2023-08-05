@@ -4,7 +4,7 @@ import { Link, useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs"
 import { formatDateAndRelative, formatPluralItems } from "~/utils"
-import { Card, Image } from "~/components"
+import { Card, ImageArtwork, ImageExhibition } from "~/components"
 
 export async function loader({ request, params }: LoaderArgs) {
   const exhibition = await prisma.exhibition.findFirst({
@@ -48,11 +48,7 @@ export default function Route() {
           </div>
         </div>
 
-        <Image
-          src={`${exhibition?.images[0]?.url}`}
-          alt={`${exhibition.title}`}
-          className="max-w-xs object-contain"
-        />
+        <ImageExhibition className="max-w-xs object-contain">{exhibition}</ImageExhibition>
       </header>
 
       {exhibition?.artworks.length > 0 && (
@@ -67,11 +63,7 @@ export default function Route() {
                 <li key={artwork.id}>
                   <Card className="flex items-center gap-4">
                     <Link to={`/dashboard/artworks/${artwork.id}`} className="hover-opacity ">
-                      <Image
-                        src={artwork?.images[0]?.url}
-                        alt={artwork.title}
-                        className="h-32 w-full object-contain"
-                      />
+                      <ImageArtwork className="h-32 w-full object-contain">{artwork}</ImageArtwork>
                     </Link>
                     <div>
                       <h6>{artwork.title}</h6>

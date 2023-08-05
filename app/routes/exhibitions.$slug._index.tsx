@@ -16,7 +16,6 @@ import {
   Card,
   CardHeader,
   CardTitle,
-  Image,
   ImageArtwork,
   ImageExhibition,
   Layout,
@@ -75,10 +74,10 @@ export default function Route() {
       <Layout className="px-4 sm:px-8">
         <section className="flex flex-col items-center justify-center pt-4">
           <div className="flex max-w-md flex-col justify-center space-y-4 pt-24 text-center">
-            <Image
+            <img
               src="/images/cat-sunset.png"
               alt="Not Found Illustration"
-              className="h-40 object-contain"
+              className="h-40 rounded object-contain"
             />
             <h2>
               Exhibition <span className="text-pink-500">"{params.slug}"</span> is not found

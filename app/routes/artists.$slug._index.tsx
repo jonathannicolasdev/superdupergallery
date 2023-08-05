@@ -5,8 +5,8 @@ import { notFound } from "remix-utils"
 import invariant from "tiny-invariant"
 
 import { prisma } from "~/libs"
-import { createCacheHeaders } from "~/utils"
-import { Button, Card, CardHeader, CardTitle, Image, ImageArtwork, Layout } from "~/components"
+import { createCacheHeaders, getNameInitials } from "~/utils"
+import { AvatarAuto, Button, Card, CardHeader, CardTitle, ImageArtwork, Layout } from "~/components"
 
 export async function loader({ request, params }: LoaderArgs) {
   invariant(params.slug, "Artist slug not found")
@@ -59,9 +59,13 @@ export default function ArtistsRoute() {
     <Layout className="flex justify-center p-10">
       <div className="space-y-10">
         <header className="flex flex-col items-center space-y-2">
-          {artist.image?.url && (
-            <Image src={`${artist.image?.url}`} alt={`${artist.name}`} className="h-40 w-40" />
-          )}
+          <AvatarAuto
+            className="mb-4 h-32 w-32 outline outline-4 outline-background"
+            src={artist.image?.url}
+            alt={artist.name}
+            fallback={getNameInitials(artist.name)}
+          />
+
           <h1 className="flex">
             <Link to={`/artists/${artist.slug}`} className="hover-opacity">
               {artist.name || "Unknown Title"}

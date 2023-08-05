@@ -4,7 +4,7 @@ import { Link, useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs"
 import { formatDateAndRelative, formatPluralItems, formatTitle } from "~/utils"
-import { Card, Image } from "~/components"
+import { Card, Image, ImageExhibition } from "~/components"
 
 export const meta: V2_MetaFunction = () => [{ title: formatTitle(`All Exhibitions`) }]
 
@@ -33,15 +33,10 @@ export default function RouteComponent() {
                 <li key={exhibition.id}>
                   <Link to={`/dashboard/exhibitions/${exhibition.id}`}>
                     <Card className="hover-opacity grid max-w-xl grid-cols-4 items-center gap-4">
-                      <div>
-                        {exhibition.images[0]?.url && (
-                          <Image
-                            src={`${exhibition?.images[0]?.url}`}
-                            alt={`${exhibition.title}`}
-                            className="h-24 object-contain"
-                          />
-                        )}
-                      </div>
+                      <ImageExhibition className="h-24 object-contain">
+                        {exhibition}
+                      </ImageExhibition>
+
                       <div className="col-span-3">
                         <h4>{exhibition.title}</h4>
                         <div className="text-muted-foreground">
