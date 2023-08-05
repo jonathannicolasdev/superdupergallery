@@ -109,8 +109,10 @@ export default function RouteComponent() {
                       <ImageExhibition className="w-full object-contain">
                         {exhibition}
                       </ImageExhibition>
-
-                      <CardTitle className="text-2xl">{exhibition.title}</CardTitle>
+                      <CardTitle className="text-center text-2xl">{exhibition.title}</CardTitle>
+                      {/* <CardDescription className="text-center">
+                        <time>{formatDateOnly(exhibition.date)}</time>
+                      </CardDescription> */}
                     </Card>
                   </Link>
                 </li>
