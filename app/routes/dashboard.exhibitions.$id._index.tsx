@@ -49,7 +49,7 @@ export default function Route() {
         </div>
 
         <Image
-          src={`${exhibition.images[0].url}`}
+          src={`${exhibition?.images[0]?.url}`}
           alt={`${exhibition.title}`}
           className="max-w-xs object-contain"
         />
@@ -68,8 +68,8 @@ export default function Route() {
                   <Card className="flex items-center gap-4">
                     <Link to={`/dashboard/artworks/${artwork.id}`} className="hover-opacity ">
                       <Image
-                        src={`${artwork.images[0].url}`}
-                        alt={`${artwork.title}`}
+                        src={artwork?.images[0]?.url}
+                        alt={artwork.title}
                         className="h-32 w-full object-contain"
                       />
                     </Link>

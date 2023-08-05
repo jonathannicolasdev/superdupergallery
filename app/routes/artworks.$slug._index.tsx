@@ -6,7 +6,7 @@ import invariant from "tiny-invariant"
 
 import { prisma } from "~/libs"
 import { createCacheHeaders } from "~/utils"
-import { Badge, Button, Image, Layout } from "~/components"
+import { Badge, Button, Image, ImageArtwork, Layout } from "~/components"
 
 export async function loader({ request, params }: LoaderArgs) {
   invariant(params.slug, "Artwork slug not found")
@@ -53,11 +53,7 @@ export default function ArtworksRoute() {
   return (
     <Layout className="flex justify-center p-10">
       <div className="flex w-full flex-col flex-wrap justify-center gap-10 sm:flex-row">
-        <Image
-          src={artwork?.images[0]?.url || "https://placehold.co/500x500/111/FFF?text=Artwork"}
-          alt={`${artwork.title}`}
-          className="h-100 w-fuull object-contain"
-        />
+        <ImageArtwork className="h-100 w-fuull object-contain">{artwork}</ImageArtwork>
 
         <header className="space-y-8">
           <div className="flex">
@@ -68,7 +64,7 @@ export default function ArtworksRoute() {
               >
                 {artwork.artist.image?.url && (
                   <Image
-                    src={`${artwork.artist.image.url}`}
+                    src={`${artwork.artist.image?.url}`}
                     alt={`${artwork.artist.name}`}
                     className="h-10 w-10"
                   />

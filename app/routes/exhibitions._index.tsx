@@ -5,7 +5,16 @@ import { Link, useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs"
 import { createCacheHeaders, formatPluralItems, formatTitle, stringify } from "~/utils"
-import { Card, CardHeader, CardTitle, Debug, Image, Layout, SearchForm } from "~/components"
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  Debug,
+  Image,
+  ImageExhibition,
+  Layout,
+  SearchForm,
+} from "~/components"
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   const query = data?.query
@@ -107,14 +116,9 @@ export default function RouteComponent() {
                 <li key={exhibition.id} className="w-full">
                   <Link to={`/exhibitions/${exhibition.slug}`}>
                     <Card className="hover-opacity flex h-full flex-col space-y-2">
-                      <Image
-                        src={
-                          exhibition?.images[0]?.url ||
-                          "https://placehold.co/500x500/111/FFF?text=Exhibition"
-                        }
-                        alt={`${exhibition.title}`}
-                        className="w-full object-contain"
-                      />
+                      <ImageExhibition className="w-full object-contain">
+                        {exhibition}
+                      </ImageExhibition>
 
                       <CardTitle className="text-2xl">{exhibition.title}</CardTitle>
                     </Card>

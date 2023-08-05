@@ -11,7 +11,16 @@ import {
   formatPluralItems,
   getColorFromString,
 } from "~/utils"
-import { Button, Card, CardHeader, CardTitle, Image, Layout } from "~/components"
+import {
+  Button,
+  Card,
+  CardHeader,
+  CardTitle,
+  Image,
+  ImageArtwork,
+  ImageExhibition,
+  Layout,
+} from "~/components"
 
 export async function loader({ request, params }: LoaderArgs) {
   invariant(params.slug, "Exhibition slug not found")
@@ -87,13 +96,9 @@ export default function Route() {
     <Layout className="flex justify-center px-4">
       <div className="flex w-full flex-col flex-wrap gap-10 sm:flex-row">
         <header className="w-full space-y-4">
-          <Image
-            src={
-              exhibition?.images[0]?.url || "https://placehold.co/500x500/111/FFF?text=Exhibition"
-            }
-            alt={`${exhibition.title}`}
-            className="h-80 border-2 border-white object-contain"
-          />
+          <ImageExhibition className="h-80 border-2 border-white object-contain">
+            {exhibition}
+          </ImageExhibition>
 
           <h1 className="flex">
             <Link to={`/exhibitions/${exhibition.slug}`} className="hover-opacity">
@@ -138,11 +143,9 @@ export default function Route() {
                     <Link to={`/artworks/${artwork.slug}`}>
                       <Card className="hover-opacity h-full space-y-2">
                         <CardHeader className="flex flex-col items-center space-y-2">
-                          <Image
-                            src={`${artwork?.images[0]?.url}`}
-                            alt={`${artwork.title}`}
-                            className="h-60 w-60 object-contain"
-                          />
+                          <ImageArtwork className="h-60 w-60 object-contain">
+                            {artwork}
+                          </ImageArtwork>
                           <CardTitle className="text-center text-2xl">{artwork.title}</CardTitle>
                         </CardHeader>
                       </Card>

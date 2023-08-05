@@ -36,7 +36,7 @@ export default function RouteComponent() {
                       <div>
                         {exhibition.images[0]?.url && (
                           <Image
-                            src={`${exhibition.images[0].url}`}
+                            src={`${exhibition?.images[0]?.url}`}
                             alt={`${exhibition.title}`}
                             className="h-24 object-contain"
                           />

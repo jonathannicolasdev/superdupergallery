@@ -3,7 +3,15 @@ import { Link, useLoaderData, type V2_MetaFunction } from "@remix-run/react"
 
 import { prisma } from "~/libs"
 import { formatPluralItems, formatTitle, getNameInitials } from "~/utils"
-import { AvatarAuto, Card, CardHeader, CardTitle, Image, Layout, SearchForm } from "~/components"
+import {
+  AvatarAuto,
+  Card,
+  CardHeader,
+  CardTitle,
+  ImageArtwork,
+  Layout,
+  SearchForm,
+} from "~/components"
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   const query = data?.query || ""
@@ -110,14 +118,7 @@ export default function Route() {
                   <Link to={`/artworks/${artwork.slug}`}>
                     <Card className="hover-opacity h-full space-y-2">
                       <CardHeader className="flex flex-col items-center space-y-2 p-4">
-                        <Image
-                          src={
-                            artwork?.images[0]?.url ||
-                            "https://placehold.co/500x500/111/FFF?text=Artwork"
-                          }
-                          alt={`${artwork.title}`}
-                          className="w-full object-contain"
-                        />
+                        <ImageArtwork className="w-full object-contain">{artwork}</ImageArtwork>
 
                         <div className="flex-grow" />
 

@@ -5,7 +5,16 @@ import { Link, useLoaderData } from "@remix-run/react"
 import { prisma } from "~/libs"
 import { createCacheHeaders } from "~/utils"
 import { useRootLoaderData } from "~/hooks"
-import { Button, Card, CardHeader, CardTitle, Image, Layout } from "~/components"
+import {
+  Button,
+  Card,
+  CardHeader,
+  CardTitle,
+  Image,
+  ImageArtwork,
+  ImageExhibition,
+  Layout,
+} from "~/components"
 
 export async function loader({ request }: LoaderArgs) {
   const [artworks, exhibitions] = await prisma.$transaction([
@@ -96,14 +105,7 @@ export function LandingArtworks() {
               <Link to={`/artworks/${artwork.slug}`}>
                 <Card className="hover-opacity h-full space-y-2">
                   <CardHeader className="flex flex-col items-center space-y-2 p-4">
-                    <Image
-                      src={
-                        artwork?.images[0]?.url ||
-                        "https://placehold.co/500x500/111/FFF?text=Artwork"
-                      }
-                      alt={`${artwork.title}`}
-                      className="w-full object-contain"
-                    />
+                    <ImageArtwork className="w-full object-contain">{artwork}</ImageArtwork>
 
                     <div className="flex-grow" />
 
@@ -143,14 +145,9 @@ export function LandingExhibitions() {
               <Link to={`/exhibitions/${exhibition.slug}`}>
                 <Card className="hover-opacity h-full space-y-2">
                   <CardHeader className="flex flex-col items-center space-y-2 p-4">
-                    <Image
-                      src={
-                        exhibition?.images[0]?.url ||
-                        "https://placehold.co/500x500/111/FFF?text=Exhibition"
-                      }
-                      alt={`${exhibition.title}`}
-                      className="h-80 border-2 border-white object-contain"
-                    />
+                    <ImageExhibition className="h-80 border-2 border-white object-contain">
+                      {exhibition}
+                    </ImageExhibition>
 
                     <div className="flex-grow" />
 

@@ -6,7 +6,7 @@ import invariant from "tiny-invariant"
 
 import { prisma } from "~/libs"
 import { createCacheHeaders } from "~/utils"
-import { Button, Card, CardHeader, CardTitle, Image, Layout } from "~/components"
+import { Button, Card, CardHeader, CardTitle, Image, ImageArtwork, Layout } from "~/components"
 
 export async function loader({ request, params }: LoaderArgs) {
   invariant(params.slug, "Artist slug not found")
@@ -60,7 +60,7 @@ export default function ArtistsRoute() {
       <div className="space-y-10">
         <header className="flex flex-col items-center space-y-2">
           {artist.image?.url && (
-            <Image src={`${artist.image.url}`} alt={`${artist.name}`} className="h-40 w-40" />
+            <Image src={`${artist.image?.url}`} alt={`${artist.name}`} className="h-40 w-40" />
           )}
           <h1 className="flex">
             <Link to={`/artists/${artist.slug}`} className="hover-opacity">
@@ -79,14 +79,7 @@ export default function ArtistsRoute() {
                     <Link to={`/artworks/${artwork.slug}`}>
                       <Card className="hover-opacity h-full space-y-2">
                         <CardHeader className="flex flex-col items-center space-y-2 p-4">
-                          <Image
-                            src={
-                              artwork?.images[0]?.url ||
-                              "https://placehold.co/500x500/111/FFF?text=Artwork"
-                            }
-                            alt={`${artwork.title}`}
-                            className="w-full object-contain"
-                          />
+                          <ImageArtwork className="w-full object-contain">{artwork}</ImageArtwork>
 
                           <div className="flex-grow" />
 

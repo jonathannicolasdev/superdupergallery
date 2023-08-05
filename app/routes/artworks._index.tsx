@@ -10,7 +10,7 @@ import {
 
 import { cn, prisma } from "~/libs"
 import { createCacheHeaders, formatPluralItems } from "~/utils"
-import { Card, CardHeader, CardTitle, Debug, Image, Layout, SearchForm } from "~/components"
+import { Card, CardHeader, CardTitle, Debug, ImageArtwork, Layout, SearchForm } from "~/components"
 
 export async function loader({ request }: LoaderArgs) {
   const url = new URL(request.url)
@@ -51,17 +51,18 @@ export async function loader({ request }: LoaderArgs) {
     startPage = Math.max(1, endPage - visiblePageCount + 1)
   }
 
-  const navigationItems = Array.from({ length: endPage - startPage + 1 }, (_, index) => {
-    const pageNumber = startPage + index
-
-    const queryParams = new URLSearchParams({
-      q: query,
-      limit: limit.toString() || "",
-      page: pageNumber.toString() || "",
-    }).toString()
-
-    return { pageNumber, to: `/artworks?${queryParams}` }
-  })
+  const navigationItems: { pageNumber: number; to: string }[] = Array.from(
+    { length: endPage - startPage + 1 },
+    (_, index) => {
+      const pageNumber = startPage + index
+      const queryParams = new URLSearchParams({
+        q: query,
+        limit: limit.toString() || "",
+        page: pageNumber.toString() || "",
+      }).toString()
+      return { pageNumber, to: `/artworks?${queryParams}` }
+    },
+  )
 
   return json(
     {
@@ -121,14 +122,7 @@ export default function ArtworksRoute() {
                   <Link to={`/artworks/${artwork.slug}`}>
                     <Card className="hover-opacity h-full space-y-2">
                       <CardHeader className="flex flex-col items-center space-y-2">
-                        <Image
-                          src={
-                            artwork?.images[0]?.url ||
-                            "https://placehold.co/500x500/111/FFF?text=Artwork"
-                          }
-                          alt={`${artwork.title}`}
-                          className="w-full object-contain"
-                        />
+                        <ImageArtwork className="w-full object-contain">{artwork}</ImageArtwork>
 
                         <div className="flex-grow" />
 
