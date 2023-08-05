@@ -84,16 +84,16 @@ export default function Route() {
   }
 
   return (
-    <Layout className="flex justify-center p-10">
+    <Layout className="flex justify-center px-4">
       <div className="flex w-full flex-col flex-wrap gap-10 sm:flex-row">
-        <header className="space-y-4">
-          {exhibition.images?.length > 0 && exhibition.images[0]?.url && (
-            <Image
-              src={`${exhibition.images[0].url}`}
-              alt={`${exhibition.title}`}
-              className="h-100 w-100 border-2 border-white object-contain"
-            />
-          )}
+        <header className="w-full space-y-4">
+          <Image
+            src={
+              exhibition?.images[0]?.url || "https://placehold.co/500x500/111/FFF?text=Exhibition"
+            }
+            alt={`${exhibition.title}`}
+            className="h-80 border-2 border-white object-contain"
+          />
 
           <h1 className="flex">
             <Link to={`/exhibitions/${exhibition.slug}`} className="hover-opacity">

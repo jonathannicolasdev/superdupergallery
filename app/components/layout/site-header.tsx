@@ -36,7 +36,7 @@ const navPublicItems: NavItem[] = [
 export function SiteHeader() {
   return (
     <header className="w-full max-w-7xl p-4">
-      <div className="flex flex-wrap justify-between border-2 border-white lg:flex-nowrap">
+      <div className="flex flex-wrap justify-between rounded border-2 border-white lg:flex-nowrap">
         <div className="flex w-full justify-center border-white p-2 sm:max-w-[250px] sm:justify-start">
           <NavLink to="/" className="flex gap-2">
             <img

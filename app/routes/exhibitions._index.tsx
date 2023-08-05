@@ -107,13 +107,14 @@ export default function RouteComponent() {
                 <li key={exhibition.id} className="w-full">
                   <Link to={`/exhibitions/${exhibition.slug}`}>
                     <Card className="hover-opacity flex h-full flex-col space-y-2">
-                      {exhibition.images[0]?.url && (
-                        <Image
-                          src={`${exhibition.images[0].url}`}
-                          alt={`${exhibition.title}`}
-                          className="w-full object-contain"
-                        />
-                      )}
+                      <Image
+                        src={
+                          exhibition?.images[0]?.url ||
+                          "https://placehold.co/500x500/111/FFF?text=Exhibition"
+                        }
+                        alt={`${exhibition.title}`}
+                        className="w-full object-contain"
+                      />
 
                       <CardTitle className="text-2xl">
                         #{exhibition.edition} {exhibition.title}

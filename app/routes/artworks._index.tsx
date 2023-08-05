@@ -121,13 +121,14 @@ export default function ArtworksRoute() {
                   <Link to={`/artworks/${artwork.slug}`}>
                     <Card className="hover-opacity h-full space-y-2">
                       <CardHeader className="flex flex-col items-center space-y-2">
-                        {artwork.images?.length > 0 && artwork.images[0]?.url && (
-                          <Image
-                            src={`${artwork.images[0].url}`}
-                            alt={`${artwork.title}`}
-                            className="w-full object-contain"
-                          />
-                        )}
+                        <Image
+                          src={
+                            artwork?.images[0]?.url ||
+                            "https://placehold.co/500x500/111/FFF?text=Artwork"
+                          }
+                          alt={`${artwork.title}`}
+                          className="w-full object-contain"
+                        />
 
                         <div className="flex-grow" />
 

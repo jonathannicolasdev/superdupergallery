@@ -53,13 +53,11 @@ export default function ArtworksRoute() {
   return (
     <Layout className="flex justify-center p-10">
       <div className="flex w-full flex-col flex-wrap justify-center gap-10 sm:flex-row">
-        {artwork.images?.length > 0 && artwork.images[0]?.url && (
-          <img
-            src={`${artwork.images[0].url}`}
-            alt={`${artwork.title}`}
-            className="h-100 w-100 object-contain"
-          />
-        )}
+        <Image
+          src={artwork?.images[0]?.url || "https://placehold.co/500x500/111/FFF?text=Artwork"}
+          alt={`${artwork.title}`}
+          className="h-100 w-fuull object-contain"
+        />
 
         <header className="space-y-8">
           <div className="flex">

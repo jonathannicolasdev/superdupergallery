@@ -131,6 +131,8 @@ model UserAvatarImage {
 model Artwork {
   id String @id @default(cuid())
 
+  // title  String  @unique
+  // slug   String? @unique
   title  String
   slug   String?
   year   Int?
@@ -235,8 +237,8 @@ model Exhibition {
   id String @id @default(cuid())
 
   edition     Int?
-  title       String
-  slug        String?
+  title       String    @unique
+  slug        String?   @unique
   date        DateTime?
   description String?   @db.Text
 

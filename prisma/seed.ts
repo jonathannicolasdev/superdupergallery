@@ -16,13 +16,13 @@ import dataUsersCredentials from "~/data/users-credentials.json"
 
 // Enable and disable by commenting in/out the enabled items
 const enabledItems = [
-  "userRoles",
-  "userTags",
-  "artworkStatuses",
-  "users",
+  // "userRoles",
+  // "userTags",
+  // "artworkStatuses",
+  // "users",
   "exhibitions",
-  "artists",
-  "artworks",
+  // "artists",
+  // "artworks",
 ]
 
 async function main() {
@@ -152,10 +152,10 @@ async function seedUsers() {
 
 async function seedExhibitions() {
   console.info("🟢 Seed exhibitions...")
-  console.info("🟡 Deleted existing exhibitions...")
-  await prisma.exhibition.deleteMany()
-  console.info("🟡 Deleted existing exhibition images...")
-  await prisma.exhibitionImage.deleteMany()
+  // console.info("🟡 Deleted existing exhibitions...")
+  // await prisma.exhibition.deleteMany()
+  // console.info("🟡 Deleted existing exhibition images...")
+  // await prisma.exhibitionImage.deleteMany()
 
   const user = await prisma.user.findFirst({
     where: { username: "admin" },
@@ -163,7 +163,13 @@ async function seedExhibitions() {
   if (!user) return null
 
   for (const exhibition of dataExhibitions) {
-    const createdExhibition = await prisma.exhibition.create({
+    await prisma.exhibition.update({
+      where: { slug: createExhibitionSlug(exhibition) },
+      data: { images: { set: [] } },
+    })
+
+    const newExhibition = await prisma.exhibition.update({
+      where: { slug: createExhibitionSlug(exhibition) },
       data: {
         userId: user.id,
         edition: exhibition.edition,
@@ -171,14 +177,12 @@ async function seedExhibitions() {
         title: exhibition.title,
         date: new Date(String(exhibition.date)),
         description: `Description of "${exhibition.title}"`,
-        images: {
-          create: { url: exhibition.imageURL || "https://placehold.co/500x500" },
-        },
+        images: exhibition.imageURL ? { create: { url: exhibition.imageURL } } : undefined,
         isPublished: exhibition.isPublished,
       },
+      include: { images: { select: { url: true } } },
     })
-    if (!createdExhibition) return null
-    console.info(`✅ 🗓️ Exhibition "${createdExhibition.slug}" created`)
+    console.info(`✅ 🗓️ Exhibition "${newExhibition.title}" updated`)
   }
 }
 
