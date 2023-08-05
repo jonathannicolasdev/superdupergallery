@@ -29,7 +29,7 @@ export async function loader({ request }: LoaderArgs) {
 
     prisma.exhibition.findMany({
       orderBy: { date: "desc" },
-      take: 10,
+      take: 16,
       include: {
         images: true,
         artworks: true,
@@ -43,7 +43,7 @@ export async function loader({ request }: LoaderArgs) {
 
 export default function Index() {
   return (
-    <Layout className="flex flex-col items-center justify-center gap-20 px-4 sm:px-8">
+    <Layout className="flex flex-col items-center justify-center gap-32 px-4 sm:px-8">
       <LandingHero />
       <LandingArtworks />
       <LandingExhibitions />
@@ -56,10 +56,10 @@ export function LandingHero() {
   const { userSession } = useRootLoaderData()
 
   return (
-    <article className="w-full max-w-3xl space-y-8 pb-10 pt-20">
+    <article className="w-full max-w-3xl space-y-8 pt-20">
       <section className="flex gap-8">
         <div className="flex w-full flex-col items-center justify-center space-y-4 text-center lg:items-start lg:text-left">
-          <h1 className="flex flex-col flex-wrap items-center gap-2 lg:flex-row">
+          <h1 className="flex flex-col flex-wrap items-center gap-4 lg:flex-row">
             <span className="text-brand md:text-5xl lg:text-6xl">Super Duper Gallery</span>
           </h1>
           <p>
@@ -93,17 +93,17 @@ export function LandingArtworks() {
     <article className="w-full max-w-7xl space-y-4">
       <header className="space-y-1">
         <Link to="/artworks">
-          <h2 className="hover-opacity text-brand">Featured Artworks</h2>
+          <h2 className="hover-opacity text-brand">Latest Artworks</h2>
         </Link>
       </header>
 
-      <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
+      <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
         {artworks.map(artwork => {
           return (
             <li key={artwork.id} className="w-full">
               <Link to={`/artworks/${artwork.slug}`}>
                 <Card className="hover-opacity h-full space-y-2">
-                  <CardHeader className="flex flex-col items-center space-y-2 p-4">
+                  <CardHeader className="flex flex-col items-center space-y-2">
                     <ImageArtwork className="w-full object-contain">{artwork}</ImageArtwork>
 
                     <div className="flex-grow" />
@@ -133,20 +133,18 @@ export function LandingExhibitions() {
     <article className="w-full max-w-7xl space-y-4">
       <header className="space-y-1">
         <Link to="/exhibitions">
-          <h2 className="hover-opacity text-brand">Featured Exhibitions</h2>
+          <h2 className="hover-opacity text-brand">Latest Exhibitions</h2>
         </Link>
       </header>
 
-      <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
+      <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
         {exhibitions.map(exhibition => {
           return (
             <li key={exhibition.id} className="w-full">
               <Link to={`/exhibitions/${exhibition.slug}`}>
-                <Card className="hover-opacity h-full space-y-2">
-                  <CardHeader className="flex flex-col items-center space-y-2 p-4">
-                    <ImageExhibition className="h-80 border-2 border-white object-contain">
-                      {exhibition}
-                    </ImageExhibition>
+                <Card className="hover-opacity space-y-2">
+                  <CardHeader className="flex flex-col items-center space-y-2">
+                    <ImageExhibition className="object-contain">{exhibition}</ImageExhibition>
 
                     <div className="flex-grow" />
 

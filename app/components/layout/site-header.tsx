@@ -7,30 +7,12 @@ type NavItem = {
 }
 
 const navPublicItems: NavItem[] = [
-  {
-    to: "/about",
-    text: "About",
-  },
-  {
-    to: "/search",
-    text: "Search",
-  },
-  {
-    to: "/artworks",
-    text: "Artworks",
-  },
-  {
-    to: "/artists",
-    text: "Artists",
-  },
-  {
-    to: "/exhibitions",
-    text: "Exhibitions",
-  },
-  {
-    to: "/contact",
-    text: "Contact",
-  },
+  { to: "/artworks", text: "Artworks" },
+  { to: "/artists", text: "Artists" },
+  { to: "/exhibitions", text: "Exhibitions" },
+  { to: "/search", text: "Search" },
+  { to: "/about", text: "About" },
+  { to: "/contact", text: "Contact" },
 ]
 
 export function SiteHeader() {

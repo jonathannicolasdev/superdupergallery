@@ -5,7 +5,7 @@ import { notFound } from "remix-utils"
 import invariant from "tiny-invariant"
 
 import { prisma } from "~/libs"
-import { createCacheHeaders, getNameInitials } from "~/utils"
+import { createCacheHeaders, formatPluralItems, getNameInitials } from "~/utils"
 import { AvatarAuto, Button, Card, CardHeader, CardTitle, ImageArtwork, Layout } from "~/components"
 
 export async function loader({ request, params }: LoaderArgs) {
@@ -72,6 +72,7 @@ export default function ArtistsRoute() {
             </Link>
           </h1>
           <p>{artist.bio || "(Artist has no bio)"}</p>
+          <p>{formatPluralItems("artwork", artist.artworks.length)}</p>
         </header>
 
         <section>

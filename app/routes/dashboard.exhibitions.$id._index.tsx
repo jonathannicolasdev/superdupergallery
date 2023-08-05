@@ -63,7 +63,7 @@ export default function Route() {
                 <li key={artwork.id}>
                   <Card className="flex items-center gap-4">
                     <Link to={`/dashboard/artworks/${artwork.id}`} className="hover-opacity ">
-                      <ImageArtwork className="h-32 w-full object-contain">{artwork}</ImageArtwork>
+                      <ImageArtwork className="h-32 w-32 object-contain">{artwork}</ImageArtwork>
                     </Link>
                     <div>
                       <h6>{artwork.title}</h6>
