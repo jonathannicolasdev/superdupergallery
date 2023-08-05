@@ -16,13 +16,13 @@ import dataUsersCredentials from "~/data/users-credentials.json"
 
 // Enable and disable by commenting in/out the enabled items
 const enabledItems = [
-  "userRoles",
-  "userTags",
-  "artworkStatuses",
-  "users",
+  // "userRoles",
+  // "userTags",
+  // "artworkStatuses",
+  // "users",
   "exhibitions",
-  "artists",
-  "artworks",
+  // "artists",
+  // "artworks",
 ]
 
 async function main() {
@@ -152,10 +152,10 @@ async function seedUsers() {
 
 async function seedExhibitions() {
   console.info("🟢 Seed exhibitions...")
-  console.info("🟡 Deleted existing exhibitions...")
-  await prisma.exhibition.deleteMany()
-  console.info("🟡 Deleted existing exhibition images...")
-  await prisma.exhibitionImage.deleteMany()
+  // console.info("🟡 Deleted existing exhibitions...")
+  // await prisma.exhibition.deleteMany()
+  // console.info("🟡 Deleted existing exhibition images...")
+  // await prisma.exhibitionImage.deleteMany()
 
   const user = await prisma.user.findFirst({
     where: { username: "admin" },
@@ -180,7 +180,7 @@ async function seedExhibitions() {
       update: exhibitionData,
       include: { images: { select: { url: true } } },
     })
-    console.info(`✅ 🗓️ Exhibition "${newExhibition.title}" updated`)
+    console.info(`✅ 🗓️ Exhibition "${newExhibition.title}" upserted`)
   }
 }
 
