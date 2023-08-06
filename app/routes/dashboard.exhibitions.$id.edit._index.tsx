@@ -35,10 +35,12 @@ export default function Route() {
       </header>
 
       <Form method="PUT">
-        <fieldset disabled={isSubmitting}>
+        <fieldset disabled={isSubmitting} className="space-y-4">
+          <input type="hidden" name="id" defaultValue={exhibition.id} />
+
           <FormField>
             <FormLabel htmlFor="title">Title</FormLabel>
-            <Input id="title" name="title" />
+            <Input id="title" name="title" defaultValue={exhibition.title} />
           </FormField>
 
           <ButtonLoading isSubmitting={isSubmitting} submittingText="Saving Exhibition...">
@@ -53,13 +55,19 @@ export default function Route() {
 export const action = async ({ request }: ActionArgs) => {
   const formData = await request.formData()
 
-  const title = formData.get("title")
+  const id = formData.get("id")?.toString() || ""
+  const title = formData.get("title")?.toString() || ""
 
-  const updatedExhibition = {
+  const dataExhibition = {
+    id,
     title,
   }
 
-  console.log({ updatedExhibition })
+  const updatedPrisma = await prisma.exhibition.update({
+    where: { id },
+    data: dataExhibition,
+  })
+  if (!updatedPrisma) return null
 
-  return null
+  return redirect(`/dashboard/exhibitions/${id}`)
 }
