@@ -1,10 +1,10 @@
 import { json, redirect } from "@remix-run/node"
 import type { LoaderArgs } from "@remix-run/node"
-import { Link, useLoaderData } from "@remix-run/react"
+import { Form, Link, useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs"
 import { formatDateAndRelative, formatPluralItems } from "~/utils"
-import { Card, ImageArtwork, ImageExhibition } from "~/components"
+import { Button, Card, ImageArtwork, ImageExhibition } from "~/components"
 
 export async function loader({ request, params }: LoaderArgs) {
   const exhibition = await prisma.exhibition.findFirst({
@@ -31,8 +31,18 @@ export default function Route() {
       <header className="flex flex-wrap justify-between gap-4">
         <div className="space-y-4">
           <p>Exhibition</p>
-          <h1>{exhibition.title}</h1>
-          <div className="text-muted-foreground">
+          <div>
+            <div className="flex gap-2">
+              <Button asChild size="sm" variant="secondary">
+                <Link to="edit">Edit</Link>
+              </Button>
+              <Form>
+                <Button size="sm" variant="destructive">
+                  Delete
+                </Button>
+              </Form>
+            </div>
+            <h1>{exhibition.title}</h1>
             <p>
               <span>ID: </span>
               <code>{exhibition.id}</code>

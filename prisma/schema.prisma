@@ -240,7 +240,7 @@ model Exhibition {
   title       String    @unique
   slug        String?   @unique
   date        DateTime?
-  description String?   @db.Text
+  description String?   @db.Text // write up
 
   isPublished Boolean? @default(true)
 
