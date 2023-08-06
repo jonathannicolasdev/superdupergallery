@@ -42,7 +42,7 @@ export async function loader({ request }: LoaderArgs) {
   return json({ artworks, exhibitions }, { headers: createCacheHeaders(request, 60) })
 }
 
-export default function Index() {
+export default function IndexRoute() {
   return (
     <Layout className="flex flex-col items-center justify-center gap-32 px-4 sm:px-8">
       <LandingHero />
