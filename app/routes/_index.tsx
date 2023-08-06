@@ -57,8 +57,8 @@ export function LandingHero() {
   const { userSession } = useRootLoaderData()
 
   return (
-    <article className="w-full max-w-3xl space-y-8 pt-20">
-      <section className="flex gap-8">
+    <article className="w-full space-y-8 pt-20">
+      <section className="flex max-w-3xl gap-8">
         <div className="flex w-full flex-col items-center justify-center space-y-4 text-center lg:items-start lg:text-left">
           <h1 className="flex flex-col flex-wrap items-center gap-4 lg:flex-row">
             <span className="text-brand md:text-5xl lg:text-6xl">Super Duper Gallery</span>
@@ -68,7 +68,7 @@ export function LandingHero() {
             artworks
           </p>
           {!userSession && (
-            <div className="flex flex-wrap justify-center gap-8">
+            <div className="flex flex-wrap justify-center gap-4 sm:gap-8">
               <Button size="lg" asChild>
                 <Link to="/artworks">Discover Artworks</Link>
               </Button>
@@ -78,6 +78,10 @@ export function LandingHero() {
             </div>
           )}
         </div>
+      </section>
+
+      <section>
+        <img src="/images/landing-cover.jpeg" alt="Cover" className="rounded" />
       </section>
     </article>
   )
@@ -166,13 +170,6 @@ export function LandingExhibitions() {
 export function LandingStory() {
   return (
     <article className="w-full max-w-3xl space-y-8 py-20">
-      <section>
-        <img
-          src="https://superdupergallery.com/images/homepage-cover.jpeg"
-          alt="Cover"
-          className="rounded"
-        />
-      </section>
       <section className="space-y-4">
         <div className="prose dark:prose-invert space-y-4">
           <h3 className="uppercase">Super Duper Gallery Offers a Portal Further Beyond</h3>
