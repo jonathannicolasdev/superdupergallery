@@ -12,6 +12,7 @@ import {
   getColorFromString,
 } from "~/utils"
 import {
+  Anchor,
   Button,
   Card,
   CardHeader,
@@ -94,20 +95,26 @@ export default function Route() {
   return (
     <Layout className="flex justify-center px-4">
       <div className="flex w-full flex-col flex-wrap gap-10 sm:flex-row">
-        <header className="w-full space-y-4">
-          <ImageExhibition className="h-80 border-2 border-white object-contain">
-            {exhibition}
-          </ImageExhibition>
+        <header className="flex w-full justify-center">
+          <div className="space-y-4 text-center">
+            <ImageExhibition className="h-80 border-2 border-white object-contain">
+              {exhibition}
+            </ImageExhibition>
 
-          <h1 className="flex">
-            <Link to={`/exhibitions/${exhibition.slug}`} className="hover-opacity">
-              {exhibition.title}
-            </Link>
-          </h1>
+            <h1 className="flex justify-center">
+              <Link to={`/exhibitions/${exhibition.slug}`} className="hover-opacity">
+                {exhibition.title}
+              </Link>
+            </h1>
 
-          <p className="space-y-4">
-            <time>{formatDateAndRelative(exhibition.date)}</time>
-          </p>
+            <p className="space-y-4">
+              <time>{formatDateAndRelative(exhibition.date)}</time>
+            </p>
+
+            <p>
+              <Anchor href="https://goo.gl/maps/3D1xSmpc9Qc6eaD17">Maps to the gallery</Anchor>
+            </p>
+          </div>
         </header>
 
         {exhibition?.artists.length > 0 && (

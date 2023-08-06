@@ -28,7 +28,7 @@ export function Footer({ className }: Props) {
 
         <div className="space-y-4">
           <p>
-            <Anchor href="https://goo.gl/maps/NGtoAsrkYFCH1cud8">
+            <Anchor href="https://goo.gl/maps/3D1xSmpc9Qc6eaD17">
               <address>
                 <span>No.8-A 11th Jamboree, </span>
                 <span>Diliman, </span>
