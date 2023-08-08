@@ -8,12 +8,12 @@ import type { MultiValue } from "react-select"
 import Select from "react-select"
 import { badRequest } from "remix-utils"
 
+import type { OptionValueLabel } from "~/types"
 import { authenticator } from "~/services/auth.server"
 import { prisma } from "~/libs"
 import { createArtistSlug, createTimer } from "~/utils"
 import {
   ButtonLoading,
-  Debug,
   FormAlert,
   FormDescription,
   FormField,
@@ -58,13 +58,14 @@ export default function Route() {
   const isSubmitting = navigation.state === "submitting"
 
   const lastSubmission = useActionData()
-  const [form, { name, bio }] = useForm({
+  const [form, { id, name, bio }] = useForm({
     shouldRevalidate: "onInput",
     lastSubmission,
     onValidate({ formData }) {
       return parse(formData, { schema: schemaArtist })
     },
     defaultValue: {
+      id: artist.id,
       name: artist.name,
       bio: artist.bio,
     },
@@ -74,9 +75,7 @@ export default function Route() {
     .filter(artwork => !artwork.artistId)
     .map(artwork => ({ value: artwork.id, label: artwork.title }))
 
-  const [selectedArtworks, setSelectedArtworks] = useState<
-    MultiValue<{ value: string; label: string }>
-  >(
+  const [selectedArtworks, setSelectedArtworks] = useState<MultiValue<OptionValueLabel>>(
     artist.artworks.map(artwork => ({
       value: artwork.id,
       label: artwork.title,
@@ -86,14 +85,15 @@ export default function Route() {
   return (
     <>
       <header className="space-y-2">
-        <p>Edit Artist: {artist.id}</p>
-        <Debug>{{ lastSubmission }}</Debug>
+        <p>
+          Edit Artist: <code>{artist.id}</code>
+        </p>
       </header>
 
       <section className="max-w-xl">
         <Form method="PUT" {...form.props}>
           <FormFieldSet disabled={isSubmitting}>
-            <input type="hidden" name="id" defaultValue={artist.id} />
+            <input type="hidden" {...conform.input(id)} />
 
             <FormField>
               <FormLabel htmlFor={name.id}>Name</FormLabel>
@@ -119,7 +119,6 @@ export default function Route() {
               <Select
                 isMulti
                 options={artworksOptions}
-                className="bg-black"
                 classNamePrefix="select"
                 defaultValue={selectedArtworks}
                 onChange={values => {
@@ -150,9 +149,11 @@ export const action = async ({ request }: ActionArgs) => {
     return badRequest(submission)
   }
 
-  const artworks = JSON.parse(submission.payload.artistArtworks).map((artwork: any) => ({
-    id: artwork.value,
-  }))
+  const artworks: { id: string }[] = JSON.parse(submission.payload.artistArtworks).map(
+    (artwork: any) => ({
+      id: artwork.value,
+    }),
+  )
 
   const dataArtist = {
     ...submission.value,

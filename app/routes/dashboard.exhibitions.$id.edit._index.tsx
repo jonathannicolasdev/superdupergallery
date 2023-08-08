@@ -4,17 +4,17 @@ import { json, redirect } from "@remix-run/node"
 import { Form, useActionData, useLoaderData, useNavigation } from "@remix-run/react"
 import { conform, useForm } from "@conform-to/react"
 import { parse } from "@conform-to/zod"
-import type { MultiValue, StylesConfig } from "react-select"
+import type { MultiValue } from "react-select"
 import Select from "react-select"
 import { badRequest } from "remix-utils"
 
+import type { OptionValueLabel } from "~/types"
 import { authenticator } from "~/services/auth.server"
 import { prisma } from "~/libs"
 import { createExhibitionSlug, createTimer } from "~/utils"
 import {
   ButtonLoading,
   DatePicker,
-  Debug,
   FormAlert,
   FormDescription,
   FormField,
@@ -23,7 +23,7 @@ import {
   Input,
   Textarea,
 } from "~/components"
-import { schemaExhibitionUpsert } from "~/schemas/exhibition"
+import { schemaExhibition } from "~/schemas/exhibition"
 
 export async function loader({ request, params }: LoaderArgs) {
   const [exhibition, artists, artworks] = await prisma.$transaction([
@@ -70,9 +70,9 @@ export default function Route() {
   const [form, { edition, title, date, description }] = useForm({
     shouldRevalidate: "onInput",
     lastSubmission,
-    // constraint: getFieldsetConstraint(schemaExhibitionUpsert),
+    // constraint: getFieldsetConstraint(schemaExhibition),
     onValidate({ formData }) {
-      return parse(formData, { schema: schemaExhibitionUpsert })
+      return parse(formData, { schema: schemaExhibition })
     },
     defaultValue: {
       edition: exhibition.edition,
@@ -85,17 +85,13 @@ export default function Route() {
   const artistsOptions = artists.map(artist => ({ value: artist.id, label: artist.name }))
   const artworksOptions = artworks.map(artwork => ({ value: artwork.id, label: artwork.title }))
 
-  const [selectedArtists, setSelectedArtists] = useState<
-    MultiValue<{ value: string; label: string }>
-  >(
+  const [selectedArtists, setSelectedArtists] = useState<MultiValue<OptionValueLabel>>(
     exhibition.artists.map(artist => ({
       value: artist.id,
       label: artist.name,
     })),
   )
-  const [selectedArtworks, setSelectedArtworks] = useState<
-    MultiValue<{ value: string; label: string }>
-  >(
+  const [selectedArtworks, setSelectedArtworks] = useState<MultiValue<OptionValueLabel>>(
     exhibition.artworks.map(artwork => ({
       value: artwork.id,
       label: artwork.title,
@@ -105,8 +101,9 @@ export default function Route() {
   return (
     <>
       <header className="space-y-2">
-        <p>Edit Exhibition: {exhibition.id}</p>
-        <Debug>{{ lastSubmission }}</Debug>
+        <p>
+          Edit Exhibition: <code>{exhibition.id}</code>
+        </p>
       </header>
 
       <section className="max-w-xl">
@@ -154,7 +151,6 @@ export default function Route() {
               />
               <Select
                 isMulti
-                className="bg-black"
                 classNamePrefix="select"
                 options={artistsOptions}
                 defaultValue={selectedArtists}
@@ -174,7 +170,6 @@ export default function Route() {
               <Select
                 isMulti
                 options={artworksOptions}
-                className="bg-black"
                 classNamePrefix="select"
                 defaultValue={selectedArtworks}
                 onChange={values => {
@@ -200,17 +195,21 @@ export const action = async ({ request }: ActionArgs) => {
   const userSession = await authenticator.isAuthenticated(request)
   const formData = await clonedRequest.formData()
 
-  const submission = parse(formData, { schema: schemaExhibitionUpsert })
+  const submission = parse(formData, { schema: schemaExhibition })
   if (!submission.value || submission.intent !== "submit") {
     return badRequest(submission)
   }
 
-  const artists = JSON.parse(submission.payload.exhibitionArtists).map((artist: any) => ({
-    id: artist.value,
-  }))
-  const artworks = JSON.parse(submission.payload.exhibitionArtworks).map((artwork: any) => ({
-    id: artwork.value,
-  }))
+  const artists: { id: string }[] = JSON.parse(submission.payload.exhibitionArtists).map(
+    (artist: any) => ({
+      id: artist.value,
+    }),
+  )
+  const artworks: { id: string }[] = JSON.parse(submission.payload.exhibitionArtworks).map(
+    (artwork: any) => ({
+      id: artwork.value,
+    }),
+  )
 
   const dataExhibition = {
     ...submission.value,

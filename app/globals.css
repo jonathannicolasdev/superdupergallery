@@ -232,8 +232,13 @@
   @apply bg-black !important;
 }
 .select__menu-list {
-  @apply bg-black !important;
+  @apply bg-gray-950 !important;
 }
 .select__option--is-focused {
   @apply bg-gray-900 !important;
+}
+.select__input,
+.select__single-value,
+.select__multi-value {
+  @apply text-white !important;
 }

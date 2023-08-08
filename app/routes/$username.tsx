@@ -7,7 +7,7 @@ import invariant from "tiny-invariant"
 import { prisma } from "~/libs"
 import { createCacheHeaders, formatTitle } from "~/utils"
 import { useRootLoaderData } from "~/hooks"
-import { AvatarAuto, Button, Debug, Layout } from "~/components"
+import { AvatarAuto, Button, Layout } from "~/components"
 
 export const meta: V2_MetaFunction<typeof loader> = ({ params, data }) => {
   if (!data?.user) {
@@ -111,8 +111,6 @@ export default function Route() {
           <h3>{user.profiles[0]?.headline}</h3>
           <p className="prose dark:prose-invert whitespace-pre-wrap">{user.profiles[0]?.bio}</p>
         </div>
-
-        <Debug name="user">{{ params, userSession, user }}</Debug>
       </section>
     </Layout>
   )

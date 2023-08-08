@@ -10,7 +10,7 @@ import {
 
 import { cn, prisma } from "~/libs"
 import { createCacheHeaders, formatPluralItems } from "~/utils"
-import { Card, CardHeader, CardTitle, Debug, ImageArtwork, Layout, SearchForm } from "~/components"
+import { Card, CardHeader, CardTitle, ImageArtwork, Layout, SearchForm } from "~/components"
 
 export async function loader({ request }: LoaderArgs) {
   const url = new URL(request.url)
@@ -140,10 +140,6 @@ export default function ArtworksRoute() {
       )}
 
       {totalPages > 1 && <Pagination />}
-
-      <section>
-        <Debug>{artworks}</Debug>
-      </section>
     </Layout>
   )
 }

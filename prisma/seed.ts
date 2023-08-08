@@ -279,7 +279,7 @@ async function seedArtworks() {
           userId: user.id,
           exhibitionId: exhibition?.id,
           artistId: artist?.id,
-          slug: createArtworkSlug(artwork),
+          slug: createArtworkSlug(artwork.title, artwork.artistName),
           title: artwork.title || "Untitled Artwork",
           medium: artwork.medium || "No Medium Info",
           size: artwork.size || "No Size Info",

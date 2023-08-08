@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-const id = z.string().min(1, "Existing id is required").optional()
+const id = z.string().min(1, "Existing id is required")
 
 const name = z.string().max(100, "Name limited to 100 characters")
 

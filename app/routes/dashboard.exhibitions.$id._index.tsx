@@ -29,7 +29,9 @@ export default function Route() {
   return (
     <>
       <header className="space-y-2">
-        <p>Exhibition: {exhibition.id}</p>
+        <p>
+          Exhibition: <code>{exhibition.id}</code>
+        </p>
         <div className="flex items-center gap-2">
           <Button asChild size="xs">
             <Link to={`/exhibitions/${exhibition.slug}`}>View</Link>
@@ -50,10 +52,6 @@ export default function Route() {
           <h1>{exhibition.title}</h1>
 
           <ul>
-            <li>
-              <b>ID: </b>
-              <code>{exhibition.id}</code>
-            </li>
             <li>
               <b>Edition: </b>
               <code>{exhibition.edition}</code>

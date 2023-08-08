@@ -3,15 +3,7 @@ import { Link, useLoaderData, type V2_MetaFunction } from "@remix-run/react"
 
 import { prisma } from "~/libs"
 import { createCacheHeaders, formatPluralItems, formatTitle, getNameInitials } from "~/utils"
-import {
-  AvatarAuto,
-  Card,
-  CardDescription,
-  CardTitle,
-  Debug,
-  Layout,
-  SearchForm,
-} from "~/components"
+import { AvatarAuto, Card, CardDescription, CardTitle, Layout, SearchForm } from "~/components"
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   const query = data?.query
@@ -130,10 +122,6 @@ export default function Route() {
           </ul>
         </section>
       )}
-
-      <section>
-        <Debug>{artists}</Debug>
-      </section>
     </Layout>
   )
 }
