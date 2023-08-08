@@ -28,10 +28,8 @@ async function getArtists() {
   })
 
   users.forEach(user => {
-    console.log({ name: user.name })
+    console.info({ name: user.name })
   })
-
-  // console.log(users)
 }
 
 main()

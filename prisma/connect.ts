@@ -1,7 +1,7 @@
 import { prisma } from "~/libs"
 
 async function main() {
-  console.log(`🟢 Connect to database: ${process.env.DATABASE_URL}`)
+  console.info(`🟢 Connect to database: ${process.env.DATABASE_URL}`)
   await prisma.$executeRaw`SELECT COUNT(1)`
 }
 

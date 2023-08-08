@@ -45,7 +45,7 @@ const FormFieldSet = React.forwardRef<
   React.FieldsetHTMLAttributes<HTMLFieldSetElement>
 >(({ className, children, ...props }, ref) => {
   return (
-    <fieldset ref={ref} className={cn("space-y-2 disabled:opacity-80", className)} {...props}>
+    <fieldset ref={ref} className={cn("space-y-4 disabled:opacity-80", className)} {...props}>
       {children}
     </fieldset>
   )

@@ -7,9 +7,10 @@ import { badRequest } from "remix-utils"
 
 import { authenticator } from "~/services/auth.server"
 import { prisma } from "~/libs"
-import { createExhibitionSlug } from "~/utils"
+import { createExhibitionSlug, delay } from "~/utils"
 import {
   ButtonLoading,
+  DatePicker,
   Debug,
   FormAlert,
   FormDescription,
@@ -71,10 +72,7 @@ export default function Route() {
 
             <FormField>
               <FormLabel htmlFor={edition.id}>Edition Number</FormLabel>
-              <Input
-                {...conform.input(edition, { type: "number" })}
-                // defaultValue={Number(exhibition.edition)}
-              />
+              <Input {...conform.input(edition, { type: "number" })} />
               <FormAlert config={edition} />
             </FormField>
 
@@ -86,7 +84,7 @@ export default function Route() {
             </FormField>
 
             <FormField>
-              <FormLabel htmlFor={description.id}>description</FormLabel>
+              <FormLabel htmlFor={description.id}>Description</FormLabel>
               <FormDescription>Limited to 1000 characters</FormDescription>
               <Textarea {...conform.input(description)} />
               <FormAlert config={description} />
@@ -94,9 +92,11 @@ export default function Route() {
 
             <FormField>
               <FormLabel htmlFor={date.id}>Date</FormLabel>
-              <Input
-                {...conform.input(date, { type: "text" })}
-                // type="date"
+              <DatePicker
+                name={date.name}
+                defaultValue={date.defaultValue}
+                required
+                //
               />
               <FormAlert config={date} />
             </FormField>
@@ -112,6 +112,7 @@ export default function Route() {
 }
 
 export const action = async ({ request }: ActionArgs) => {
+  await delay()
   const clonedRequest = request.clone()
   const userSession = await authenticator.isAuthenticated(request)
   const formData = await clonedRequest.formData()
@@ -121,8 +122,6 @@ export const action = async ({ request }: ActionArgs) => {
     return badRequest(submission)
   }
 
-  console.log({ submission })
-
   const dataExhibition = {
     ...submission.value,
     userId: userSession?.id,
@@ -131,8 +130,6 @@ export const action = async ({ request }: ActionArgs) => {
     // artists: JSON.parse(artists)
     // artworks: JSON.parse(artworks)
   }
-
-  console.log({ dataExhibition })
 
   const upsertedExhibition = await prisma.exhibition.upsert({
     where: { id: dataExhibition.id },

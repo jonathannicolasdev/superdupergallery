@@ -1,6 +1,7 @@
 import { json } from "@remix-run/node"
 import type { LoaderArgs } from "@remix-run/node"
 import { Link, useLoaderData, useParams } from "@remix-run/react"
+import { LocationIcon } from "@primer/octicons-react"
 import { notFound } from "remix-utils"
 import invariant from "tiny-invariant"
 
@@ -96,7 +97,7 @@ export default function Route() {
     <Layout className="flex justify-center px-4">
       <div className="flex w-full flex-col flex-wrap gap-10 sm:flex-row">
         <header className="flex w-full justify-center">
-          <div className="space-y-4 text-center">
+          <div className="flex flex-col justify-center space-y-4 text-center">
             <ImageExhibition className="h-80 border-2 border-white object-contain">
               {exhibition}
             </ImageExhibition>
@@ -107,18 +108,26 @@ export default function Route() {
               </Link>
             </h1>
 
-            <p className="space-y-4">
+            <div className="space-y-4">
               <time>{formatDateAndRelative(exhibition.date)}</time>
-            </p>
+            </div>
 
-            <p>
-              <Anchor href="https://goo.gl/maps/3D1xSmpc9Qc6eaD17">Maps to the gallery</Anchor>
-            </p>
+            <div className="flex justify-center">
+              <Anchor
+                href="https://goo.gl/maps/3D1xSmpc9Qc6eaD17"
+                className="flex items-center gap-2"
+              >
+                <LocationIcon size="small" />
+                <span>Maps to the Gallery</span>
+              </Anchor>
+            </div>
+
+            <p className="prose dark:prose-invert whitespace-pre-wrap">{exhibition.description}</p>
           </div>
         </header>
 
         {exhibition?.artists.length > 0 && (
-          <section className="space-y-4">
+          <section className="flex flex-col justify-center space-y-4">
             <p>{formatPluralItems("artist", exhibition.artists.length)}</p>
             <ul className="flex flex-wrap gap-4">
               {exhibition.artists.map(artist => {

@@ -31,7 +31,7 @@ export default function Route() {
       <header className="flex flex-wrap justify-between gap-4">
         <div className="space-y-4">
           <p>Exhibition</p>
-          <div className="space-y-2">
+          <div className="space-y-4">
             <div className="flex gap-2">
               <Button asChild size="sm">
                 <Link to={`/exhibitions/${exhibition.slug}`}>View</Link>
@@ -46,18 +46,25 @@ export default function Route() {
               </Form>
             </div>
             <h1>{exhibition.title}</h1>
-            <p>
-              <span>ID: </span>
-              <code>{exhibition.id}</code>
-            </p>
-            <p>
-              <span>Slug: </span>
-              <code>{exhibition.slug}</code>
-            </p>
-            <p>
-              <span>Date: </span>
-              <time>{formatDateAndRelative(exhibition.date)}</time>
-            </p>
+            <ul>
+              <li>
+                <b>ID: </b>
+                <code>{exhibition.id}</code>
+              </li>
+              <li>
+                <b>Edition Number: </b>
+                <code>{exhibition.edition}</code>
+              </li>
+              <li>
+                <b>URL Slug: </b>
+                <code>{exhibition.slug}</code>
+              </li>
+              <li>
+                <b>Date: </b>
+                <time>{formatDateAndRelative(exhibition.date)}</time>
+              </li>
+            </ul>
+            <p>{exhibition.description}</p>
           </div>
         </div>
 

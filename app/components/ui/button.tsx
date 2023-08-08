@@ -97,7 +97,7 @@ const ButtonLoading = React.forwardRef<HTMLButtonElement, ButtonLoadingProps>(
 
     return (
       <button
-        className={cn(buttonVariants({ variant, size, className }), "flex")}
+        className={cn(buttonVariants({ variant, size, className }), "flex gap-2")}
         type={type}
         ref={ref}
         name={name}
