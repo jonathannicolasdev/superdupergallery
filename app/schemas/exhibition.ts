@@ -26,6 +26,18 @@ const isPublished = z
   .transform(value => value === "on")
   .optional()
 
+const exhibitionArtist = z.object({
+  id,
+  value: z.string(),
+})
+const exhibitionArtists = z.array(exhibitionArtist).optional()
+
+const exhibitionArtwork = z.object({
+  id,
+  value: z.string(),
+})
+const exhibitionArtworks = z.array(exhibitionArtwork).optional()
+
 export const schemaExhibitionUpsert = zfd.formData({
   id,
   edition,
@@ -33,6 +45,8 @@ export const schemaExhibitionUpsert = zfd.formData({
   date,
   description,
   isPublished,
+  exhibitionArtists,
+  exhibitionArtworks,
 })
 
 export const schemaExhibitionUpsert2 = z.object({

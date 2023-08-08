@@ -64,7 +64,7 @@ export async function loader({ request }: LoaderArgs) {
   return json({ query, count: exhibitions.length, exhibitions })
 }
 
-export default function RouteComponent() {
+export default function Route() {
   const { query, count, exhibitions } = useLoaderData<typeof loader>()
 
   return (

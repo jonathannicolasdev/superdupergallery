@@ -3,6 +3,7 @@ import { json, redirect } from "@remix-run/node"
 import { Form, useActionData, useLoaderData, useNavigation } from "@remix-run/react"
 import { conform, useForm } from "@conform-to/react"
 import { parse } from "@conform-to/zod"
+import Select from "react-select"
 import { badRequest } from "remix-utils"
 
 import { authenticator } from "~/services/auth.server"
@@ -23,48 +24,66 @@ import {
 import { schemaExhibitionUpsert } from "~/schemas/exhibition"
 
 export async function loader({ request, params }: LoaderArgs) {
-  const exhibition = await prisma.exhibition.findFirst({
-    where: { id: params.id },
-    include: {
-      images: true,
-      artworks: {
-        include: {
-          images: { select: { url: true } },
-          artist: true,
+  const [exhibition, artists, artworks] = await prisma.$transaction([
+    prisma.exhibition.findFirst({
+      where: { id: params.id },
+      include: {
+        images: true,
+        artworks: {
+          include: {
+            images: { select: { url: true } },
+            artist: true,
+          },
         },
       },
-    },
-  })
-  if (!exhibition) return redirect("/dashboard/exhibitions")
-  return json({ exhibition })
+    }),
+
+    prisma.artist.findMany({
+      select: { id: true, name: true },
+    }),
+
+    prisma.artwork.findMany({
+      include: {
+        images: true,
+        artist: true,
+      },
+    }),
+  ])
+
+  if (!exhibition || !artists || !artworks) {
+    return redirect("/dashboard/exhibitions")
+  }
+
+  return json({ exhibition, artists, artworks })
 }
 
 export default function Route() {
-  const { exhibition } = useLoaderData<typeof loader>()
+  const { exhibition, artists, artworks } = useLoaderData<typeof loader>()
+
   const navigation = useNavigation()
   const isSubmitting = navigation.state === "submitting"
 
   const lastSubmission = useActionData()
-  const [form, { edition, title, description, date }] = useForm({
-    shouldRevalidate: "onInput",
-    lastSubmission,
-    // constraint: getFieldsetConstraint(schemaExhibitionUpsert),
-    onValidate({ formData }) {
-      return parse(formData, { schema: schemaExhibitionUpsert })
-    },
-    defaultValue: {
-      ...exhibition,
-    },
-  })
+  const [form, { edition, title, date, description, exhibitionArtists, exhibitionArtworks }] =
+    useForm({
+      shouldRevalidate: "onInput",
+      lastSubmission,
+      // constraint: getFieldsetConstraint(schemaExhibitionUpsert),
+      onValidate({ formData }) {
+        return parse(formData, { schema: schemaExhibitionUpsert })
+      },
+      defaultValue: {
+        ...exhibition,
+      },
+    })
+
+  const artistsOptions = artists.map(artist => ({ value: artist.id, label: artist.name }))
+  const artworksOptions = artworks.map(artwork => ({ value: artwork.id, label: artwork.title }))
 
   return (
     <>
       <header className="space-y-2">
-        <p>Edit Exhibition</p>
-        <p>
-          <b>ID: </b>
-          {exhibition.id}
-        </p>
+        <p>Edit Exhibition: {exhibition.id}</p>
         <Debug>{exhibition}</Debug>
       </header>
 
@@ -102,6 +121,28 @@ export default function Route() {
                 //
               />
               <FormAlert config={date} />
+            </FormField>
+
+            <FormField className="space-y-1">
+              <FormLabel htmlFor={exhibitionArtists.id}>Artists</FormLabel>
+              <Select
+                isMulti
+                name="colors"
+                options={artistsOptions}
+                className="basic-multi-select"
+                classNamePrefix="select"
+              />
+            </FormField>
+
+            <FormField className="space-y-1">
+              <FormLabel htmlFor={exhibitionArtworks.id}>Artworks</FormLabel>
+              <Select
+                isMulti
+                name="colors"
+                options={artworksOptions}
+                className="basic-multi-select"
+                classNamePrefix="select"
+              />
             </FormField>
 
             <ButtonLoading isSubmitting={isSubmitting} submittingText="Saving Exhibition...">

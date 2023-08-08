@@ -18,11 +18,11 @@ export const loader = async ({ request }: LoaderArgs) => {
 
 export default function RouteComponent() {
   const { count, exhibitions } = useLoaderData<typeof loader>()
+
   return (
     <>
-      <header>
-        <h1 className="flex items-center gap-2 text-4xl text-brand">Exhibitions</h1>
-        <p>{formatPluralItems("exhibition", count)}</p>
+      <header className="space-y-2">
+        <p>All {formatPluralItems("exhibition", count)}</p>
       </header>
 
       {count > 0 && (
