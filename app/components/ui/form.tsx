@@ -1,12 +1,13 @@
 import * as React from "react"
+import type { FieldConfig } from "@conform-to/react"
 import type * as LabelPrimitive from "@radix-ui/react-label"
 
 import { cn } from "~/libs"
-import { Label } from "~/components"
+import { Alert, Label } from "~/components"
 
 const FormField = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLParagraphElement>>(
   ({ className, ...props }, ref) => {
-    return <div ref={ref} className={cn("space-y-2", className)} {...props} />
+    return <div ref={ref} className={cn("space-y-1", className)} {...props} />
   },
 )
 FormField.displayName = "FormField"
@@ -39,4 +40,34 @@ const FormMessage = React.forwardRef<
 })
 FormMessage.displayName = "FormMessage"
 
-export { FormField, FormLabel, FormDescription, FormMessage }
+const FormFieldSet = React.forwardRef<
+  HTMLFieldSetElement,
+  React.FieldsetHTMLAttributes<HTMLFieldSetElement>
+>(({ className, children, ...props }, ref) => {
+  return (
+    <fieldset ref={ref} className={cn("space-y-2 disabled:opacity-80", className)} {...props}>
+      {children}
+    </fieldset>
+  )
+})
+FormFieldSet.displayName = "FormFieldSet"
+
+const FormAlert = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement> & {
+    field: FieldConfig<string>
+  }
+>(({ className, children, field, ...props }, ref) => {
+  return (
+    <>
+      {field.error && (
+        <Alert variant="destructive" id={field.errorId} ref={ref} {...props}>
+          {field.error}
+        </Alert>
+      )}
+    </>
+  )
+})
+FormAlert.displayName = "FormAlert"
+
+export { FormField, FormLabel, FormDescription, FormMessage, FormFieldSet, FormAlert }

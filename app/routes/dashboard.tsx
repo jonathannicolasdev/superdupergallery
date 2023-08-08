@@ -39,7 +39,7 @@ export function DashboardSidebar() {
         "hidden sm:block",
         "sticky top-0 h-screen", // sticky sidebar
         "min-w-fit space-y-4 p-2 sm:flex sm:flex-col",
-        "border-r-2 border-white bg-background",
+        "border-r-2 border-white bg-black",
       )}
     >
       <div className="flex items-center justify-between">

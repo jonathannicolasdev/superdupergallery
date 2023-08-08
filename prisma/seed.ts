@@ -166,7 +166,7 @@ async function seedExhibitions() {
     const exhibitionData = {
       userId: user.id,
       edition: exhibition.edition,
-      slug: createExhibitionSlug(exhibition),
+      slug: createExhibitionSlug(exhibition.edition, exhibition.title),
       title: exhibition.title,
       date: new Date(String(exhibition.date)),
       description: `Description of "${exhibition.title}"`,
@@ -175,7 +175,7 @@ async function seedExhibitions() {
     }
 
     const newExhibition = await prisma.exhibition.upsert({
-      where: { slug: createExhibitionSlug(exhibition) },
+      where: { slug: createExhibitionSlug(exhibition.edition, exhibition.title) },
       create: exhibitionData,
       update: exhibitionData,
       include: { images: { select: { url: true } } },

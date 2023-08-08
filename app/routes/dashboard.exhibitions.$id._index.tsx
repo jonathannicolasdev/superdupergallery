@@ -33,6 +33,9 @@ export default function Route() {
           <p>Exhibition</p>
           <div>
             <div className="flex gap-2">
+              <Button asChild size="sm">
+                <Link to={`/exhibitions/${exhibition.slug}`}>View</Link>
+              </Button>
               <Button asChild size="sm" variant="secondary">
                 <Link to="edit">Edit</Link>
               </Button>

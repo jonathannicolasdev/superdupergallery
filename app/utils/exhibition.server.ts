@@ -1,6 +1,8 @@
 import { createSlug } from "~/utils"
-import type { DataExhibition } from "~/data"
 
-export function createExhibitionSlug(exhibition: DataExhibition) {
-  return createSlug(`${exhibition.edition} ${exhibition.title}`)
+export function createExhibitionSlug(
+  edition: number | null | undefined,
+  title: string | null | undefined,
+) {
+  return createSlug(`${edition} ${title}`)
 }
