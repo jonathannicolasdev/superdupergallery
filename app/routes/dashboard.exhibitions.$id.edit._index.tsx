@@ -7,7 +7,7 @@ import { badRequest } from "remix-utils"
 
 import { authenticator } from "~/services/auth.server"
 import { prisma } from "~/libs"
-import { createExhibitionSlug, delay } from "~/utils"
+import { createExhibitionSlug, createTimer } from "~/utils"
 import {
   ButtonLoading,
   DatePicker,
@@ -59,9 +59,12 @@ export default function Route() {
 
   return (
     <>
-      <header>
-        <h1>Exhibition</h1>
-        <p>ID: {exhibition.id}</p>
+      <header className="space-y-2">
+        <p>Edit Exhibition</p>
+        <p>
+          <b>ID: </b>
+          {exhibition.id}
+        </p>
         <Debug>{exhibition}</Debug>
       </header>
 
@@ -112,7 +115,8 @@ export default function Route() {
 }
 
 export const action = async ({ request }: ActionArgs) => {
-  await delay()
+  const timer = createTimer()
+
   const clonedRequest = request.clone()
   const userSession = await authenticator.isAuthenticated(request)
   const formData = await clonedRequest.formData()
@@ -137,5 +141,6 @@ export const action = async ({ request }: ActionArgs) => {
     update: dataExhibition,
   })
 
+  await timer.delay()
   return redirect(`/dashboard/exhibitions/${upsertedExhibition.id || dataExhibition.id}`)
 }

@@ -28,48 +28,55 @@ export default function Route() {
 
   return (
     <>
-      <header className="flex flex-wrap justify-between gap-4">
-        <div className="space-y-4">
-          <p>Exhibition</p>
-          <div className="space-y-4">
-            <div className="flex gap-2">
-              <Button asChild size="sm">
-                <Link to={`/exhibitions/${exhibition.slug}`}>View</Link>
-              </Button>
-              <Button asChild size="sm" variant="secondary">
-                <Link to="edit">Edit</Link>
-              </Button>
-              <Form>
-                <Button size="sm" variant="destructive">
-                  Delete
-                </Button>
-              </Form>
-            </div>
-            <h1>{exhibition.title}</h1>
-            <ul>
-              <li>
-                <b>ID: </b>
-                <code>{exhibition.id}</code>
-              </li>
-              <li>
-                <b>Edition Number: </b>
-                <code>{exhibition.edition}</code>
-              </li>
-              <li>
-                <b>URL Slug: </b>
-                <code>{exhibition.slug}</code>
-              </li>
-              <li>
-                <b>Date: </b>
-                <time>{formatDateAndRelative(exhibition.date)}</time>
-              </li>
-            </ul>
-            <p>{exhibition.description}</p>
-          </div>
+      <header className="space-y-2">
+        <p>Exhibition</p>
+        <p>
+          <b>ID: </b>
+          {exhibition.id}
+        </p>
+        <div className="flex items-center gap-2">
+          <Button asChild size="xs">
+            <Link to={`/exhibitions/${exhibition.slug}`}>View</Link>
+          </Button>
+          <Button asChild size="xs" variant="secondary">
+            <Link to="edit">Edit</Link>
+          </Button>
+          <Form>
+            <Button size="xs" variant="destructive">
+              Delete
+            </Button>
+          </Form>
+        </div>
+      </header>
+
+      <section className="flex flex-wrap items-start justify-between gap-4">
+        <div className="space-y-2">
+          <h1>{exhibition.title}</h1>
+
+          <ul>
+            <li>
+              <b>ID: </b>
+              <code>{exhibition.id}</code>
+            </li>
+            <li>
+              <b>Edition: </b>
+              <code>{exhibition.edition}</code>
+            </li>
+            <li>
+              <b>Slug: </b>
+              <code>{exhibition.slug}</code>
+            </li>
+            <li>
+              <b>Date: </b>
+              <time>{formatDateAndRelative(exhibition.date)}</time>
+            </li>
+          </ul>
+
+          <p>{exhibition.description}</p>
         </div>
 
         <ImageExhibition className="max-w-xs object-contain">{exhibition}</ImageExhibition>
-      </header>
+      </section>
 
       {exhibition?.artworks.length > 0 && (
         <section className="space-y-4">

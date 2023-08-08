@@ -5,6 +5,7 @@ import bcrypt from "bcryptjs"
 import { authenticator } from "~/services/auth.server"
 import type { AuthStrategy } from "~/services/auth.server"
 import { prisma } from "~/libs"
+import { createTimer } from "~/utils"
 
 export const loader = () => redirect("/login")
 
@@ -15,6 +16,7 @@ export const action = async ({ request, params }: ActionArgs) => {
   const provider = params.provider as AuthStrategy
 
   if (provider === "form") {
+    const timer = createTimer()
     const clonedRequest = request.clone()
     const formData = await clonedRequest.formData()
 
@@ -33,6 +35,8 @@ export const action = async ({ request, params }: ActionArgs) => {
     const isPasswordCorrect = await bcrypt.compare(password, user.password.hash)
 
     if (!isPasswordCorrect) return json({ user: null })
+
+    await timer.delay()
 
     return authenticator.authenticate("form", request, {
       successRedirect: "/dashboard",

@@ -66,25 +66,25 @@
   h4,
   h5,
   h6 {
-    @apply scroll-m-20 tracking-tight;
+    @apply scroll-m-20;
   }
   h1 {
-    @apply font-brand text-3xl font-black sm:text-4xl;
+    @apply font-brand text-4xl font-black sm:text-5xl;
   }
   h2 {
-    @apply font-brand text-2xl font-bold sm:text-3xl;
+    @apply font-brand text-3xl font-bold sm:text-4xl;
   }
   h3 {
-    @apply text-xl font-bold sm:text-2xl;
+    @apply text-2xl font-bold sm:text-3xl;
   }
   h4 {
-    @apply text-lg font-bold sm:text-xl;
+    @apply text-xl font-bold sm:text-2xl;
   }
   h5 {
-    @apply text-base font-bold sm:text-lg;
+    @apply text-lg font-bold sm:text-xl;
   }
   h6 {
-    @apply text-base font-bold;
+    @apply text-base font-bold sm:text-lg;
   }
   header {
     @apply space-y-1;
