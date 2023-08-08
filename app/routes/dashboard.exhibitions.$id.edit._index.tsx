@@ -2,7 +2,7 @@ import type { ActionArgs, LoaderArgs } from "@remix-run/node"
 import { json, redirect } from "@remix-run/node"
 import { Form, useActionData, useLoaderData, useNavigation } from "@remix-run/react"
 import { conform, useForm } from "@conform-to/react"
-import { getFieldsetConstraint, parse } from "@conform-to/zod"
+import { parse } from "@conform-to/zod"
 import { badRequest } from "remix-utils"
 
 import { authenticator } from "~/services/auth.server"
@@ -10,6 +10,7 @@ import { prisma } from "~/libs"
 import { createExhibitionSlug } from "~/utils"
 import {
   ButtonLoading,
+  Debug,
   FormAlert,
   FormDescription,
   FormField,
@@ -44,11 +45,14 @@ export default function Route() {
 
   const lastSubmission = useActionData()
   const [form, { edition, title, description, date }] = useForm({
-    shouldValidate: "onSubmit",
+    shouldRevalidate: "onInput",
     lastSubmission,
-    constraint: getFieldsetConstraint(schemaExhibitionUpsert),
+    // constraint: getFieldsetConstraint(schemaExhibitionUpsert),
     onValidate({ formData }) {
       return parse(formData, { schema: schemaExhibitionUpsert })
+    },
+    defaultValue: {
+      ...exhibition,
     },
   })
 
@@ -57,6 +61,7 @@ export default function Route() {
       <header>
         <h1>Exhibition</h1>
         <p>ID: {exhibition.id}</p>
+        <Debug>{exhibition}</Debug>
       </header>
 
       <section className="max-w-xl">
@@ -66,28 +71,34 @@ export default function Route() {
 
             <FormField>
               <FormLabel htmlFor={edition.id}>Edition Number</FormLabel>
-              <Input {...conform.input(edition)} type="number" />
-              <FormAlert field={edition} />
+              <Input
+                {...conform.input(edition, { type: "number" })}
+                // defaultValue={Number(exhibition.edition)}
+              />
+              <FormAlert config={edition} />
             </FormField>
 
             <FormField>
               <FormLabel htmlFor={title.id}>Title</FormLabel>
               <FormDescription>Limited to 100 characters</FormDescription>
               <Input {...conform.input(title)} type="text" />
-              <FormAlert field={title} />
+              <FormAlert config={title} />
             </FormField>
 
             <FormField>
               <FormLabel htmlFor={description.id}>description</FormLabel>
               <FormDescription>Limited to 1000 characters</FormDescription>
               <Textarea {...conform.input(description)} />
-              <FormAlert field={description} />
+              <FormAlert config={description} />
             </FormField>
 
             <FormField>
               <FormLabel htmlFor={date.id}>Date</FormLabel>
-              <Input {...conform.input(date)} type="date" />
-              <FormAlert field={date} />
+              <Input
+                {...conform.input(date, { type: "text" })}
+                // type="date"
+              />
+              <FormAlert config={date} />
             </FormField>
 
             <ButtonLoading isSubmitting={isSubmitting} submittingText="Saving Exhibition...">
@@ -110,6 +121,8 @@ export const action = async ({ request }: ActionArgs) => {
     return badRequest(submission)
   }
 
+  console.log({ submission })
+
   const dataExhibition = {
     ...submission.value,
     userId: userSession?.id,
@@ -126,7 +139,6 @@ export const action = async ({ request }: ActionArgs) => {
     create: dataExhibition,
     update: dataExhibition,
   })
-  if (!upsertedExhibition) return null
 
-  return redirect(`/dashboard/exhibitions/${upsertedExhibition.id}`)
+  return redirect(`/dashboard/exhibitions/${upsertedExhibition.id || dataExhibition.id}`)
 }

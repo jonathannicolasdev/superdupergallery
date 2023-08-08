@@ -55,14 +55,14 @@ FormFieldSet.displayName = "FormFieldSet"
 const FormAlert = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & {
-    field: FieldConfig<string>
+    config: FieldConfig<string>
   }
->(({ className, children, field, ...props }, ref) => {
+>(({ className, children, config, ...props }, ref) => {
   return (
     <>
-      {field.error && (
-        <Alert variant="destructive" id={field.errorId} ref={ref} {...props}>
-          {field.error}
+      {config.error && (
+        <Alert variant="destructive" id={config.errorId} ref={ref} {...props}>
+          {config.error}
         </Alert>
       )}
     </>

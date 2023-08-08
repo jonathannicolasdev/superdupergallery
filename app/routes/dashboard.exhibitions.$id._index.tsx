@@ -31,7 +31,7 @@ export default function Route() {
       <header className="flex flex-wrap justify-between gap-4">
         <div className="space-y-4">
           <p>Exhibition</p>
-          <div>
+          <div className="space-y-2">
             <div className="flex gap-2">
               <Button asChild size="sm">
                 <Link to={`/exhibitions/${exhibition.slug}`}>View</Link>

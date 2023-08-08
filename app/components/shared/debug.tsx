@@ -29,7 +29,7 @@ export function Debug({
   const [isVisible, setIsVisible] = useState(true)
   const [isOpen, setIsOpen] = useState(isCollapsibleOpen)
 
-  if (!isAlwaysShow || nodeEnv === "production") return null
+  if (!isAlwaysShow && nodeEnv === "production") return null
   if (!isVisible) return null
 
   return (
@@ -38,12 +38,12 @@ export function Debug({
         <CollapsibleTrigger asChild>
           <div
             className={cn(
-              buttonVariants({ variant: "secondary", size: "sm" }),
+              buttonVariants({ variant: "secondary", size: "xs" }),
               "inline-flex cursor-pointer select-none gap-2 pr-0",
             )}
           >
             {name ? <code>DEBUG: {name}</code> : <code>DEBUG</code>}
-            <span onClick={() => setIsVisible(false)} className="rounded p-2 hover:bg-destructive">
+            <span onClick={() => setIsVisible(false)} className="rounded p-1 hover:bg-destructive">
               <Cross2Icon />
             </span>
           </div>
