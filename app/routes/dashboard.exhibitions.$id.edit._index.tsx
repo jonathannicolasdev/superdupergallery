@@ -4,7 +4,7 @@ import { json, redirect } from "@remix-run/node"
 import { Form, useActionData, useLoaderData, useNavigation } from "@remix-run/react"
 import { conform, useForm } from "@conform-to/react"
 import { parse } from "@conform-to/zod"
-import type { MultiValue } from "react-select"
+import type { MultiValue, StylesConfig } from "react-select"
 import Select from "react-select"
 import { badRequest } from "remix-utils"
 
@@ -154,7 +154,7 @@ export default function Route() {
               />
               <Select
                 isMulti
-                className="basic-multi-select"
+                className="bg-black"
                 classNamePrefix="select"
                 options={artistsOptions}
                 defaultValue={selectedArtists}
@@ -174,7 +174,7 @@ export default function Route() {
               <Select
                 isMulti
                 options={artworksOptions}
-                className="basic-multi-select"
+                className="bg-black"
                 classNamePrefix="select"
                 defaultValue={selectedArtworks}
                 onChange={values => {

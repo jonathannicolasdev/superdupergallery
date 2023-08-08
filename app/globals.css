@@ -228,3 +228,12 @@
 .uploadcare--powered-by {
   @apply hidden;
 }
+.select__control {
+  @apply bg-black !important;
+}
+.select__menu-list {
+  @apply bg-black !important;
+}
+.select__option--is-focused {
+  @apply bg-gray-900 !important;
+}
