@@ -60,7 +60,7 @@ export default function ArtistsRoute() {
       <div className="space-y-10">
         <header className="flex flex-col items-center space-y-2">
           <AvatarAuto
-            className="mb-4 h-32 w-32 outline outline-4 outline-background"
+            className="mb-4 h-32 w-32 "
             src={artist.image?.url}
             alt={artist.name}
             fallback={getNameInitials(artist.name)}
