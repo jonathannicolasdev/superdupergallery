@@ -1,8 +1,10 @@
+import { useState } from "react"
 import type { ActionArgs, LoaderArgs } from "@remix-run/node"
 import { json, redirect } from "@remix-run/node"
 import { Form, useActionData, useLoaderData, useNavigation } from "@remix-run/react"
 import { conform, useForm } from "@conform-to/react"
 import { parse } from "@conform-to/zod"
+import type { MultiValue } from "react-select"
 import Select from "react-select"
 import { badRequest } from "remix-utils"
 
@@ -29,6 +31,7 @@ export async function loader({ request, params }: LoaderArgs) {
       where: { id: params.id },
       include: {
         images: true,
+        artists: true,
         artworks: {
           include: {
             images: { select: { url: true } },
@@ -64,27 +67,46 @@ export default function Route() {
   const isSubmitting = navigation.state === "submitting"
 
   const lastSubmission = useActionData()
-  const [form, { edition, title, date, description, exhibitionArtists, exhibitionArtworks }] =
-    useForm({
-      shouldRevalidate: "onInput",
-      lastSubmission,
-      // constraint: getFieldsetConstraint(schemaExhibitionUpsert),
-      onValidate({ formData }) {
-        return parse(formData, { schema: schemaExhibitionUpsert })
-      },
-      defaultValue: {
-        ...exhibition,
-      },
-    })
+  const [form, { edition, title, date, description }] = useForm({
+    shouldRevalidate: "onInput",
+    lastSubmission,
+    // constraint: getFieldsetConstraint(schemaExhibitionUpsert),
+    onValidate({ formData }) {
+      return parse(formData, { schema: schemaExhibitionUpsert })
+    },
+    defaultValue: {
+      edition: exhibition.edition,
+      title: exhibition.title,
+      date: exhibition.date,
+      description: exhibition.description,
+    },
+  })
 
   const artistsOptions = artists.map(artist => ({ value: artist.id, label: artist.name }))
   const artworksOptions = artworks.map(artwork => ({ value: artwork.id, label: artwork.title }))
+
+  const [selectedArtists, setSelectedArtists] = useState<
+    MultiValue<{ value: string; label: string }>
+  >(
+    exhibition.artists.map(artist => ({
+      value: artist.id,
+      label: artist.name,
+    })),
+  )
+  const [selectedArtworks, setSelectedArtworks] = useState<
+    MultiValue<{ value: string; label: string }>
+  >(
+    exhibition.artworks.map(artwork => ({
+      value: artwork.id,
+      label: artwork.title,
+    })),
+  )
 
   return (
     <>
       <header className="space-y-2">
         <p>Edit Exhibition: {exhibition.id}</p>
-        <Debug>{exhibition}</Debug>
+        <Debug>{{ lastSubmission }}</Debug>
       </header>
 
       <section className="max-w-xl">
@@ -124,24 +146,40 @@ export default function Route() {
             </FormField>
 
             <FormField className="space-y-1">
-              <FormLabel htmlFor={exhibitionArtists.id}>Artists</FormLabel>
+              <FormLabel>Artists</FormLabel>
+              <input
+                type="hidden"
+                name="exhibitionArtists"
+                defaultValue={JSON.stringify(selectedArtists)}
+              />
               <Select
                 isMulti
-                name="colors"
-                options={artistsOptions}
                 className="basic-multi-select"
                 classNamePrefix="select"
+                options={artistsOptions}
+                defaultValue={selectedArtists}
+                onChange={values => {
+                  setSelectedArtists(values)
+                }}
               />
             </FormField>
 
             <FormField className="space-y-1">
-              <FormLabel htmlFor={exhibitionArtworks.id}>Artworks</FormLabel>
+              <FormLabel>Artworks</FormLabel>
+              <input
+                type="hidden"
+                name="exhibitionArtworks"
+                defaultValue={JSON.stringify(selectedArtworks)}
+              />
               <Select
                 isMulti
-                name="colors"
                 options={artworksOptions}
                 className="basic-multi-select"
                 classNamePrefix="select"
+                defaultValue={selectedArtworks}
+                onChange={values => {
+                  setSelectedArtworks(values)
+                }}
               />
             </FormField>
 
@@ -167,21 +205,40 @@ export const action = async ({ request }: ActionArgs) => {
     return badRequest(submission)
   }
 
+  const artists = JSON.parse(submission.payload.exhibitionArtists).map((artist: any) => ({
+    id: artist.value,
+  }))
+  const artworks = JSON.parse(submission.payload.exhibitionArtworks).map((artwork: any) => ({
+    id: artwork.value,
+  }))
+
   const dataExhibition = {
     ...submission.value,
     userId: userSession?.id,
     slug: createExhibitionSlug(submission.value.edition, submission.value.title),
+    artists: { connect: artists },
+    artworks: { connect: artworks },
     // images: JSON.parse(images)
-    // artists: JSON.parse(artists)
-    // artworks: JSON.parse(artworks)
   }
 
-  const upsertedExhibition = await prisma.exhibition.upsert({
+  await prisma.exhibition.update({
+    where: { id: dataExhibition.id },
+    data: {
+      artists: { set: [] },
+      artworks: { set: [] },
+    },
+  })
+
+  const newExhibition = await prisma.exhibition.upsert({
     where: { id: dataExhibition.id },
     create: dataExhibition,
     update: dataExhibition,
+    include: {
+      artists: { select: { id: true, name: true } },
+      artworks: { select: { id: true, title: true } },
+    },
   })
 
   await timer.delay()
-  return redirect(`/dashboard/exhibitions/${upsertedExhibition.id || dataExhibition.id}`)
+  return redirect(`/dashboard/exhibitions/${newExhibition.id || dataExhibition.id}`)
 }
