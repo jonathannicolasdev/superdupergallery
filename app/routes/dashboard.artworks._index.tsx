@@ -3,7 +3,7 @@ import type { V2_MetaFunction } from "@remix-run/react"
 import { Link, useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs"
-import { formatPluralItems, formatTitle } from "~/utils"
+import { formatTitle } from "~/utils"
 import {
   Card,
   getPaginationConfigs,
@@ -53,7 +53,7 @@ export default function RouteComponent() {
   return (
     <>
       <header className="space-y-2">
-        <p>All {formatPluralItems("artwork", count)}</p>
+        <p>Artworks</p>
       </header>
 
       <PaginationSearch
