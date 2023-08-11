@@ -180,7 +180,7 @@
   @apply cursor-pointer;
 }
 .uploadcare--dialog__close {
-  @apply cursor-pointer bg-white text-white hover:bg-gray-100 focus:bg-gray-100;
+  @apply cursor-pointer bg-white text-white hover:bg-zinc-100 focus:bg-zinc-100;
 }
 .uploadcare--widget__button {
   @apply inline-flex items-center justify-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50;
@@ -232,10 +232,10 @@
   @apply bg-black !important;
 }
 .select__menu-list {
-  @apply bg-gray-950 !important;
+  @apply bg-zinc-950 !important;
 }
 .select__option--is-focused {
-  @apply bg-gray-900 !important;
+  @apply bg-zinc-900 !important;
 }
 .select__input,
 .select__single-value,

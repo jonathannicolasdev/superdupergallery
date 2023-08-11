@@ -115,7 +115,7 @@ export function NavigationList({ navItems }: { navItems: NavItem[] }) {
                     isActive ||
                       (navItem.to === "/profile" && checkIfActiveUsername(location, userData))
                       ? "dark:bg-pink-950 dark:hover:bg-pink-900"
-                      : "hover:bg-gray-800",
+                      : "hover:bg-zinc-800",
                   )
                 }}
               >

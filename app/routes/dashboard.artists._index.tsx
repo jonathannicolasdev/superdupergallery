@@ -3,36 +3,79 @@ import type { V2_MetaFunction } from "@remix-run/react"
 import { Link, useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs"
-import { formatPluralItems, formatTitle, getNameInitials } from "~/utils"
-import { AvatarAuto, Card } from "~/components"
+import { formatTitle, getNameInitials } from "~/utils"
+import {
+  AvatarAuto,
+  Card,
+  getPaginationConfigs,
+  getPaginationOptions,
+  PaginationNavigation,
+  PaginationSearch,
+} from "~/components"
 
 export const meta: V2_MetaFunction = () => [{ title: formatTitle(`All Artists`) }]
 
 export const loader = async ({ request }: LoaderArgs) => {
-  const artists = await prisma.artist.findMany({
-    orderBy: { name: "asc" },
-    include: { image: true, artworks: true },
+  const config = getPaginationConfigs({ request, defaultLimit: 20 })
+
+  const where = !config.queryParam
+    ? {}
+    : {
+        OR: [
+          { name: { contains: config.queryParam } },
+          // { bio: { contains: config.queryParam } },
+        ],
+      }
+
+  const [totalItems, items] = await prisma.$transaction([
+    prisma.artist.count({ where }),
+
+    prisma.artist.findMany({
+      where,
+      skip: config.skip,
+      take: config.limitParam,
+      orderBy: { name: "asc" },
+      include: {
+        image: { select: { url: true } },
+        artworks: { select: { id: true } },
+      },
+    }),
+  ])
+
+  return json({
+    ...getPaginationOptions({ request, totalItems }),
+    artists: items,
+    count: items.length,
   })
-  return json({ count: artists.length, artists })
 }
 
 export default function RouteComponent() {
-  const { count, artists } = useLoaderData<typeof loader>()
+  const { count, artists, ...loaderData } = useLoaderData<typeof loader>()
 
   return (
     <>
       <header className="space-y-2">
-        <p>All {formatPluralItems("artist", count)}</p>
+        <p>Artists</p>
       </header>
+
+      <PaginationSearch
+        itemName="artist"
+        searchPlaceholder="Search artists by name and bio..."
+        count={count}
+        isVerbose={true}
+        {...loaderData}
+      />
+
+      <PaginationNavigation {...loaderData} />
 
       {count > 0 && (
         <section>
-          <ul className="space-y-4">
+          <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {artists.map(artist => {
               return (
                 <li key={artist.id}>
                   <Link to={`/dashboard/artists/${artist.id}`}>
-                    <Card className="hover-opacity grid max-w-xl grid-cols-4 items-center gap-4">
+                    <Card className="hover-opacity flex max-w-xl items-center gap-4">
                       <AvatarAuto
                         className="h-20 w-20"
                         src={artist.image?.url}
@@ -40,7 +83,7 @@ export default function RouteComponent() {
                         fallback={getNameInitials(artist.name)}
                       />
 
-                      <div className="col-span-3">
+                      <div>
                         <h4>{artist.name}</h4>
                         <div className="text-muted-foreground">
                           <p>{artist.slug}</p>
@@ -54,6 +97,8 @@ export default function RouteComponent() {
           </ul>
         </section>
       )}
+
+      <PaginationNavigation {...loaderData} />
     </>
   )
 }

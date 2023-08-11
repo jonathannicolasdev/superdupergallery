@@ -2,64 +2,73 @@ import { json, type LoaderArgs } from "@remix-run/node"
 import { Link, useLoaderData, type V2_MetaFunction } from "@remix-run/react"
 
 import { prisma } from "~/libs"
-import { createCacheHeaders, formatPluralItems, formatTitle, getNameInitials } from "~/utils"
-import { AvatarAuto, Card, CardDescription, CardTitle, Layout, SearchForm } from "~/components"
+import { formatPluralItems, formatTitle, getNameInitials } from "~/utils"
+import {
+  AvatarAuto,
+  Card,
+  CardDescription,
+  CardTitle,
+  getPaginationConfigs,
+  getPaginationOptions,
+  Layout,
+  PaginationNavigation,
+  PaginationSearch,
+} from "~/components"
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
-  const query = data?.query
-  const count = data?.count
+  const query = data?.queryParam
+  const count = data?.count || 0
+  const pluralItems = formatPluralItems("artist", count)
 
   if (!query) {
     return [
       { title: formatTitle(`All artists`) },
-      { name: "description", content: `All artists in Bearartist.` },
+      { name: "description", content: `All artists in Super Duper Gallery.` },
     ]
   }
 
   return [
-    { title: formatTitle(`Keyword "${query}" found ${count} artists`) },
-    {
-      name: "description",
-      content: `Searching for "${query}" found ${count} artists.`,
-    },
+    { title: formatTitle(`Keyword "${query}" found ${pluralItems}`) },
+    { name: "description", content: `Searching for "${query}" found ${pluralItems}.` },
   ]
 }
 
 export const loader = async ({ request }: LoaderArgs) => {
-  const url = new URL(request.url)
-  const query = url.searchParams.get("q")
+  const config = getPaginationConfigs({ request, defaultLimit: 20 })
 
-  if (!query) {
-    const artists = await prisma.artist.findMany({
+  const where = !config.queryParam
+    ? {}
+    : {
+        OR: [
+          { name: { contains: config.queryParam } },
+          // { bio: { contains: config.queryParam } },
+        ],
+      }
+
+  const [totalItems, items] = await prisma.$transaction([
+    prisma.artist.count({ where }),
+
+    prisma.artist.findMany({
+      where,
+      skip: config.skip,
+      take: config.limitParam,
       orderBy: { name: "asc" },
       include: {
         image: { select: { url: true } },
         artworks: { select: { id: true } },
       },
-    })
+    }),
+  ])
 
-    return json(
-      { query, count: artists.length, artists },
-      { headers: createCacheHeaders(request, 60) },
-    )
-  }
-
-  const artists = await prisma.artist.findMany({
-    where: {
-      OR: [{ name: { contains: query } }],
-    },
-    orderBy: { name: "asc" },
-    include: {
-      image: { select: { url: true } },
-      artworks: { select: { id: true } },
-    },
+  return json({
+    ...getPaginationOptions({ request, totalItems }),
+    artists: items,
+    count: items.length,
   })
-
-  return json({ query, count: artists.length, artists })
 }
 
 export default function Route() {
-  const { query, count, artists } = useLoaderData<typeof loader>()
+  const { count, artists, ...loaderData } = useLoaderData<typeof loader>()
 
   return (
     <Layout className="space-y-8 p-4">
@@ -74,23 +83,15 @@ export default function Route() {
         </p>
       </header>
 
-      <section className="w-full space-y-4">
-        <SearchForm action="/artists" placeholder="Search artists with keyword..." />
+      <PaginationSearch
+        itemName="artist"
+        searchPlaceholder="Search artists by name and bio..."
+        count={count}
+        isVerbose={true}
+        {...loaderData}
+      />
 
-        {query && count <= 0 && (
-          <p className="text-muted-foreground">No artist found with keyword "{query}"</p>
-        )}
-
-        {!query && count > 0 && (
-          <p className="text-muted-foreground">{formatPluralItems("artist", count)}</p>
-        )}
-
-        {query && count > 0 && (
-          <p className="text-muted-foreground">
-            Found {formatPluralItems("artist", count)} with keyword "{query}"
-          </p>
-        )}
-      </section>
+      <PaginationNavigation {...loaderData} />
 
       {count > 0 && (
         <section className="space-y-2">
@@ -122,6 +123,8 @@ export default function Route() {
           </ul>
         </section>
       )}
+
+      <PaginationNavigation {...loaderData} />
     </Layout>
   )
 }

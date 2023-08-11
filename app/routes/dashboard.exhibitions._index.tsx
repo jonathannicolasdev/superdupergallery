@@ -3,27 +3,67 @@ import type { V2_MetaFunction } from "@remix-run/react"
 import { Link, useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs"
-import { formatDateAndRelative, formatPluralItems, formatTitle } from "~/utils"
-import { Card, ImageExhibition } from "~/components"
+import { formatDateAndRelative, formatTitle } from "~/utils"
+import {
+  Card,
+  getPaginationConfigs,
+  getPaginationOptions,
+  ImageExhibition,
+  PaginationNavigation,
+  PaginationSearch,
+} from "~/components"
 
 export const meta: V2_MetaFunction = () => [{ title: formatTitle(`All Exhibitions`) }]
 
 export const loader = async ({ request }: LoaderArgs) => {
-  const exhibitions = await prisma.exhibition.findMany({
-    orderBy: { edition: "desc" },
-    include: { images: true, artworks: true, artists: true },
+  const config = getPaginationConfigs({ request, defaultLimit: 20 })
+
+  const where = !config.queryParam
+    ? {}
+    : {
+        OR: [
+          { edition: { equals: Number(config.queryParam) } },
+          { title: { contains: config.queryParam } },
+        ],
+      }
+
+  const [totalItems, items] = await prisma.$transaction([
+    prisma.exhibition.count({ where }),
+
+    prisma.exhibition.findMany({
+      where,
+      skip: config.skip,
+      take: config.limitParam,
+      orderBy: { edition: "desc" },
+      include: { images: true, artworks: true, artists: true },
+    }),
+  ])
+
+  return json({
+    ...getPaginationOptions({ request, totalItems }),
+    exhibitions: items,
+    count: items.length,
   })
-  return json({ count: exhibitions.length, exhibitions })
 }
 
 export default function RouteComponent() {
-  const { count, exhibitions } = useLoaderData<typeof loader>()
+  const { count, exhibitions, ...loaderData } = useLoaderData<typeof loader>()
 
   return (
     <>
       <header className="space-y-2">
-        <p>All {formatPluralItems("exhibition", count)}</p>
+        <p>Exhibitions</p>
       </header>
+
+      <PaginationSearch
+        itemName="exhibition"
+        searchPlaceholder="Search exhibitions by title and description..."
+        count={count}
+        isVerbose={true}
+        {...loaderData}
+      />
+
+      <PaginationNavigation {...loaderData} />
 
       {count > 0 && (
         <section>
@@ -54,6 +94,8 @@ export default function RouteComponent() {
           </ul>
         </section>
       )}
+
+      <PaginationNavigation {...loaderData} />
     </>
   )
 }

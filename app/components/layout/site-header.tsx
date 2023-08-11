@@ -1,5 +1,7 @@
 import { NavLink } from "@remix-run/react"
 
+import { cn } from "~/libs"
+
 type NavItem = {
   to: string
   text: string
@@ -45,7 +47,14 @@ export function SiteHeader() {
                 <li key={navItem.to}>
                   <NavLink
                     to={navItem.to}
-                    className="border-b-4 border-b-black pb-2 text-sm font-bold uppercase tracking-widest hover:border-b-4 hover:border-b-pink-600 sm:text-base md:text-lg"
+                    className={({ isActive }) => {
+                      return cn(
+                        "border-b-4 border-b-black pb-2 text-sm font-bold uppercase tracking-widest hover:border-b-4 sm:text-base md:text-lg",
+                        isActive
+                          ? "dark:border-b-pink-900 dark:hover:border-b-pink-600"
+                          : "hover:border-b-zinc-600",
+                      )
+                    }}
                   >
                     {navItem.text}
                   </NavLink>

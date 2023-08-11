@@ -174,7 +174,7 @@ export function PaginationNavigation({
                   className={cn(
                     "hover-opacity",
                     "flex w-8 justify-center rounded p-2 font-bold",
-                    isActive && "bg-pink-500 text-white",
+                    isActive && "bg-pink-600 text-white",
                     !isActive && "text-muted-foreground hover:text-white",
                   )}
                 >

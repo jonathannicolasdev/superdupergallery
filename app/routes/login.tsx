@@ -35,7 +35,7 @@ export default function Route() {
           </div>
         </section>
 
-        <section className="relative hidden h-full flex-col bg-gray-950 p-10 text-white lg:flex lg:items-end">
+        <section className="relative hidden h-full flex-col bg-zinc-950 p-10 text-white lg:flex lg:items-end">
           <Link to="/" className="hidden lg:block">
             <h1 className="flex items-center gap-2 text-2xl">
               <img src="/images/superdupergallery.png" alt="Cat" className="h-10" />

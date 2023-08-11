@@ -18,7 +18,6 @@ export const meta: V2_MetaFunction = () => [{ title: formatTitle(`All Artworks`)
 export const loader = async ({ request }: LoaderArgs) => {
   const config = getPaginationConfigs({ request, defaultLimit: 20 })
 
-  // Custom query config
   const where = !config.queryParam
     ? {}
     : {
@@ -58,7 +57,7 @@ export default function RouteComponent() {
 
       <PaginationSearch
         itemName="artwork"
-        searchPlaceholder="Search artworks with keyword..."
+        searchPlaceholder="Search artworks by title..."
         count={count}
         isVerbose={true}
         {...loaderData}

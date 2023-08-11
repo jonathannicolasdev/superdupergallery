@@ -27,7 +27,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex">
       <DashboardSidebar />
-      <main className="grow space-y-8 px-4 pb-20 pt-4">{children}</main>
+      <main className="mb-20 grow space-y-8 px-4 pb-20 pt-4">{children}</main>
     </div>
   )
 }
