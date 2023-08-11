@@ -4,26 +4,67 @@ import { Link, useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs"
 import { formatPluralItems, formatTitle } from "~/utils"
-import { Card, ImageArtwork } from "~/components"
+import {
+  Card,
+  getPaginationConfigs,
+  getPaginationOptions,
+  ImageArtwork,
+  PaginationNavigation,
+  PaginationSearch,
+} from "~/components"
 
 export const meta: V2_MetaFunction = () => [{ title: formatTitle(`All Artworks`) }]
 
 export const loader = async ({ request }: LoaderArgs) => {
-  const artworks = await prisma.artwork.findMany({
-    orderBy: { createdAt: "desc" },
-    include: { images: true, artist: true },
+  const config = getPaginationConfigs({ request, defaultLimit: 20 })
+
+  // Custom query config
+  const where = !config.queryParam
+    ? {}
+    : {
+        OR: [
+          { title: { contains: config.queryParam } },
+          { medium: { contains: config.queryParam } },
+        ],
+      }
+
+  const [totalItems, items] = await prisma.$transaction([
+    prisma.artwork.count({ where }),
+
+    prisma.artwork.findMany({
+      where,
+      skip: config.skip,
+      take: config.limitParam,
+      orderBy: { createdAt: "desc" },
+      include: { images: true, artist: true },
+    }),
+  ])
+
+  return json({
+    ...getPaginationOptions({ request, totalItems }),
+    artworks: items,
+    count: items.length,
   })
-  return json({ count: artworks.length, artworks })
 }
 
 export default function RouteComponent() {
-  const { count, artworks } = useLoaderData<typeof loader>()
+  const { count, artworks, ...loaderData } = useLoaderData<typeof loader>()
 
   return (
     <>
       <header className="space-y-2">
         <p>All {formatPluralItems("artwork", count)}</p>
       </header>
+
+      <PaginationSearch
+        itemName="artwork"
+        searchPlaceholder="Search artworks with keyword..."
+        count={count}
+        isVerbose={true}
+        {...loaderData}
+      />
+
+      <PaginationNavigation {...loaderData} />
 
       {count > 0 && (
         <section>
@@ -50,6 +91,8 @@ export default function RouteComponent() {
           </ul>
         </section>
       )}
+
+      <PaginationNavigation {...loaderData} />
     </>
   )
 }

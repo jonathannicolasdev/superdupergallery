@@ -165,6 +165,7 @@ function Pagination({ routePath = "/artworks" }: { routePath?: string }) {
       return <span className="flex w-8 select-none justify-center px-1 opacity-20">{icon}</span>
     }
 
+    // TODO: Use URLSearchParams
     return (
       <Link
         to={`${routePath}?q=${query}&limit=${limit}&page=${targetPage}`}
