@@ -1,10 +1,12 @@
-import { json, type LoaderArgs } from "@remix-run/node"
+import type { ActionArgs, LoaderArgs } from "@remix-run/node"
+import { json, redirect } from "@remix-run/node"
 import type { V2_MetaFunction } from "@remix-run/react"
-import { Link, useLoaderData } from "@remix-run/react"
+import { Form, Link, useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs"
-import { formatDateAndRelative, formatTitle } from "~/utils"
+import { createExhibitionSlug, formatDateAndRelative, formatTitle } from "~/utils"
 import {
+  Button,
   Card,
   getPaginationConfigs,
   getPaginationOptions,
@@ -51,8 +53,13 @@ export default function RouteComponent() {
 
   return (
     <>
-      <header className="space-y-2">
+      <header className="flex items-center gap-2">
         <p>Exhibitions</p>
+        <Form method="POST">
+          <Button type="submit" size="sm">
+            Create New
+          </Button>
+        </Form>
       </header>
 
       <PaginationSearch
@@ -98,4 +105,26 @@ export default function RouteComponent() {
       <PaginationNavigation {...loaderData} />
     </>
   )
+}
+
+export const action = async ({ request }: ActionArgs) => {
+  const lastExhibiton = await prisma.exhibition.findFirst({
+    orderBy: { edition: "desc" },
+  })
+  if (!lastExhibiton?.edition) return null
+
+  const edition = lastExhibiton?.edition + 1
+  const title = `Exhibition ${edition}`
+
+  const exhibition = await prisma.exhibition.create({
+    data: {
+      edition: edition,
+      title: title,
+      slug: createExhibitionSlug(edition, title),
+      date: new Date(),
+      description: `Description of ${title}`,
+    },
+  })
+
+  return redirect(`${exhibition.id}/edit`)
 }

@@ -1,10 +1,10 @@
 import { json, redirect } from "@remix-run/node"
-import type { LoaderArgs } from "@remix-run/node"
+import type { ActionArgs, LoaderArgs } from "@remix-run/node"
 import { Form, Link, useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs"
 import { formatDateAndRelative, formatPluralItems } from "~/utils"
-import { Button, Card, ImageArtwork, ImageExhibition } from "~/components"
+import { Button, ButtonLink, Card, ImageArtwork, ImageExhibition } from "~/components"
 
 export async function loader({ request, params }: LoaderArgs) {
   const exhibition = await prisma.exhibition.findFirst({
@@ -33,13 +33,13 @@ export default function Route() {
           Exhibition: <code>{exhibition.id}</code>
         </p>
         <div className="flex items-center gap-2">
-          <Button asChild size="xs">
-            <Link to={`/exhibitions/${exhibition.slug}`}>View</Link>
-          </Button>
-          <Button asChild size="xs" variant="secondary">
-            <Link to="edit">Edit</Link>
-          </Button>
-          <Form>
+          <ButtonLink size="xs" to={`/exhibitions/${exhibition.slug}`}>
+            View
+          </ButtonLink>
+          <ButtonLink size="xs" variant="secondary" to="edit">
+            Edit
+          </ButtonLink>
+          <Form method="DELETE">
             <Button size="xs" variant="destructive">
               Delete
             </Button>
@@ -106,4 +106,12 @@ export default function Route() {
       )}
     </>
   )
+}
+
+export const action = async ({ params }: ActionArgs) => {
+  await prisma.exhibition.delete({
+    where: { id: params.id },
+  })
+
+  return redirect(`/dashboard/exhibitions`)
 }
