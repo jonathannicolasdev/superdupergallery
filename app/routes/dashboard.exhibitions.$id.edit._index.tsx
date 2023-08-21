@@ -88,7 +88,10 @@ export default function Route() {
   })
 
   const artistsOptions = artists.map(artist => ({ value: artist.id, label: artist.name }))
-  const artworksOptions = artworks.map(artwork => ({ value: artwork.id, label: artwork.title }))
+  const artworksOptions = artworks.map(artwork => ({
+    value: artwork.id,
+    label: `${artwork.title} (${artwork.artist?.name})`,
+  }))
 
   const [selectedArtists, setSelectedArtists] = useState<MultiValue<OptionValueLabel>>(
     exhibition.artists.map(artist => ({
@@ -100,7 +103,7 @@ export default function Route() {
   const [selectedArtworks, setSelectedArtworks] = useState<MultiValue<OptionValueLabel>>(
     exhibition.artworks.map(artwork => ({
       value: artwork.id,
-      label: artwork.title,
+      label: `${artwork.title} (${artwork.artist?.name})`,
     })),
   )
 

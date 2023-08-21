@@ -42,7 +42,10 @@ export async function loader({ request, params }: LoaderArgs) {
     }),
 
     prisma.artwork.findMany({
-      include: { images: true },
+      include: {
+        images: true,
+        artist: true,
+      },
     }),
   ])
 
@@ -75,12 +78,15 @@ export default function Route() {
 
   const artworksOptions = artworks
     .filter(artwork => !artwork.artistId)
-    .map(artwork => ({ value: artwork.id, label: artwork.title }))
+    .map(artwork => ({
+      value: artwork.id,
+      label: `${artwork.title} (${artwork.artist?.name})`,
+    }))
 
   const [selectedArtworks, setSelectedArtworks] = useState<MultiValue<OptionValueLabel>>(
     artist.artworks.map(artwork => ({
       value: artwork.id,
-      label: artwork.title,
+      label: `${artwork.title} (${artwork.artist?.name})`,
     })),
   )
 
