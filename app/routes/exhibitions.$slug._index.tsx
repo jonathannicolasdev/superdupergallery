@@ -108,21 +108,27 @@ export default function Route() {
               </Link>
             </h1>
 
-            <div className="space-y-4">
-              <time>{formatDateAndRelative(exhibition.date)}</time>
-            </div>
+            <div className="space-y-2">
+              <p>Exhibition #{exhibition.edition}</p>
 
-            <div className="flex justify-center">
-              <Anchor
-                href="https://goo.gl/maps/3D1xSmpc9Qc6eaD17"
-                className="flex items-center gap-2"
-              >
-                <LocationIcon size="small" />
-                <span>Maps to the Gallery</span>
-              </Anchor>
-            </div>
+              <p className="space-y-4">
+                <time>{formatDateAndRelative(exhibition.date)}</time>
+              </p>
 
-            <p className="prose dark:prose-invert whitespace-pre-wrap">{exhibition.description}</p>
+              <p className="prose dark:prose-invert whitespace-pre-wrap">
+                {exhibition.description}
+              </p>
+
+              <p className="flex justify-center">
+                <Anchor
+                  href="https://goo.gl/maps/3D1xSmpc9Qc6eaD17"
+                  className="flex items-center gap-2"
+                >
+                  <LocationIcon size="small" />
+                  <span>Maps to the Gallery</span>
+                </Anchor>
+              </p>
+            </div>
           </div>
         </header>
 
