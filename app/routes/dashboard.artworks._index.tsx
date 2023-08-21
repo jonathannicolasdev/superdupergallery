@@ -1,9 +1,10 @@
-import { json, type LoaderArgs } from "@remix-run/node"
+import type { ActionArgs, LoaderArgs } from "@remix-run/node"
+import { json, redirect } from "@remix-run/node"
 import type { V2_MetaFunction } from "@remix-run/react"
 import { Link, useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs"
-import { formatTitle } from "~/utils"
+import { createArtworkSlug, formatTitle } from "~/utils"
 import {
   Card,
   getPaginationConfigs,
@@ -94,4 +95,28 @@ export default function RouteComponent() {
       <PaginationNavigation {...loaderData} />
     </>
   )
+}
+
+export const action = async ({ request }: ActionArgs) => {
+  const formData = await request.formData()
+  const redirectTo = formData.get("redirectTo")?.toString()
+
+  const count = await prisma.artwork.count()
+
+  const number = count + 1
+  const title = `Artwork ${number}`
+
+  const artwork = await prisma.artwork.create({
+    data: {
+      title,
+      slug: createArtworkSlug(title, "unknown"),
+      year: 2023,
+      medium: "Canvas",
+      size: "20x20 inches",
+      price: 0,
+    },
+  })
+
+  if (redirectTo) return redirect(`${artwork.id}/edit?redirectTo=${redirectTo}`)
+  return redirect(`${artwork.id}/edit`)
 }

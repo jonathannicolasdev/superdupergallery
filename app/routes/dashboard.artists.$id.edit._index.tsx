@@ -10,9 +10,11 @@ import { badRequest } from "remix-utils"
 
 import type { OptionValueLabel } from "~/types"
 import { authenticator } from "~/services/auth.server"
-import { prisma } from "~/libs"
-import { createArtistSlug, createTimer } from "~/utils"
+import { createAvatarImageURL, prisma } from "~/libs"
+import { createArtistSlug, createTimer, getNameInitials, getRedirectTo } from "~/utils"
 import {
+  AvatarAuto,
+  Button,
   ButtonLoading,
   FormAlert,
   FormDescription,
@@ -95,6 +97,13 @@ export default function Route() {
           <FormFieldSet disabled={isSubmitting}>
             <input type="hidden" {...conform.input(id)} />
 
+            <AvatarAuto
+              src={artist.image?.url}
+              alt={`${artist.name}`}
+              fallback={getNameInitials(artist.name)}
+              className="h-20 w-20"
+            />
+
             <FormField>
               <FormLabel htmlFor={name.id}>Name</FormLabel>
               <FormDescription>Limited to 100 characters</FormDescription>
@@ -110,7 +119,19 @@ export default function Route() {
             </FormField>
 
             <FormField className="space-y-1">
-              <FormLabel>Artworks</FormLabel>
+              <div className="flex items-center justify-between gap-2">
+                <FormLabel>Artworks</FormLabel>
+                <Form method="POST" action="/dashboard/artworks">
+                  <input
+                    hidden
+                    name="redirectTo"
+                    defaultValue={`/dashboard/artists/${artist.id}/edit`}
+                  />
+                  <Button type="submit" size="xs">
+                    Add New Artwork
+                  </Button>
+                </Form>
+              </div>
               <input
                 type="hidden"
                 name="artistArtworks"
@@ -155,27 +176,28 @@ export const action = async ({ request }: ActionArgs) => {
     }),
   )
 
-  const dataArtist = {
-    ...submission.value,
-    userId: userSession?.id,
-    slug: createArtistSlug(submission.value.name),
-    artworks: { connect: artworks },
-  }
+  const slug = createArtistSlug(submission.value.name)
 
   await prisma.artist.update({
-    where: { id: dataArtist.id },
+    where: { id: submission.value.id },
     data: { artworks: { set: [] } },
   })
 
-  const newArtist = await prisma.artist.upsert({
-    where: { id: dataArtist.id },
-    create: dataArtist,
-    update: dataArtist,
-    include: {
-      artworks: { select: { id: true, title: true } },
+  const artist = await prisma.artist.update({
+    where: { id: submission.value.id },
+    data: {
+      ...submission.value,
+      userId: userSession?.id,
+      slug: slug,
+      artworks: { connect: artworks },
+      image: { create: { url: createAvatarImageURL(slug) } },
     },
+    include: { artworks: { select: { id: true, title: true } } },
   })
+  if (!artist) return null
 
   await timer.delay()
-  return redirect(`/dashboard/artists/${newArtist.id || dataArtist.id}`)
+
+  const redirectTo = getRedirectTo(request)
+  return redirect(redirectTo || `/dashboard/artists/${artist.id}`)
 }

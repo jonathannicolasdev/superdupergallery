@@ -83,10 +83,12 @@ export default function ArtworksRoute() {
             <p>{artwork.year}</p>
             <p>Medium: {artwork.medium || "Unknown Medium"}</p>
             <p>Size: {artwork.size || "Unknown Size"}</p>
-            <p className="flex items-center gap-2">
-              <span>Status: </span>
-              <Badge>{artwork.status?.name}</Badge>
-            </p>
+            {artwork.status?.name && (
+              <p className="flex items-center gap-2">
+                <span>Status: </span>
+                <Badge>{artwork.status.name}</Badge>
+              </p>
+            )}
           </div>
         </header>
       </div>

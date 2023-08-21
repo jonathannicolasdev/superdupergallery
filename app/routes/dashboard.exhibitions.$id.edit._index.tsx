@@ -13,6 +13,7 @@ import { authenticator } from "~/services/auth.server"
 import { prisma } from "~/libs"
 import { createExhibitionSlug, createTimer } from "~/utils"
 import {
+  Button,
   ButtonLoading,
   DatePicker,
   FormAlert,
@@ -143,7 +144,19 @@ export default function Route() {
             </FormField>
 
             <FormField className="space-y-1">
-              <FormLabel>Artists</FormLabel>
+              <div className="flex items-center justify-between gap-2">
+                <FormLabel>Artists</FormLabel>
+                <Form method="POST" action="/dashboard/artists">
+                  <input
+                    hidden
+                    name="redirectTo"
+                    defaultValue={`/dashboard/exhibitions/${exhibition.id}/edit`}
+                  />
+                  <Button type="submit" size="xs">
+                    Add New Artist
+                  </Button>
+                </Form>
+              </div>
               <input
                 type="hidden"
                 name="exhibitionArtists"
@@ -161,7 +174,19 @@ export default function Route() {
             </FormField>
 
             <FormField className="space-y-1">
-              <FormLabel>Artworks</FormLabel>
+              <div className="flex items-center justify-between gap-2">
+                <FormLabel>Artworks</FormLabel>
+                <Form method="POST" action="/dashboard/artworks">
+                  <input
+                    hidden
+                    name="redirectTo"
+                    defaultValue={`/dashboard/exhibitions/${exhibition.id}/edit`}
+                  />
+                  <Button type="submit" size="xs">
+                    Add New Artwork
+                  </Button>
+                </Form>
+              </div>
               <input
                 type="hidden"
                 name="exhibitionArtworks"
@@ -228,10 +253,9 @@ export const action = async ({ request }: ActionArgs) => {
     },
   })
 
-  const newExhibition = await prisma.exhibition.upsert({
+  const newExhibition = await prisma.exhibition.update({
     where: { id: dataExhibition.id },
-    create: dataExhibition,
-    update: dataExhibition,
+    data: dataExhibition,
     include: {
       artists: { select: { id: true, name: true } },
       artworks: { select: { id: true, title: true } },

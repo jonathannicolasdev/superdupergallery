@@ -1,10 +1,10 @@
 import { json, redirect } from "@remix-run/node"
-import type { LoaderArgs } from "@remix-run/node"
+import type { ActionArgs, LoaderArgs } from "@remix-run/node"
 import { Form, Link, useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs"
 import { formatPluralItems, getNameInitials } from "~/utils"
-import { AvatarAuto, Button, Card, ImageArtwork } from "~/components"
+import { AvatarAuto, Button, ButtonLink, Card, ImageArtwork } from "~/components"
 
 export async function loader({ request, params }: LoaderArgs) {
   const artist = await prisma.artist.findFirst({
@@ -32,13 +32,13 @@ export default function Route() {
           Artist: <code>{artist.id}</code>
         </p>
         <div className="flex items-center gap-2">
-          <Button asChild size="xs">
-            <Link to={`/artists/${artist.slug}`}>View</Link>
-          </Button>
-          <Button asChild size="xs" variant="secondary">
-            <Link to="edit">Edit</Link>
-          </Button>
-          <Form>
+          <ButtonLink size="xs" to={`/artists/${artist.slug}`}>
+            View
+          </ButtonLink>
+          <ButtonLink size="xs" variant="secondary" to="edit">
+            Edit
+          </ButtonLink>
+          <Form method="DELETE">
             <Button size="xs" variant="destructive">
               Delete
             </Button>
@@ -79,11 +79,13 @@ export default function Route() {
               return (
                 <li key={artwork.id}>
                   <Card className="flex items-center gap-4">
-                    <Link to={`/dashboard/artworks/${artwork.id}`} className="hover-opacity ">
+                    <Link to={`/dashboard/artworks/${artwork.id}`} className="hover-opacity">
                       <ImageArtwork className="h-32 w-32 object-contain">{artwork}</ImageArtwork>
                     </Link>
                     <div>
-                      <h6>{artwork.title}</h6>
+                      <Link to={`/dashboard/artworks/${artwork.id}`} className="hover-opacity">
+                        <h6>{artwork.title}</h6>
+                      </Link>
                       <p>{artwork.year}</p>
                     </div>
                   </Card>
@@ -95,4 +97,10 @@ export default function Route() {
       )}
     </>
   )
+}
+
+export const action = async ({ params }: ActionArgs) => {
+  await prisma.artist.delete({ where: { id: params.id } })
+
+  return redirect(`/dashboard/artists`)
 }

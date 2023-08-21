@@ -57,7 +57,7 @@ export default function RouteComponent() {
         <p>Exhibitions</p>
         <Form method="POST">
           <Button type="submit" size="sm">
-            Create New
+            Add New
           </Button>
         </Form>
       </header>

@@ -3,8 +3,17 @@ import type { ActionArgs, LoaderArgs } from "@remix-run/node"
 import { Form, Link, useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs"
-import { formatDateAndRelative, formatPluralItems } from "~/utils"
-import { Button, ButtonLink, Card, ImageArtwork, ImageExhibition } from "~/components"
+import { formatDateAndRelative, formatPluralItems, getNameInitials } from "~/utils"
+import {
+  AvatarAuto,
+  Button,
+  ButtonLink,
+  Card,
+  CardDescription,
+  CardTitle,
+  ImageArtwork,
+  ImageExhibition,
+} from "~/components"
 
 export async function loader({ request, params }: LoaderArgs) {
   const exhibition = await prisma.exhibition.findFirst({
@@ -15,6 +24,12 @@ export async function loader({ request, params }: LoaderArgs) {
         include: {
           images: { select: { url: true } },
           artist: true,
+        },
+      },
+      artists: {
+        include: {
+          image: { select: { url: true } },
+          artworks: { select: { id: true } },
         },
       },
     },
@@ -72,6 +87,40 @@ export default function Route() {
         <ImageExhibition className="max-w-xs object-contain">{exhibition}</ImageExhibition>
       </section>
 
+      {exhibition?.artists.length > 0 && (
+        <section className="flex flex-col justify-center space-y-4">
+          <p>
+            {formatPluralItems("artist", exhibition.artists.length)} in {exhibition.title}
+          </p>
+
+          <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+            {exhibition.artists.map(artist => {
+              return (
+                <li key={artist.id} className="w-full">
+                  <Link to={`/dashboard/artists/${artist.id}`}>
+                    <Card className="hover-opacity flex max-w-xl items-center gap-4">
+                      <AvatarAuto
+                        src={artist.image?.url}
+                        alt={`${artist.name}`}
+                        fallback={getNameInitials(artist.name)}
+                        className="h-12 w-12"
+                      />
+
+                      <div className="flex flex-col justify-between">
+                        <CardTitle className="text-xl">{artist.name}</CardTitle>
+                        <CardDescription>
+                          {formatPluralItems("artwork", artist.artworks.length)}
+                        </CardDescription>
+                      </div>
+                    </Card>
+                  </Link>
+                </li>
+              )
+            })}
+          </ul>
+        </section>
+      )}
+
       {exhibition?.artworks.length > 0 && (
         <section className="space-y-4">
           <p>
@@ -83,11 +132,13 @@ export default function Route() {
               return (
                 <li key={artwork.id}>
                   <Card className="flex items-center gap-4">
-                    <Link to={`/dashboard/artworks/${artwork.id}`} className="hover-opacity ">
+                    <Link to={`/dashboard/artworks/${artwork.id}`} className="hover-opacity">
                       <ImageArtwork className="h-32 w-32 object-contain">{artwork}</ImageArtwork>
                     </Link>
                     <div>
-                      <h6>{artwork.title}</h6>
+                      <Link to={`/dashboard/artworks/${artwork.id}`} className="hover-opacity">
+                        <h6>{artwork.title}</h6>
+                      </Link>
                       <p>
                         <Link
                           to={`/dashboard/artists/${artwork.artist?.id}`}
@@ -109,9 +160,7 @@ export default function Route() {
 }
 
 export const action = async ({ params }: ActionArgs) => {
-  await prisma.exhibition.delete({
-    where: { id: params.id },
-  })
+  await prisma.exhibition.delete({ where: { id: params.id } })
 
   return redirect(`/dashboard/exhibitions`)
 }

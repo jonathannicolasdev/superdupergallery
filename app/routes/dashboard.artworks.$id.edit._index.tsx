@@ -11,7 +11,7 @@ import { badRequest } from "remix-utils"
 import type { OptionValueLabel } from "~/types"
 import { authenticator } from "~/services/auth.server"
 import { prisma } from "~/libs"
-import { createArtworkSlug, createTimer } from "~/utils"
+import { createArtworkSlug, createTimer, getRedirectTo } from "~/utils"
 import {
   ButtonLoading,
   FormAlert,
@@ -157,20 +157,28 @@ export const action = async ({ request }: ActionArgs) => {
 
   const artist: OptionValueLabel = JSON.parse(submission.payload.artworkArtist)
 
-  const dataArtwork = {
-    ...submission.value,
-    userId: userSession?.id,
-    slug: createArtworkSlug(submission.value.title, ""),
-    artistId: artist.value,
-  }
+  const statuses = await prisma.artworkStatus.findMany()
+  const AVAILABLE = statuses.find(status => status.symbol === "AVAILABLE")
+  const SOLD = statuses.find(status => status.symbol === "SOLD")
+  const PULLED_OUT = statuses.find(status => status.symbol === "PULLED-OUT")
+  const RESERVED = statuses.find(status => status.symbol === "RESERVED")
+  const UNKNOWN = statuses.find(status => status.symbol === "UNKNOWN")
+  if (!AVAILABLE || !SOLD || !PULLED_OUT || !RESERVED || !UNKNOWN) return null
 
-  const newArtwork = await prisma.artwork.upsert({
-    where: { id: dataArtwork.id },
-    create: dataArtwork,
-    update: dataArtwork,
+  const artwork = await prisma.artwork.update({
+    where: { id: submission.value.id },
+    data: {
+      ...submission.value,
+      userId: userSession?.id,
+      slug: createArtworkSlug(submission.value.title, artist.label),
+      artistId: artist.value,
+      statusId: AVAILABLE.id,
+    },
     include: { artist: { select: { id: true, name: true } } },
   })
 
   await timer.delay()
-  return redirect(`/dashboard/artworks/${newArtwork.id || dataArtwork.id}`)
+
+  const redirectTo = getRedirectTo(request)
+  return redirect(redirectTo || `/dashboard/artworks/${artwork.id}`)
 }

@@ -1,5 +1,5 @@
 import { json, redirect } from "@remix-run/node"
-import type { LoaderArgs } from "@remix-run/node"
+import type { ActionArgs, LoaderArgs } from "@remix-run/node"
 import { Form, Link, useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs"
@@ -33,7 +33,7 @@ export default function Route() {
           <Button asChild size="xs" variant="secondary">
             <Link to="edit">Edit</Link>
           </Button>
-          <Form>
+          <Form method="DELETE">
             <Button size="xs" variant="destructive">
               Delete
             </Button>
@@ -74,4 +74,10 @@ export default function Route() {
       </section>
     </>
   )
+}
+
+export const action = async ({ params }: ActionArgs) => {
+  await prisma.artwork.delete({ where: { id: params.id } })
+
+  return redirect(`/dashboard/artworks`)
 }

@@ -1,11 +1,13 @@
-import { json, type LoaderArgs } from "@remix-run/node"
+import type { ActionArgs, LoaderArgs } from "@remix-run/node"
+import { json, redirect } from "@remix-run/node"
 import type { V2_MetaFunction } from "@remix-run/react"
-import { Link, useLoaderData } from "@remix-run/react"
+import { Form, Link, useLoaderData } from "@remix-run/react"
 
-import { prisma } from "~/libs"
-import { formatTitle, getNameInitials } from "~/utils"
+import { createAvatarImageURL, prisma } from "~/libs"
+import { createArtistSlug, formatTitle, getNameInitials } from "~/utils"
 import {
   AvatarAuto,
+  Button,
   Card,
   getPaginationConfigs,
   getPaginationOptions,
@@ -34,7 +36,7 @@ export const loader = async ({ request }: LoaderArgs) => {
       where,
       skip: config.skip,
       take: config.limitParam,
-      orderBy: { name: "asc" },
+      orderBy: { updatedAt: "desc" },
       include: {
         image: { select: { url: true } },
         artworks: { select: { id: true } },
@@ -54,8 +56,13 @@ export default function RouteComponent() {
 
   return (
     <>
-      <header className="space-y-2">
+      <header className="flex items-center gap-2">
         <p>Artists</p>
+        <Form method="POST">
+          <Button type="submit" size="sm">
+            Add New
+          </Button>
+        </Form>
       </header>
 
       <PaginationSearch
@@ -101,4 +108,26 @@ export default function RouteComponent() {
       <PaginationNavigation {...loaderData} />
     </>
   )
+}
+
+export const action = async ({ request }: ActionArgs) => {
+  const formData = await request.formData()
+  const redirectTo = formData.get("redirectTo")?.toString()
+
+  const count = await prisma.artist.count()
+  const number = count + 1
+  const name = `Artist Name ${number}`
+
+  const slug = createArtistSlug(name)
+  const artist = await prisma.artist.create({
+    data: {
+      name,
+      slug: slug,
+      bio: `Bio of ${name}`,
+      image: { create: { url: createAvatarImageURL(slug) } },
+    },
+  })
+
+  if (redirectTo) return redirect(`${artist.id}/edit?redirectTo=${redirectTo}`)
+  return redirect(`${artist.id}/edit`)
 }

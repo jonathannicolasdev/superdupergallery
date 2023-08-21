@@ -38,7 +38,7 @@ export function DashboardSidebar() {
       className={cn(
         "hidden sm:block",
         "sticky top-0 h-screen", // sticky sidebar
-        "min-w-fit space-y-4 p-2 sm:flex sm:flex-col",
+        "min-w-fit space-y-4 p-4 sm:flex sm:flex-col",
         "border-r-2 border-white bg-black",
       )}
     >
