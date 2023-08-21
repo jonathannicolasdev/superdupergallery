@@ -33,7 +33,7 @@ export default function RouteComponent() {
           {users.map(user => {
             return (
               <li key={user.id}>
-                <Card hasBorder className="p-2">
+                <Card withBorder className="p-2">
                   <h3>{user.name}</h3>
                   <p>{user.username}</p>
                   <Badge>{user.role?.name}</Badge>

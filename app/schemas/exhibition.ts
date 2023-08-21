@@ -40,6 +40,7 @@ const isPublished = z
 
 export const schemaExhibition = zfd.formData({
   id,
+  fileInfo: z.string().optional(),
   edition,
   title,
   date,

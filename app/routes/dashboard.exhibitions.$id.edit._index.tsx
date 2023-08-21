@@ -4,6 +4,7 @@ import { json, redirect } from "@remix-run/node"
 import { Form, useActionData, useLoaderData, useNavigation } from "@remix-run/react"
 import { conform, useForm } from "@conform-to/react"
 import { parse } from "@conform-to/zod"
+import type { FileInfo } from "@uploadcare/react-widget"
 import type { MultiValue } from "react-select"
 import Select from "react-select"
 import { badRequest } from "remix-utils"
@@ -11,7 +12,7 @@ import { badRequest } from "remix-utils"
 import type { OptionValueLabel } from "~/types"
 import { authenticator } from "~/services/auth.server"
 import { prisma } from "~/libs"
-import { createExhibitionSlug, createTimer } from "~/utils"
+import { createExhibitionSlug, createTimer, stringify } from "~/utils"
 import {
   Button,
   ButtonLoading,
@@ -23,6 +24,9 @@ import {
   FormLabel,
   Input,
   Textarea,
+  UploadcarePreview,
+  UploadcareWidget,
+  useUploadcareConfigs,
 } from "~/components"
 import { schemaExhibition } from "~/schemas/exhibition"
 
@@ -92,12 +96,18 @@ export default function Route() {
       label: artist.name,
     })),
   )
+
   const [selectedArtworks, setSelectedArtworks] = useState<MultiValue<OptionValueLabel>>(
     exhibition.artworks.map(artwork => ({
       value: artwork.id,
       label: artwork.title,
     })),
   )
+
+  const { isMultiple, handleUploaded, fileInfo } = useUploadcareConfigs({
+    isMultiple: false,
+    defaultFileInfo: { cdnUrl: exhibition.images[0].url, name: "" },
+  })
 
   return (
     <>
@@ -110,7 +120,16 @@ export default function Route() {
       <section className="max-w-xl">
         <Form method="PUT" {...form.props}>
           <FormFieldSet disabled={isSubmitting}>
-            <input type="hidden" name="id" defaultValue={exhibition.id} />
+            <input type="hidden" name="id" defaultValue={exhibition.id} readOnly />
+
+            <input type="hidden" name="fileInfo" value={stringify(fileInfo)} readOnly />
+
+            <UploadcareWidget multiple={isMultiple} handleUploaded={handleUploaded} />
+            <UploadcarePreview
+              isMultiple={isMultiple}
+              fileInfo={fileInfo}
+              previewText="Exhibition poster will be previewed here"
+            />
 
             <FormField>
               <FormLabel htmlFor={edition.id}>Edition Number</FormLabel>
@@ -230,32 +249,32 @@ export const action = async ({ request }: ActionArgs) => {
       id: artist.value,
     }),
   )
+
   const artworks: { id: string }[] = JSON.parse(submission.payload.exhibitionArtworks).map(
     (artwork: any) => ({
       id: artwork.value,
     }),
   )
 
-  const dataExhibition = {
-    ...submission.value,
-    userId: userSession?.id,
-    slug: createExhibitionSlug(submission.value.edition, submission.value.title),
-    artists: { connect: artists },
-    artworks: { connect: artworks },
-    // images: JSON.parse(images)
-  }
-
   await prisma.exhibition.update({
-    where: { id: dataExhibition.id },
-    data: {
-      artists: { set: [] },
-      artworks: { set: [] },
-    },
+    where: { id: submission.value.id },
+    data: { artists: { set: [] }, artworks: { set: [] } },
   })
 
-  const newExhibition = await prisma.exhibition.update({
-    where: { id: dataExhibition.id },
-    data: dataExhibition,
+  const { fileInfo, ...submissionValue } = submission.value
+  const parsedFileInfo: FileInfo | undefined = fileInfo ? JSON.parse(String(fileInfo)) : undefined
+  const imageURL = parsedFileInfo?.cdnUrl
+
+  const exhibition = await prisma.exhibition.update({
+    where: { id: submission.value.id },
+    data: {
+      ...submissionValue,
+      userId: userSession?.id,
+      slug: createExhibitionSlug(submission.value.edition, submission.value.title),
+      artists: { connect: artists },
+      artworks: { connect: artworks },
+      images: imageURL ? { create: { url: imageURL } } : undefined,
+    },
     include: {
       artists: { select: { id: true, name: true } },
       artworks: { select: { id: true, title: true } },
@@ -263,5 +282,5 @@ export const action = async ({ request }: ActionArgs) => {
   })
 
   await timer.delay()
-  return redirect(`/dashboard/exhibitions/${newExhibition.id || dataExhibition.id}`)
+  return redirect(`/dashboard/exhibitions/${exhibition.id}`)
 }

@@ -45,7 +45,7 @@ export default function Route() {
           {metrics.map(metric => {
             return (
               <Link key={metric.name} to={metric.to}>
-                <Card hasBorder className="hover-opacity p-4 text-center">
+                <Card withBorder className="hover-opacity p-4 text-center">
                   <p className="text-6xl font-extrabold">{metric.count}</p>
                   <span>{metric.name}</span>
                 </Card>

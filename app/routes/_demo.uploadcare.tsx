@@ -13,16 +13,14 @@ import { authenticator } from "~/services/auth.server"
 import { prisma } from "~/libs"
 import { stringify } from "~/utils"
 import {
-  Anchor,
   Button,
-  Card,
   Debug,
-  Image,
   Input,
   Label,
   Layout,
   Switch,
   toast,
+  UploadcarePreview,
   UploadcareWidget,
 } from "~/components"
 
@@ -113,48 +111,12 @@ export default function Route() {
           </div>
 
           <div>
-            <Card
-              data-id="preview-uploaded-files"
-              className="flex min-h-[10rem] w-full items-center p-2"
-            >
-              {/* If no file/files yet */}
-              {!fileInfo && !fileGroup && (
-                <div className="flex h-[inherit] w-full select-none items-center justify-center">
-                  <p>{isMultiple ? "Some images" : "An image"} will be previewed here</p>
-                </div>
-              )}
-
-              {/* If one file as a FileInfo */}
-              {!isMultiple && fileInfo && (
-                <Anchor href={String(fileInfo?.cdnUrl)}>
-                  <Image
-                    src={String(fileInfo?.cdnUrl)}
-                    alt={String(fileInfo?.name)}
-                    className="max-h-32 max-w-xs object-cover"
-                  />
-                </Anchor>
-              )}
-
-              {/* If multiple files as a FileGroup */}
-              {isMultiple && Number(fileGroup?.count) > 0 && (
-                <div className="flex h-[inherit] w-full items-center">
-                  {fileGroupNumbers &&
-                    fileGroupNumbers?.length > 0 &&
-                    fileGroupNumbers.map(number => {
-                      const cdnUrl = `${fileGroup?.cdnUrl}nth/${number}/`
-                      return (
-                        <Anchor key={cdnUrl} href={cdnUrl}>
-                          <Image
-                            src={cdnUrl}
-                            alt={`Uploaded file: ${number}`}
-                            className="max-h-32 max-w-xs object-cover"
-                          />
-                        </Anchor>
-                      )
-                    })}
-                </div>
-              )}
-            </Card>
+            <UploadcarePreview
+              isMultiple={isMultiple}
+              fileInfo={fileInfo}
+              fileGroup={fileGroup}
+              fileGroupNumbers={fileGroupNumbers}
+            />
           </div>
 
           <Button

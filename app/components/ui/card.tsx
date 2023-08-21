@@ -5,12 +5,12 @@ import { cn } from "~/libs"
 const Card = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & {
-    hasBorder?: boolean
+    withBorder?: boolean
   }
->(({ className, hasBorder = false, ...props }, ref) => (
+>(({ className, withBorder = false, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn(hasBorder && "rounded border-2 bg-card text-card-foreground shadow", className)}
+    className={cn(withBorder && "rounded border-2 bg-card text-card-foreground shadow", className)}
     {...props}
   />
 ))

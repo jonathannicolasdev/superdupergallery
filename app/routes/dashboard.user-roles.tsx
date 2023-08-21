@@ -30,7 +30,7 @@ export default function RouteComponent() {
           {userRoles.map(userRole => {
             return (
               <li key={userRole.id}>
-                <Card hasBorder className="p-2">
+                <Card withBorder className="p-2">
                   <h3>{userRole.name}</h3>
                   <p>{userRole.symbol}</p>
                 </Card>
