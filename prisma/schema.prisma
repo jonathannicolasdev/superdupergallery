@@ -131,10 +131,8 @@ model UserAvatarImage {
 model Artwork {
   id String @id @default(cuid())
 
-  // title  String  @unique
-  // slug   String? @unique
   title  String
-  slug   String?
+  slug   String // @unique
   year   Int?
   medium String // canvas, acrylic
   size   String // width, height, length
@@ -198,8 +196,8 @@ model ArtworkImage {
 model Artist {
   id String @id @default(cuid())
 
+  name String
   slug String  @unique
-  name String  @unique
   bio  String? @db.Text
 
   image       ArtistImage?
@@ -236,11 +234,13 @@ model ArtistImage {
 model Exhibition {
   id String @id @default(cuid())
 
-  edition     Int?
-  title       String    @unique
-  slug        String?   @unique
-  date        DateTime?
-  description String?   @db.Text // write up
+  edition Int?
+
+  title String
+  slug  String    @unique
+  date  DateTime?
+
+  description String? @db.Text // write up
 
   isPublished Boolean? @default(true)
 

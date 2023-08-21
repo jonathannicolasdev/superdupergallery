@@ -14,7 +14,7 @@
     "stylelint": "stylelint ./app/*.css",
     "stylelint:fix": "stylelint --fix ./app/*.css",
     "check": "pnpm format && pnpm stylelint && pnpm lint && pnpm typecheck",
-    "check:fix": "pnpm format:fix && pnpm stylelint && pnpm lint:fix",
+    "check:fix": "pnpm format:fix && pnpm stylelint && pnpm lint:fix && pnpm typecheck",
     "db:gen": "prisma generate",
     "db:push": "prisma db push",
     "db:migrate": "prisma migrate dev",
@@ -24,7 +24,7 @@
     "db:connect": "tsx prisma/connect.ts",
     "reveal": "remix reveal",
     "clean": "rm -rf build public/build",
-    "prebuild": "prisma db push --accept-data-loss",
+    "prebuild": "prisma db push",
     "postinstall": "prisma generate"
   },
   "dependencies": {

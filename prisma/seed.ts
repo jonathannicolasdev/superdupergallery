@@ -248,7 +248,7 @@ async function seedArtworks() {
 
     for (const artwork of artworkInExhibition.artworks) {
       let artist
-      artist = await prisma.artist.findUnique({ where: { name: artwork.artistName } })
+      artist = await prisma.artist.findFirst({ where: { name: artwork.artistName } })
 
       if (!artist) {
         artist = await prisma.artist.create({
