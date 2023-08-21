@@ -3,14 +3,22 @@ import type { ActionArgs, LoaderArgs } from "@remix-run/node"
 import { Form, Link, useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs"
-import { Button, ImageArtwork } from "~/components"
+import { getNameInitials } from "~/utils"
+import { AvatarAuto, Button, Card, CardTitle, ImageArtwork } from "~/components"
 
 export async function loader({ request, params }: LoaderArgs) {
   const artwork = await prisma.artwork.findFirst({
     where: { id: params.id },
     include: {
       images: true,
-      artist: true,
+      artist: {
+        include: {
+          image: { select: { url: true } },
+          artworks: { select: { id: true } },
+        },
+      },
+      exhibition: true,
+      status: true,
     },
   })
   if (!artwork) return redirect("..")
@@ -42,9 +50,9 @@ export default function Route() {
       </header>
 
       <section className="flex flex-wrap items-start justify-between gap-4">
-        <div className="space-y-2">
+        <div className="space-y-4">
           <h1>{artwork.title}</h1>
-          <ul>
+          <ul className="space-y-1">
             <li>
               <b>Slug: </b>
               <code>{artwork.slug}</code>
@@ -62,12 +70,36 @@ export default function Route() {
               <span>{artwork.year}</span>
             </li>
             <li>
-              <b>Artist Name: </b>
-              <Link to={`/dashboard/artists/${artwork.artist?.id}`}>
-                <span>{artwork.artist?.name}</span>
-              </Link>
+              <b>Exhibition: </b>
+              {artwork.exhibition?.id ? (
+                <Link
+                  to={`/dashboard/exhibitions/${artwork.exhibition.id}`}
+                  className="hover-opacity"
+                >
+                  {artwork.exhibition.title}
+                </Link>
+              ) : (
+                <span>-</span>
+              )}
             </li>
           </ul>
+
+          {artwork.artist && (
+            <Link to={`/dashboard/artists/${artwork.artist.id}`} className="block">
+              <Card className="hover-opacity flex max-w-xl items-center gap-4">
+                <AvatarAuto
+                  src={artwork.artist.image?.url}
+                  alt={`${artwork.artist.name}`}
+                  fallback={getNameInitials(artwork.artist.name)}
+                  className="h-12 w-12"
+                />
+
+                <div className="flex flex-col justify-between">
+                  <CardTitle className="text-xl">{artwork.artist.name}</CardTitle>
+                </div>
+              </Card>
+            </Link>
+          )}
         </div>
 
         <ImageArtwork className="w-full max-w-lg object-contain">{artwork}</ImageArtwork>

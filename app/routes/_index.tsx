@@ -19,8 +19,11 @@ import {
 export async function loader({ request }: LoaderArgs) {
   const [artworks, exhibitions] = await prisma.$transaction([
     prisma.artwork.findMany({
-      where: { images: { some: { url: { not: "" } } } },
-      orderBy: { createdAt: "desc" },
+      where: {
+        exhibition: { id: { not: "" } },
+        images: { some: { url: { not: "" } } },
+      },
+      orderBy: { exhibition: { edition: "desc" } },
       take: 16,
       include: {
         images: true,
@@ -31,7 +34,7 @@ export async function loader({ request }: LoaderArgs) {
 
     prisma.exhibition.findMany({
       where: { images: { some: { url: { not: "" } } } },
-      orderBy: { date: "desc" },
+      orderBy: { edition: "desc" },
       take: 16,
       include: {
         images: true,

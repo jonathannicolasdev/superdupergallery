@@ -1,11 +1,12 @@
 import type { ActionArgs, LoaderArgs } from "@remix-run/node"
 import { json, redirect } from "@remix-run/node"
 import type { V2_MetaFunction } from "@remix-run/react"
-import { Link, useLoaderData } from "@remix-run/react"
+import { Form, Link, useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs"
 import { createArtworkSlug, formatTitle } from "~/utils"
 import {
+  Button,
   Card,
   getPaginationConfigs,
   getPaginationOptions,
@@ -35,7 +36,7 @@ export const loader = async ({ request }: LoaderArgs) => {
       where,
       skip: config.skip,
       take: config.limitParam,
-      orderBy: { createdAt: "desc" },
+      orderBy: { exhibition: { edition: "desc" } },
       include: { images: true, artist: true },
     }),
   ])
@@ -52,8 +53,13 @@ export default function RouteComponent() {
 
   return (
     <>
-      <header className="space-y-2">
+      <header className="flex items-center gap-2">
         <p>Artworks</p>
+        <Form method="POST">
+          <Button type="submit" size="sm">
+            Add New
+          </Button>
+        </Form>
       </header>
 
       <PaginationSearch

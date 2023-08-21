@@ -84,6 +84,8 @@ export default function Route() {
     })),
   )
 
+  // TODO: redirectTo get from URL instead of /dashboard/artists/${artist.id}/edit
+
   return (
     <>
       <header className="space-y-2">

@@ -37,7 +37,7 @@ export const loader = async ({ request }: LoaderArgs) => {
       where,
       skip: config.skip,
       take: config.limitParam,
-      orderBy: { createdAt: "desc" },
+      orderBy: { updatedAt: "desc" },
       include: { images: true, artist: true },
     }),
   ])

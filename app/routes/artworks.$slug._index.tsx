@@ -16,6 +16,7 @@ export async function loader({ request, params }: LoaderArgs) {
     include: {
       images: true,
       artist: { include: { image: { select: { url: true } } } },
+      exhibition: true,
       status: true,
     },
   })
@@ -81,8 +82,24 @@ export default function ArtworksRoute() {
 
           <div className="space-y-4">
             <p>{artwork.year}</p>
-            <p>Medium: {artwork.medium || "Unknown Medium"}</p>
-            <p>Size: {artwork.size || "Unknown Size"}</p>
+            <p>
+              <b>Medium: </b>
+              {artwork.medium || "Unknown Medium"}
+            </p>
+            <p>
+              <b>Size: </b>
+              {artwork.size || "Unknown Size"}
+            </p>
+            <p>
+              <b>Exhibition: </b>
+              {artwork.exhibition?.slug ? (
+                <Link to={`/exhibitions/${artwork.exhibition.slug}`} className="hover-opacity">
+                  {artwork.exhibition.title}
+                </Link>
+              ) : (
+                <span>-</span>
+              )}
+            </p>
             {artwork.status?.name && (
               <p className="flex items-center gap-2">
                 <span>Status: </span>
