@@ -19,8 +19,11 @@ export const loader = async ({ request }: LoaderArgs) => {
   const config = getPaginationConfigs({ request, defaultLimit: 20 })
 
   const where = !config.queryParam
-    ? {}
+    ? {
+        images: { some: { url: { not: "" } } },
+      }
     : {
+        images: { some: { url: { not: "" } } },
         OR: [
           { title: { contains: config.queryParam } },
           { medium: { contains: config.queryParam } },

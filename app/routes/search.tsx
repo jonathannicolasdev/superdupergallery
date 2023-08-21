@@ -52,6 +52,7 @@ export const loader = async ({ request }: LoaderArgs) => {
     prisma.artwork.findMany({
       orderBy: [{ title: "asc" }],
       where: {
+        images: { some: { url: { not: "" } } },
         OR: [{ title: { contains: query } }, { medium: { contains: query } }],
       },
       select: {
