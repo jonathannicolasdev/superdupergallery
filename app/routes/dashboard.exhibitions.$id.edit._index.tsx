@@ -106,7 +106,9 @@ export default function Route() {
 
   const { isMultiple, handleUploaded, fileInfo } = useUploadcareConfigs({
     isMultiple: false,
-    defaultFileInfo: { cdnUrl: exhibition.images[0].url, name: "" },
+    defaultFileInfo: exhibition.images[0]?.url
+      ? { cdnUrl: exhibition.images[0].url, name: "" }
+      : undefined,
   })
 
   return (
