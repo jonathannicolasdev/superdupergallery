@@ -4,6 +4,7 @@ import { json, redirect } from "@remix-run/node"
 import { Form, useActionData, useLoaderData, useNavigation } from "@remix-run/react"
 import { conform, useForm } from "@conform-to/react"
 import { parse } from "@conform-to/zod"
+import type { FileInfo } from "@uploadcare/react-widget"
 import type { SingleValue } from "react-select"
 import Select from "react-select"
 import { badRequest } from "remix-utils"
@@ -11,7 +12,7 @@ import { badRequest } from "remix-utils"
 import type { OptionValueLabel } from "~/types"
 import { authenticator } from "~/services/auth.server"
 import { prisma } from "~/libs"
-import { createArtworkSlug, createTimer, getRedirectTo } from "~/utils"
+import { createArtworkSlug, createTimer, getRedirectTo, stringify } from "~/utils"
 import {
   ButtonLoading,
   FormAlert,
@@ -20,6 +21,9 @@ import {
   FormFieldSet,
   FormLabel,
   Input,
+  UploadcarePreview,
+  UploadcareWidget,
+  useUploadcareConfigs,
 } from "~/components"
 import { schemaArtwork } from "~/schemas/artwork"
 
@@ -76,6 +80,13 @@ export default function Route() {
     label: artwork.artist?.name || "",
   })
 
+  const { isMultiple, handleUploaded, fileInfo } = useUploadcareConfigs({
+    isMultiple: false,
+    defaultFileInfo: artwork.images[0]?.url
+      ? { cdnUrl: artwork.images[0].url, name: "" }
+      : undefined,
+  })
+
   return (
     <>
       <header className="space-y-2">
@@ -88,6 +99,15 @@ export default function Route() {
         <Form method="PUT" {...form.props}>
           <FormFieldSet disabled={isSubmitting}>
             <input type="hidden" {...conform.input(id)} />
+
+            <input type="hidden" name="fileInfo" value={stringify(fileInfo)} readOnly />
+
+            <UploadcareWidget multiple={isMultiple} handleUploaded={handleUploaded} />
+            <UploadcarePreview
+              isMultiple={isMultiple}
+              fileInfo={fileInfo}
+              previewText="Artwork image will be previewed here"
+            />
 
             <FormField>
               <FormLabel htmlFor={title.id}>Title</FormLabel>
@@ -165,14 +185,19 @@ export const action = async ({ request }: ActionArgs) => {
   const UNKNOWN = statuses.find(status => status.symbol === "UNKNOWN")
   if (!AVAILABLE || !SOLD || !PULLED_OUT || !RESERVED || !UNKNOWN) return null
 
+  const { fileInfo, ...submissionValue } = submission.value
+  const parsedFileInfo: FileInfo | undefined = fileInfo ? JSON.parse(String(fileInfo)) : undefined
+  const imageURL = parsedFileInfo?.cdnUrl
+
   const artwork = await prisma.artwork.update({
     where: { id: submission.value.id },
     data: {
-      ...submission.value,
+      ...submissionValue,
       userId: userSession?.id,
       slug: createArtworkSlug(submission.value.title, artist.label),
       artistId: artist.value,
       statusId: AVAILABLE.id,
+      images: imageURL ? { create: { url: imageURL } } : undefined,
     },
     include: { artist: { select: { id: true, name: true } } },
   })

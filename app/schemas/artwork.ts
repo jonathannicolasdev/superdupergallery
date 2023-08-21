@@ -20,6 +20,7 @@ const artistArtwork = z
 
 export const schemaArtwork = z.object({
   id,
+  fileInfo: z.string().optional(),
   title,
   medium,
   size,
