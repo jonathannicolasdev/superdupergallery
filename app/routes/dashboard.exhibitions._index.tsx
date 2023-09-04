@@ -3,6 +3,7 @@ import { json, redirect } from "@remix-run/node"
 import type { V2_MetaFunction } from "@remix-run/react"
 import { Form, Link, useLoaderData } from "@remix-run/react"
 
+import { authenticator } from "~/services/auth.server"
 import { prisma } from "~/libs"
 import { createExhibitionSlug, formatDateAndRelative, formatTitle } from "~/utils"
 import {
@@ -86,11 +87,12 @@ export default function RouteComponent() {
 
                       <div className="col-span-3">
                         <h4>{exhibition.title}</h4>
-                        <div className="text-muted-foreground">
+                        <div className="text-xs text-muted-foreground">
                           <p>{exhibition.slug}</p>
                           <p>
                             <time>{formatDateAndRelative(exhibition.date)}</time>
                           </p>
+                          <p>{exhibition.isPublished ? "✅ Published" : "❌ Unpublished"}</p>
                         </div>
                       </div>
                     </Card>
@@ -108,6 +110,8 @@ export default function RouteComponent() {
 }
 
 export const action = async ({ request }: ActionArgs) => {
+  const userSession = await authenticator.isAuthenticated(request)
+
   const lastExhibiton = await prisma.exhibition.findFirst({
     orderBy: { edition: "desc" },
   })
@@ -118,11 +122,13 @@ export const action = async ({ request }: ActionArgs) => {
 
   const exhibition = await prisma.exhibition.create({
     data: {
+      userId: userSession?.id,
       edition: edition,
       title: title,
       slug: createExhibitionSlug(edition, title),
       date: new Date(),
       description: `Description of ${title}`,
+      isPublished: false,
     },
   })
 

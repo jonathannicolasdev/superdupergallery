@@ -124,10 +124,8 @@ export default function Route() {
               </p>
             </div>
 
-            <div className="flex justify-center">
-              <p className="prose dark:prose-invert max-w-lg whitespace-pre-wrap">
-                {exhibition.description}
-              </p>
+            <div className="prose dark:prose-invert max-w-lg whitespace-pre-wrap">
+              {exhibition.description}
             </div>
           </div>
         </header>

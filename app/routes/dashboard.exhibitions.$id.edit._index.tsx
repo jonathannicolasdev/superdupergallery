@@ -1,7 +1,7 @@
 import { useState } from "react"
 import type { ActionArgs, LoaderArgs } from "@remix-run/node"
 import { json, redirect } from "@remix-run/node"
-import { Form, useActionData, useLoaderData, useNavigation } from "@remix-run/react"
+import { Form, Link, useActionData, useLoaderData, useNavigation } from "@remix-run/react"
 import { conform, parse, useForm } from "@conform-to/react"
 import { parse as parseZod } from "@conform-to/zod"
 import type { FileInfo } from "@uploadcare/react-widget"
@@ -10,7 +10,6 @@ import Select from "react-select"
 import { badRequest } from "remix-utils"
 
 import type { OptionValueLabel } from "~/types"
-import { authenticator } from "~/services/auth.server"
 import { prisma } from "~/libs"
 import { createExhibitionSlug, createTimer, stringify } from "~/utils"
 import {
@@ -23,6 +22,7 @@ import {
   FormFieldSet,
   FormLabel,
   Input,
+  Switch,
   Textarea,
   UploadcarePreview,
   UploadcareWidget,
@@ -72,7 +72,7 @@ export default function Route() {
   const isSubmitting = navigation.state === "submitting"
 
   const lastSubmission = useActionData()
-  const [form, { edition, title, date, description }] = useForm({
+  const [form, { edition, title, date, description, isPublished }] = useForm({
     shouldRevalidate: "onInput",
     lastSubmission,
     // constraint: getFieldsetConstraint(schemaExhibition),
@@ -84,6 +84,7 @@ export default function Route() {
       title: exhibition.title,
       date: exhibition.date,
       description: exhibition.description,
+      isPublished: exhibition.isPublished,
     },
   })
 
@@ -120,10 +121,10 @@ export default function Route() {
 
   return (
     <>
-      <header className="space-y-2">
-        <p>
+      <header>
+        <Link to={`/dashboard/exhibitions/${exhibition.id}`}>
           Edit Exhibition: <code>{exhibition.id}</code>
-        </p>
+        </Link>
       </header>
 
       <section className="max-w-xl">
@@ -232,11 +233,18 @@ export default function Route() {
               />
             </FormField>
 
+            <FormField className="space-y-1">
+              <div className="flex items-center space-x-2">
+                <Switch name={isPublished.name} defaultChecked={Boolean(exhibition.isPublished)} />
+                <FormLabel>Published?</FormLabel>
+              </div>
+            </FormField>
+
             <ButtonLoading
               isSubmitting={isSubmitting}
               submittingText="Saving Exhibition..."
               name="intent"
-              value="edit-exhibition"
+              value="save-exhibition"
             >
               Save Exhibition
             </ButtonLoading>
@@ -251,7 +259,6 @@ export const action = async ({ request }: ActionArgs) => {
   const timer = createTimer()
 
   const clonedRequest = request.clone()
-  const userSession = await authenticator.isAuthenticated(request)
   const formData = await clonedRequest.formData()
 
   const parsed = parse(formData)
@@ -263,7 +270,7 @@ export const action = async ({ request }: ActionArgs) => {
     return null
   }
 
-  if (intent === "edit-exhibition") {
+  if (intent === "save-exhibition") {
     const submission = parseZod(formData, { schema: schemaExhibition })
     if (!submission.value || submission.intent !== "submit") {
       return badRequest(submission)
@@ -290,11 +297,11 @@ export const action = async ({ request }: ActionArgs) => {
       where: { id: submission.value.id },
       data: {
         ...submissionValue,
-        userId: userSession?.id,
         slug: createExhibitionSlug(submission.value.edition, submission.value.title),
         artists: { connect: artists },
         artworks: { connect: artworks },
         images: imageURL ? { create: { url: imageURL } } : undefined,
+        isPublished: submissionValue.isPublished === true ? true : false,
       },
       include: {
         artists: { select: { id: true, name: true } },

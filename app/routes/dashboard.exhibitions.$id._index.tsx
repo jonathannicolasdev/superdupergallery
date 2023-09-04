@@ -44,9 +44,9 @@ export default function Route() {
   return (
     <>
       <header className="space-y-2">
-        <p>
+        <Link to={`/dashboard/exhibitions/${exhibition.id}`}>
           Exhibition: <code>{exhibition.id}</code>
-        </p>
+        </Link>
         <div className="flex items-center gap-2">
           <ButtonLink size="xs" to={`/exhibitions/${exhibition.slug}`}>
             View
@@ -81,9 +81,12 @@ export default function Route() {
               <b>Date: </b>
               <time>{formatDateAndRelative(exhibition.date)}</time>
             </li>
+            <p>{exhibition.isPublished ? "✅ Published" : "❌ Unpublished"}</p>
           </ul>
 
-          <p className="max-w-lg">{exhibition.description}</p>
+          <div className="prose dark:prose-invert max-w-lg whitespace-pre-wrap">
+            {exhibition.description}
+          </div>
         </div>
       </section>
 
