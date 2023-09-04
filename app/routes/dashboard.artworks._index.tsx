@@ -6,6 +6,7 @@ import { Form, Link, useLoaderData } from "@remix-run/react"
 import { prisma } from "~/libs"
 import { formatNumberToPHP, formatTitle } from "~/utils"
 import {
+  Badge,
   Button,
   Card,
   getPaginationConfigs,
@@ -38,7 +39,7 @@ export const loader = async ({ request }: LoaderArgs) => {
       skip: config.skip,
       take: config.limitParam,
       orderBy: { exhibition: { edition: "desc" } },
-      include: { images: true, artist: true },
+      include: { images: true, artist: true, status: true },
     }),
   ])
 
@@ -88,7 +89,10 @@ export default function RouteComponent() {
                         <div className="text-xs text-muted-foreground">
                           <p>{artwork.artist?.name}</p>
                           <p>{formatNumberToPHP(artwork.price)}</p>
-                          <p>{artwork.isPublished ? "✅ Published" : "❌ Unpublished"}</p>
+                          <p className="space-x-2">
+                            <span>{artwork.isPublished ? "✅ Published" : "❌ Unpublished"}</span>
+                            {artwork.status?.name && <Badge>{artwork.status.name}</Badge>}
+                          </p>
                         </div>
                       </div>
                     </Card>

@@ -4,7 +4,7 @@ import { Form, Link, useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs"
 import { formatNumberToPHP, getNameInitials } from "~/utils"
-import { AvatarAuto, Button, Card, CardTitle, ImageArtwork } from "~/components"
+import { AvatarAuto, Badge, Button, Card, CardTitle, ImageArtwork } from "~/components"
 
 export async function loader({ request, params }: LoaderArgs) {
   const artwork = await prisma.artwork.findFirst({
@@ -50,7 +50,9 @@ export default function Route() {
         </div>
       </header>
 
-      <section className="flex flex-wrap items-start justify-between gap-4">
+      <section className="flex flex-wrap items-start gap-8">
+        <ImageArtwork className="w-full max-w-sm object-contain">{artwork}</ImageArtwork>
+
         <div className="space-y-4">
           <h1>{artwork.title}</h1>
           <ul className="space-y-1">
@@ -89,6 +91,7 @@ export default function Route() {
             <li>
               <p>{artwork.isPublished ? "✅ Published" : "❌ Unpublished"}</p>
             </li>
+            <li>{artwork.status?.name && <Badge>{artwork.status.name}</Badge>}</li>
           </ul>
 
           {artwork.artist && (
@@ -108,8 +111,6 @@ export default function Route() {
             </Link>
           )}
         </div>
-
-        <ImageArtwork className="w-full max-w-lg object-contain">{artwork}</ImageArtwork>
       </section>
     </>
   )
