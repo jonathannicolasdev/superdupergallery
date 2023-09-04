@@ -57,7 +57,7 @@ export default function RouteComponent() {
       <header className="flex items-center gap-2">
         <p>Exhibitions</p>
         <Form method="POST">
-          <Button type="submit" size="sm">
+          <Button type="submit" size="sm" name="intent" value="add-exhibition">
             Add New Exhibition
           </Button>
         </Form>
@@ -75,20 +75,19 @@ export default function RouteComponent() {
 
       {count > 0 && (
         <section>
-          <ul className="space-y-4">
+          <ul className="grid grid-cols-1 gap-8 sm:grid-cols-2">
             {exhibitions.map(exhibition => {
               return (
                 <li key={exhibition.id}>
                   <Link to={`/dashboard/exhibitions/${exhibition.id}`}>
-                    <Card className="hover-opacity grid max-w-xl grid-cols-4 items-center gap-4">
+                    <Card className="hover-opacity flex max-w-xl items-start gap-4">
                       <ImageExhibition className="h-24 object-contain">
                         {exhibition}
                       </ImageExhibition>
 
-                      <div className="col-span-3">
+                      <div className="space-y-1">
                         <h4>{exhibition.title}</h4>
-                        <div className="text-xs text-muted-foreground">
-                          <p>{exhibition.slug}</p>
+                        <div className="text-sm text-muted-foreground">
                           <p>
                             <time>{formatDateAndRelative(exhibition.date)}</time>
                           </p>

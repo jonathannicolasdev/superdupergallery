@@ -101,7 +101,7 @@
   }
   p,
   li {
-    @apply text-lg leading-snug;
+    @apply leading-snug;
   }
 }
 

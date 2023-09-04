@@ -86,7 +86,7 @@ export default function RouteComponent() {
 
                       <div className="col-span-3">
                         <h4>{artwork.title}</h4>
-                        <div className="text-xs text-muted-foreground">
+                        <div className="text-sm text-muted-foreground">
                           <p>{artwork.artist?.name}</p>
                           <p>{formatNumberToPHP(artwork.price)}</p>
                           <p className="space-x-2">
