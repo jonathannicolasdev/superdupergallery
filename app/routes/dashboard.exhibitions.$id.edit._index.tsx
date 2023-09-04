@@ -257,8 +257,6 @@ export const action = async ({ request }: ActionArgs) => {
   const parsed = parse(formData)
   const { intent } = parsed.payload
 
-  console.log({ intent })
-
   if (intent === "delete-image") {
     const submission = parseZod(formData, { schema: schemaExhibitionImage })
     await prisma.exhibitionImage.delete({ where: { id: submission.payload.imageId } })

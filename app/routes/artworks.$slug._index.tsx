@@ -53,7 +53,7 @@ export default function ArtworksRoute() {
 
   return (
     <Layout className="flex justify-center p-10">
-      <div className="flex w-full flex-col flex-wrap justify-center gap-10 sm:flex-row">
+      <div className="flex w-full flex-col flex-wrap items-start justify-center gap-10 sm:flex-row">
         <ImageArtwork className="h-100 w-fuull object-contain">{artwork}</ImageArtwork>
 
         <header className="space-y-8">
@@ -80,7 +80,7 @@ export default function ArtworksRoute() {
             </Link>
           </h1>
 
-          <div className="space-y-4">
+          <div className="space-y-2">
             <p>{artwork.year}</p>
             <p>
               <b>Medium: </b>

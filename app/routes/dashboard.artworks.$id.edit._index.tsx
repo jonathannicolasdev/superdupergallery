@@ -2,8 +2,8 @@ import { useState } from "react"
 import type { ActionArgs, LoaderArgs } from "@remix-run/node"
 import { json, redirect } from "@remix-run/node"
 import { Form, useActionData, useLoaderData, useNavigation } from "@remix-run/react"
-import { conform, useForm } from "@conform-to/react"
-import { parse } from "@conform-to/zod"
+import { conform, parse, useForm } from "@conform-to/react"
+import { parse as parseZod } from "@conform-to/zod"
 import type { FileInfo } from "@uploadcare/react-widget"
 import type { SingleValue } from "react-select"
 import Select from "react-select"
@@ -25,7 +25,7 @@ import {
   UploadcareWidget,
   useUploadcareConfigs,
 } from "~/components"
-import { schemaArtwork } from "~/schemas/artwork"
+import { schemaArtwork, schemaArtworkImage } from "~/schemas"
 
 export async function loader({ request, params }: LoaderArgs) {
   const [artwork, artists] = await prisma.$transaction([
@@ -62,7 +62,7 @@ export default function Route() {
     shouldRevalidate: "onInput",
     lastSubmission,
     onValidate({ formData }) {
-      return parse(formData, { schema: schemaArtwork })
+      return parseZod(formData, { schema: schemaArtwork })
     },
     defaultValue: {
       id: artwork.id,
@@ -80,10 +80,14 @@ export default function Route() {
     label: artwork.artist?.name || "",
   })
 
-  const { isMultiple, handleUploaded, fileInfo } = useUploadcareConfigs({
+  const { isMultiple, handleUploaded, fileInfo, setFileInfo } = useUploadcareConfigs({
     isMultiple: false,
     defaultFileInfo: artwork.images[0]?.url
-      ? { cdnUrl: artwork.images[0].url, name: "" }
+      ? {
+          id: artwork.images[0].id,
+          cdnUrl: artwork.images[0].url,
+          name: "",
+        }
       : undefined,
   })
 
@@ -106,6 +110,7 @@ export default function Route() {
             <UploadcarePreview
               isMultiple={isMultiple}
               fileInfo={fileInfo}
+              setFileInfo={setFileInfo}
               previewText="Artwork image will be previewed here"
             />
 
@@ -153,7 +158,12 @@ export default function Route() {
               />
             </FormField>
 
-            <ButtonLoading isSubmitting={isSubmitting} submittingText="Saving Artwork...">
+            <ButtonLoading
+              isSubmitting={isSubmitting}
+              submittingText="Saving Artwork..."
+              name="intent"
+              value="edit-artwork"
+            >
               Save Artwork
             </ButtonLoading>
           </FormFieldSet>
@@ -170,40 +180,53 @@ export const action = async ({ request }: ActionArgs) => {
   const userSession = await authenticator.isAuthenticated(request)
   const formData = await clonedRequest.formData()
 
-  const submission = parse(formData, { schema: schemaArtwork })
-  if (!submission.value || submission.intent !== "submit") {
-    return badRequest(submission)
+  const parsed = parse(formData)
+  const { intent } = parsed.payload
+
+  if (intent === "delete-image") {
+    const submission = parseZod(formData, { schema: schemaArtworkImage })
+    await prisma.artworkImage.delete({ where: { id: submission.payload.imageId } })
+    return null
   }
 
-  const artist: OptionValueLabel = JSON.parse(submission.payload.artworkArtist)
+  if (intent === "edit-artwork") {
+    const submission = parseZod(formData, { schema: schemaArtwork })
+    if (!submission.value || submission.intent !== "submit") {
+      return badRequest(submission)
+    }
 
-  const statuses = await prisma.artworkStatus.findMany()
-  const AVAILABLE = statuses.find(status => status.symbol === "AVAILABLE")
-  const SOLD = statuses.find(status => status.symbol === "SOLD")
-  const PULLED_OUT = statuses.find(status => status.symbol === "PULLED-OUT")
-  const RESERVED = statuses.find(status => status.symbol === "RESERVED")
-  const UNKNOWN = statuses.find(status => status.symbol === "UNKNOWN")
-  if (!AVAILABLE || !SOLD || !PULLED_OUT || !RESERVED || !UNKNOWN) return null
+    const artist: OptionValueLabel = JSON.parse(submission.payload.artworkArtist)
 
-  const { fileInfo, ...submissionValue } = submission.value
-  const parsedFileInfo: FileInfo | undefined = fileInfo ? JSON.parse(String(fileInfo)) : undefined
-  const imageURL = parsedFileInfo?.cdnUrl
+    const statuses = await prisma.artworkStatus.findMany()
+    const AVAILABLE = statuses.find(status => status.symbol === "AVAILABLE")
+    const SOLD = statuses.find(status => status.symbol === "SOLD")
+    const PULLED_OUT = statuses.find(status => status.symbol === "PULLED-OUT")
+    const RESERVED = statuses.find(status => status.symbol === "RESERVED")
+    const UNKNOWN = statuses.find(status => status.symbol === "UNKNOWN")
+    if (!AVAILABLE || !SOLD || !PULLED_OUT || !RESERVED || !UNKNOWN) return null
 
-  const artwork = await prisma.artwork.update({
-    where: { id: submission.value.id },
-    data: {
-      ...submissionValue,
-      userId: userSession?.id,
-      slug: createArtworkSlug(submission.value.title, artist.label),
-      artistId: artist.value,
-      statusId: AVAILABLE.id,
-      images: imageURL ? { create: { url: imageURL } } : undefined,
-    },
-    include: { artist: { select: { id: true, name: true } } },
-  })
+    const { fileInfo, ...submissionValue } = submission.value
+    const parsedFileInfo: FileInfo | undefined = fileInfo ? JSON.parse(String(fileInfo)) : undefined
+    const imageURL = parsedFileInfo?.cdnUrl
 
-  await timer.delay()
+    const artwork = await prisma.artwork.update({
+      where: { id: submission.value.id },
+      data: {
+        ...submissionValue,
+        userId: userSession?.id,
+        slug: createArtworkSlug(submission.value.title, artist.label),
+        artistId: artist.value,
+        statusId: AVAILABLE.id,
+        images: imageURL ? { create: { url: imageURL } } : undefined,
+      },
+      include: { artist: { select: { id: true, name: true } } },
+    })
 
-  const redirectTo = getRedirectTo(request)
-  return redirect(redirectTo || `/dashboard/artworks/${artwork.id}`)
+    await timer.delay()
+
+    const redirectTo = getRedirectTo(request)
+    return redirect(redirectTo || `/dashboard/artworks/${artwork.id}`)
+  }
+
+  return null
 }

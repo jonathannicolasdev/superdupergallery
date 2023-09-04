@@ -27,3 +27,7 @@ export const schemaArtwork = z.object({
   year,
   artistArtwork,
 })
+
+export const schemaArtworkImage = zfd.formData({
+  imageId: id,
+})
