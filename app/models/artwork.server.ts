@@ -25,6 +25,7 @@ export const mutation = {
         medium: "Canvas",
         size: "20x20 inches",
         price: 0,
+        isPublished: false,
       },
     })
 

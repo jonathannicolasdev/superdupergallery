@@ -60,7 +60,7 @@ export default function RouteComponent() {
         <p>Artists</p>
         <Form method="POST">
           <Button type="submit" size="sm">
-            Add New
+            Add New Artist
           </Button>
         </Form>
       </header>

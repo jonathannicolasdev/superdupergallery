@@ -11,6 +11,8 @@ const size = z.string().max(50, "size limited to 50 characters")
 
 const year = zfd.numeric(z.number().min(2020, "Year min. is 2020").max(2100, "Year max. is 2100"))
 
+const price = zfd.numeric(z.number().min(0, "Price min. is 0").max(500_000_000, "Price min. is 0"))
+
 const isPublished = z
   .string()
   .transform(value => value === "on")
@@ -30,6 +32,7 @@ export const schemaArtwork = z.object({
   medium,
   size,
   year,
+  price,
   artistArtwork,
   isPublished,
 })

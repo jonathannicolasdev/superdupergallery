@@ -137,7 +137,7 @@ model Artwork {
   medium      String // canvas, acrylic
   size        String // width, height, length
   price       Int?
-  isPublished Boolean? @default(true)
+  isPublished Boolean? @default(false)
 
   status   ArtworkStatus? @relation(fields: [statusId], references: [id])
   statusId String?
@@ -200,7 +200,7 @@ model Artist {
   name        String
   slug        String   @unique
   bio         String?  @db.Text
-  isPublished Boolean? @default(true)
+  isPublished Boolean? @default(false)
 
   image       ArtistImage?
   artworks    Artwork[]
@@ -240,8 +240,8 @@ model Exhibition {
   title       String
   slug        String    @unique
   date        DateTime?
-  description String?   @db.Text // write up
-  isPublished Boolean?  @default(true)
+  description String?   @db.Text // or so called "write up"
+  isPublished Boolean?  @default(false)
 
   images   ExhibitionImage[]
   artists  Artist[]

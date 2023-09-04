@@ -60,7 +60,7 @@ export default function Route() {
   const isSubmitting = navigation.state === "submitting"
 
   const lastSubmission = useActionData()
-  const [form, { id, title, medium, size, year, isPublished }] = useForm({
+  const [form, { id, title, medium, size, year, price, isPublished }] = useForm({
     shouldRevalidate: "onInput",
     lastSubmission,
     onValidate({ formData }) {
@@ -72,6 +72,7 @@ export default function Route() {
       medium: artwork.medium,
       size: artwork.size,
       year: artwork.year,
+      price: artwork.price,
       isPublished: artwork.isPublished,
     },
   })
@@ -142,6 +143,12 @@ export default function Route() {
               <FormLabel htmlFor={year.id}>Year</FormLabel>
               <Input {...conform.input(year, { type: "number" })} min={2020} max={2100} />
               <FormAlert config={year} />
+            </FormField>
+
+            <FormField>
+              <FormLabel htmlFor={price.id}>Price</FormLabel>
+              <Input {...conform.input(price, { type: "number" })} min={0} max={500_000_000} />
+              <FormAlert config={price} />
             </FormField>
 
             <FormField className="space-y-1">

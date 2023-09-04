@@ -3,9 +3,10 @@ import type { V2_MetaFunction } from "@remix-run/react"
 import { Link, useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs"
-import { formatPluralItems, formatTitle } from "~/utils"
+import { formatDateOnly, formatPluralItems, formatTitle } from "~/utils"
 import {
   Card,
+  CardDescription,
   CardTitle,
   getPaginationConfigs,
   getPaginationOptions,
@@ -104,9 +105,9 @@ export default function Route() {
                         {exhibition}
                       </ImageExhibition>
                       <CardTitle className="text-center text-2xl">{exhibition.title}</CardTitle>
-                      {/* <CardDescription className="text-center">
+                      <CardDescription className="text-center">
                         <time>{formatDateOnly(exhibition.date)}</time>
-                      </CardDescription> */}
+                      </CardDescription>
                     </Card>
                   </Link>
                 </li>

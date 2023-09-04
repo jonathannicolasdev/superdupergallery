@@ -3,7 +3,7 @@ import type { ActionArgs, LoaderArgs } from "@remix-run/node"
 import { Form, Link, useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs"
-import { getNameInitials } from "~/utils"
+import { formatNumberToPHP, getNameInitials } from "~/utils"
 import { AvatarAuto, Button, Card, CardTitle, ImageArtwork } from "~/components"
 
 export async function loader({ request, params }: LoaderArgs) {
@@ -82,6 +82,9 @@ export default function Route() {
               ) : (
                 <span>-</span>
               )}
+            </li>
+            <li>
+              <p>{formatNumberToPHP(artwork.price)}</p>
             </li>
             <li>
               <p>{artwork.isPublished ? "✅ Published" : "❌ Unpublished"}</p>

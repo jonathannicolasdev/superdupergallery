@@ -3,12 +3,13 @@ import type { LoaderArgs } from "@remix-run/node"
 import { Link, useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs"
-import { createCacheHeaders } from "~/utils"
+import { createCacheHeaders, formatDateOnly } from "~/utils"
 import { useRootLoaderData } from "~/hooks"
 import {
   Anchor,
   Button,
   Card,
+  CardDescription,
   CardHeader,
   CardTitle,
   ImageArtwork,
@@ -155,12 +156,13 @@ export function LandingExhibitions() {
                 <Card className="hover-opacity space-y-2">
                   <CardHeader className="flex flex-col items-center space-y-2">
                     <ImageExhibition className="object-contain">{exhibition}</ImageExhibition>
-
                     <div className="flex-grow" />
-
                     <CardTitle className="text-center text-2xl">
                       <span>{exhibition.title}</span>
                     </CardTitle>
+                    <CardDescription className="text-center">
+                      <time>{formatDateOnly(exhibition.date)}</time>
+                    </CardDescription>
                   </CardHeader>
                 </Card>
               </Link>
