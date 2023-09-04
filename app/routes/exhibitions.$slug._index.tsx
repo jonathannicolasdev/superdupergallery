@@ -97,10 +97,8 @@ export default function Route() {
     <Layout className="flex justify-center px-4">
       <div className="flex w-full flex-col flex-wrap gap-10 sm:flex-row">
         <header className="flex w-full justify-center">
-          <div className="flex flex-col justify-center space-y-4 text-center">
-            <ImageExhibition className="h-80 border-2 border-white object-contain">
-              {exhibition}
-            </ImageExhibition>
+          <div className="flex flex-col justify-center space-y-4">
+            <ImageExhibition className="h-80 object-contain">{exhibition}</ImageExhibition>
 
             <h1 className="flex justify-center">
               <Link to={`/exhibitions/${exhibition.slug}`} className="hover-opacity">
@@ -108,15 +106,11 @@ export default function Route() {
               </Link>
             </h1>
 
-            <div className="space-y-2">
+            <div className="space-y-2 text-center">
               <p>Exhibition #{exhibition.edition}</p>
 
               <p className="space-y-4">
                 <time>{formatDateAndRelative(exhibition.date)}</time>
-              </p>
-
-              <p className="prose dark:prose-invert whitespace-pre-wrap">
-                {exhibition.description}
               </p>
 
               <p className="flex justify-center">
@@ -127,6 +121,12 @@ export default function Route() {
                   <LocationIcon size="small" />
                   <span>Maps to the Gallery</span>
                 </Anchor>
+              </p>
+            </div>
+
+            <div className="flex justify-center">
+              <p className="prose dark:prose-invert max-w-lg whitespace-pre-wrap">
+                {exhibition.description}
               </p>
             </div>
           </div>

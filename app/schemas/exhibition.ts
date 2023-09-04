@@ -19,7 +19,7 @@ const date = z.preprocess(
     .optional(),
 )
 
-const description = z.string().max(1000, "Description max of 1000 characters").optional()
+const description = z.string().max(10_000, "Description max of 10,000 characters").optional()
 
 const isPublished = z
   .string()
