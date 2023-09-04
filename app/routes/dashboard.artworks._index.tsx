@@ -114,7 +114,9 @@ export const action = async ({ request }: ActionArgs) => {
   const redirectTo = formData.get("redirectTo")?.toString()
 
   const { artwork } = await model.artwork.mutation.addNewArtwork()
+  if (!artwork) return null
 
-  if (redirectTo) return redirect(`${artwork.id}/edit?redirectTo=${redirectTo}`)
-  return redirect(`${artwork.id}/edit`)
+  redirectTo
+    ? redirect(`${artwork.id}/edit?redirectTo=${redirectTo}`)
+    : redirect(`${artwork.id}/edit`)
 }

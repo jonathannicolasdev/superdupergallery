@@ -229,7 +229,7 @@
   @apply hidden;
 }
 .select__control {
-  @apply bg-black !important;
+  @apply border-2 border-input bg-background !important;
 }
 .select__menu-list {
   @apply bg-zinc-950 !important;

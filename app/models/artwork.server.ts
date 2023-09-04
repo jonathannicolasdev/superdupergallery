@@ -17,6 +17,9 @@ export const mutation = {
     const number = count + 1
     const title = `Artwork ${number}`
 
+    const AVAILABLE = await prisma.artworkStatus.findUnique({ where: { symbol: "AVAILABLE" } })
+    if (!AVAILABLE) return { artwork: null, error: null }
+
     const artwork = await prisma.artwork.create({
       data: {
         title,
@@ -26,6 +29,7 @@ export const mutation = {
         size: "20x20 inches",
         price: 0,
         isPublished: false,
+        statusId: AVAILABLE?.id,
       },
     })
 

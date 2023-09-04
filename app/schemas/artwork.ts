@@ -13,6 +13,8 @@ const year = zfd.numeric(z.number().min(2020, "Year min. is 2020").max(2100, "Ye
 
 const price = zfd.numeric(z.number().min(0, "Price min. is 0").max(500_000_000, "Price min. is 0"))
 
+const statusSymbol = z.string().min(1, "Status is required")
+
 const isPublished = z
   .string()
   .transform(value => value === "on")
@@ -33,6 +35,7 @@ export const schemaArtwork = z.object({
   size,
   year,
   price,
+  statusSymbol,
   artistArtwork,
   isPublished,
 })

@@ -139,8 +139,8 @@ model Artwork {
   price       Int?
   isPublished Boolean? @default(false)
 
-  status   ArtworkStatus? @relation(fields: [statusId], references: [id])
-  statusId String?
+  status   ArtworkStatus @relation(fields: [statusId], references: [id])
+  statusId String
 
   images ArtworkImage[]
 

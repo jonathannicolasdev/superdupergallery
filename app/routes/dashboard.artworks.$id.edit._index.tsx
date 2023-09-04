@@ -6,7 +6,7 @@ import { conform, parse, useForm } from "@conform-to/react"
 import { parse as parseZod } from "@conform-to/zod"
 import type { FileInfo } from "@uploadcare/react-widget"
 import type { SingleValue } from "react-select"
-import Select from "react-select"
+import ReactSelect from "react-select"
 import { badRequest } from "remix-utils"
 
 import type { OptionValueLabel } from "~/types"
@@ -21,6 +21,11 @@ import {
   FormFieldSet,
   FormLabel,
   Input,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
   Switch,
   UploadcarePreview,
   UploadcareWidget,
@@ -30,37 +35,36 @@ import { model } from "~/models"
 import { schemaArtwork, schemaArtworkImage } from "~/schemas"
 
 export async function loader({ request, params }: LoaderArgs) {
-  const [artwork, artists] = await prisma.$transaction([
+  const [artwork, artists, artworkStatuses] = await prisma.$transaction([
     prisma.artwork.findFirst({
       where: { id: params.id },
-      include: {
-        images: true,
-        artist: true,
-      },
+      include: { images: true, artist: true, status: true },
     }),
 
     prisma.artist.findMany({
-      include: {
-        image: true,
-      },
+      include: { image: true },
+    }),
+
+    prisma.artworkStatus.findMany({
+      select: { symbol: true, name: true, description: true },
     }),
   ])
 
-  if (!artwork || !artists) {
+  if (!artwork || !artists || !artworkStatuses) {
     return redirect("/dashboard/artworks")
   }
 
-  return json({ artwork, artists })
+  return json({ artwork, artists, artworkStatuses })
 }
 
 export default function Route() {
-  const { artwork, artists } = useLoaderData<typeof loader>()
+  const { artwork, artists, artworkStatuses } = useLoaderData<typeof loader>()
 
   const navigation = useNavigation()
   const isSubmitting = navigation.state === "submitting"
 
   const lastSubmission = useActionData()
-  const [form, { id, title, medium, size, year, price, isPublished }] = useForm({
+  const [form, { id, title, medium, size, year, price, statusSymbol, isPublished }] = useForm({
     shouldRevalidate: "onInput",
     lastSubmission,
     onValidate({ formData }) {
@@ -158,7 +162,7 @@ export default function Route() {
                 name="artworkArtist"
                 defaultValue={JSON.stringify(selectedArtist)}
               />
-              <Select
+              <ReactSelect
                 classNamePrefix="select"
                 options={artistsOptions}
                 defaultValue={selectedArtist}
@@ -166,6 +170,24 @@ export default function Route() {
                   setSelectedArtist(value)
                 }}
               />
+            </FormField>
+
+            <FormField className="space-y-1">
+              <FormLabel>Status</FormLabel>
+              <Select {...conform.input(statusSymbol)} defaultValue={artwork.status.symbol}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder={artwork.status.name} />
+                </SelectTrigger>
+                <SelectContent position="popper">
+                  {artworkStatuses.map(artworkStatus => {
+                    return (
+                      <SelectItem key={artworkStatus.symbol} value={artworkStatus.symbol}>
+                        {artworkStatus.name}
+                      </SelectItem>
+                    )
+                  })}
+                </SelectContent>
+              </Select>
             </FormField>
 
             <FormField className="space-y-1">
@@ -224,17 +246,13 @@ export const action = async ({ request }: ActionArgs) => {
       return badRequest(submission)
     }
 
+    const artworkStatus = await prisma.artworkStatus.findUnique({
+      where: { symbol: submission.value.statusSymbol },
+    })
+    if (!artworkStatus) return null
+
     const artist: OptionValueLabel = JSON.parse(submission.payload.artworkArtist)
-
-    const statuses = await prisma.artworkStatus.findMany()
-    const AVAILABLE = statuses.find(status => status.symbol === "AVAILABLE")
-    const SOLD = statuses.find(status => status.symbol === "SOLD")
-    const PULLED_OUT = statuses.find(status => status.symbol === "PULLED-OUT")
-    const RESERVED = statuses.find(status => status.symbol === "RESERVED")
-    const UNKNOWN = statuses.find(status => status.symbol === "UNKNOWN")
-    if (!AVAILABLE || !SOLD || !PULLED_OUT || !RESERVED || !UNKNOWN) return null
-
-    const { fileInfo, ...submissionValue } = submission.value
+    const { fileInfo, statusSymbol, ...submissionValue } = submission.value
     const parsedFileInfo: FileInfo | undefined = fileInfo ? JSON.parse(String(fileInfo)) : undefined
     const imageURL = parsedFileInfo?.cdnUrl
 
@@ -245,7 +263,7 @@ export const action = async ({ request }: ActionArgs) => {
         userId: userSession?.id,
         slug: createArtworkSlug(submission.value.title, artist.label),
         artistId: artist.value,
-        statusId: AVAILABLE.id,
+        statusId: artworkStatus.id,
         images: imageURL ? { create: { url: imageURL } } : undefined,
         isPublished: Boolean(submissionValue.isPublished),
       },
@@ -257,10 +275,11 @@ export const action = async ({ request }: ActionArgs) => {
 
     if (intent === "save-artwork-more") {
       const { artwork } = await model.artwork.mutation.addNewArtwork()
-      if (redirectTo) {
-        return redirect(`/dashboard/artworks/${artwork.id}/edit?redirectTo=${redirectTo}`)
-      }
-      return redirect(`/dashboard/artworks/${artwork.id}/edit`)
+      if (!artwork) return null
+
+      redirectTo
+        ? redirect(`/dashboard/artworks/${artwork.id}/edit?redirectTo=${redirectTo}`)
+        : redirect(`/dashboard/artworks/${artwork.id}/edit`)
     }
 
     if (intent === "save-artwork") {
