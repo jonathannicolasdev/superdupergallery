@@ -11,6 +11,11 @@ const size = z.string().max(50, "size limited to 50 characters")
 
 const year = zfd.numeric(z.number().min(2020, "Year min. is 2020").max(2100, "Year max. is 2100"))
 
+const isPublished = z
+  .string()
+  .transform(value => value === "on")
+  .optional()
+
 const artistArtwork = z
   .object({
     value: id,
@@ -26,6 +31,7 @@ export const schemaArtwork = z.object({
   size,
   year,
   artistArtwork,
+  isPublished,
 })
 
 export const schemaArtworkImage = zfd.formData({

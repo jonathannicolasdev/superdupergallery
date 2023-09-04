@@ -1,7 +1,7 @@
 import { useState } from "react"
 import type { ActionArgs, LoaderArgs } from "@remix-run/node"
 import { json, redirect } from "@remix-run/node"
-import { Form, useActionData, useLoaderData, useNavigation } from "@remix-run/react"
+import { Form, Link, useActionData, useLoaderData, useNavigation } from "@remix-run/react"
 import { conform, parse, useForm } from "@conform-to/react"
 import { parse as parseZod } from "@conform-to/zod"
 import type { FileInfo } from "@uploadcare/react-widget"
@@ -21,6 +21,7 @@ import {
   FormFieldSet,
   FormLabel,
   Input,
+  Switch,
   UploadcarePreview,
   UploadcareWidget,
   useUploadcareConfigs,
@@ -59,7 +60,7 @@ export default function Route() {
   const isSubmitting = navigation.state === "submitting"
 
   const lastSubmission = useActionData()
-  const [form, { id, title, medium, size, year }] = useForm({
+  const [form, { id, title, medium, size, year, isPublished }] = useForm({
     shouldRevalidate: "onInput",
     lastSubmission,
     onValidate({ formData }) {
@@ -71,6 +72,7 @@ export default function Route() {
       medium: artwork.medium,
       size: artwork.size,
       year: artwork.year,
+      isPublished: artwork.isPublished,
     },
   })
 
@@ -94,10 +96,10 @@ export default function Route() {
 
   return (
     <>
-      <header className="space-y-2">
-        <p>
-          Edit Artwork: <code>{artwork.id}</code>
-        </p>
+      <header>
+        <Link to={`/dashboard/artworks/${artwork.id}`}>
+          Artwork: <code>{artwork.id}</code>
+        </Link>
       </header>
 
       <section className="max-w-xl">
@@ -157,6 +159,13 @@ export default function Route() {
                   setSelectedArtist(value)
                 }}
               />
+            </FormField>
+
+            <FormField className="space-y-1">
+              <div className="flex items-center space-x-2">
+                <Switch name={isPublished.name} defaultChecked={Boolean(artwork.isPublished)} />
+                <FormLabel>Published?</FormLabel>
+              </div>
             </FormField>
 
             <div className="flex gap-2">
@@ -231,6 +240,7 @@ export const action = async ({ request }: ActionArgs) => {
         artistId: artist.value,
         statusId: AVAILABLE.id,
         images: imageURL ? { create: { url: imageURL } } : undefined,
+        isPublished: Boolean(submissionValue.isPublished),
       },
       include: { artist: { select: { id: true, name: true } } },
     })

@@ -81,11 +81,8 @@ export default function ArtworksRoute() {
                     <Card className="hover-opacity h-full space-y-2">
                       <CardHeader className="flex flex-col items-center space-y-2">
                         <ImageArtwork className="w-full object-contain">{artwork}</ImageArtwork>
-
                         <div className="flex-grow" />
-
                         <CardTitle className="text-center text-2xl">{artwork.title}</CardTitle>
-
                         <p>{artwork.artist?.name}</p>
                       </CardHeader>
                     </Card>

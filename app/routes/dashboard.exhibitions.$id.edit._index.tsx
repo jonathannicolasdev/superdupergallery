@@ -123,7 +123,7 @@ export default function Route() {
     <>
       <header>
         <Link to={`/dashboard/exhibitions/${exhibition.id}`}>
-          Edit Exhibition: <code>{exhibition.id}</code>
+          Exhibition: <code>{exhibition.id}</code>
         </Link>
       </header>
 
@@ -301,7 +301,7 @@ export const action = async ({ request }: ActionArgs) => {
         artists: { connect: artists },
         artworks: { connect: artworks },
         images: imageURL ? { create: { url: imageURL } } : undefined,
-        isPublished: submissionValue.isPublished === true ? true : false,
+        isPublished: Boolean(submissionValue.isPublished),
       },
       include: {
         artists: { select: { id: true, name: true } },

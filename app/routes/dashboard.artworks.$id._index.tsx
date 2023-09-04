@@ -31,9 +31,10 @@ export default function Route() {
   return (
     <>
       <header className="space-y-2">
-        <p>
+        <Link to={`/dashboard/artworks/${artwork.id}`}>
           Artwork: <code>{artwork.id}</code>
-        </p>
+        </Link>
+
         <div className="flex items-center gap-2">
           <Button asChild size="xs">
             <Link to={`/artworks/${artwork.slug}`}>View</Link>
@@ -81,6 +82,9 @@ export default function Route() {
               ) : (
                 <span>-</span>
               )}
+            </li>
+            <li>
+              <p>{artwork.isPublished ? "✅ Published" : "❌ Unpublished"}</p>
             </li>
           </ul>
 

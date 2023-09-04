@@ -131,12 +131,13 @@ model UserAvatarImage {
 model Artwork {
   id String @id @default(cuid())
 
-  title  String
-  slug   String // @unique
-  year   Int?
-  medium String // canvas, acrylic
-  size   String // width, height, length
-  price  Int?
+  title       String
+  slug        String // @unique
+  year        Int?
+  medium      String // canvas, acrylic
+  size        String // width, height, length
+  price       Int?
+  isPublished Boolean? @default(true)
 
   status   ArtworkStatus? @relation(fields: [statusId], references: [id])
   statusId String?
@@ -196,9 +197,10 @@ model ArtworkImage {
 model Artist {
   id String @id @default(cuid())
 
-  name String
-  slug String  @unique
-  bio  String? @db.Text
+  name        String
+  slug        String   @unique
+  bio         String?  @db.Text
+  isPublished Boolean? @default(true)
 
   image       ArtistImage?
   artworks    Artwork[]
@@ -234,15 +236,12 @@ model ArtistImage {
 model Exhibition {
   id String @id @default(cuid())
 
-  edition Int?
-
-  title String
-  slug  String    @unique
-  date  DateTime?
-
-  description String? @db.Text // write up
-
-  isPublished Boolean? @default(true)
+  edition     Int?
+  title       String
+  slug        String    @unique
+  date        DateTime?
+  description String?   @db.Text // write up
+  isPublished Boolean?  @default(true)
 
   images   ExhibitionImage[]
   artists  Artist[]

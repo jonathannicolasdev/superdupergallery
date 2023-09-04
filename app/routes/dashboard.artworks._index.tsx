@@ -85,9 +85,10 @@ export default function RouteComponent() {
 
                       <div className="col-span-3">
                         <h4>{artwork.title}</h4>
-                        <div className="text-muted-foreground">
+                        <div className="text-xs text-muted-foreground">
                           <p>{artwork.slug}</p>
                           <p>{artwork.artist?.name}</p>
+                          <p>{artwork.isPublished ? "✅ Published" : "❌ Unpublished"}</p>
                         </div>
                       </div>
                     </Card>
