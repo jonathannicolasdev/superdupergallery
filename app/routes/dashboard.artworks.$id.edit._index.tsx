@@ -25,6 +25,7 @@ import {
   UploadcareWidget,
   useUploadcareConfigs,
 } from "~/components"
+import { model } from "~/models"
 import { schemaArtwork, schemaArtworkImage } from "~/schemas"
 
 export async function loader({ request, params }: LoaderArgs) {
@@ -158,14 +159,26 @@ export default function Route() {
               />
             </FormField>
 
-            <ButtonLoading
-              isSubmitting={isSubmitting}
-              submittingText="Saving Artwork..."
-              name="intent"
-              value="edit-artwork"
-            >
-              Save Artwork
-            </ButtonLoading>
+            <div className="flex gap-2">
+              <ButtonLoading
+                isSubmitting={isSubmitting}
+                submittingText="Saving Artwork..."
+                name="intent"
+                value="save-artwork"
+              >
+                Save Artwork
+              </ButtonLoading>
+
+              <ButtonLoading
+                variant="secondary"
+                isSubmitting={isSubmitting}
+                submittingText="Saving Artwork..."
+                name="intent"
+                value="save-artwork-more"
+              >
+                Save and Add More
+              </ButtonLoading>
+            </div>
           </FormFieldSet>
         </Form>
       </section>
@@ -189,7 +202,7 @@ export const action = async ({ request }: ActionArgs) => {
     return null
   }
 
-  if (intent === "edit-artwork") {
+  if (intent === "save-artwork" || intent === "save-artwork-more") {
     const submission = parseZod(formData, { schema: schemaArtwork })
     if (!submission.value || submission.intent !== "submit") {
       return badRequest(submission)
@@ -223,9 +236,21 @@ export const action = async ({ request }: ActionArgs) => {
     })
 
     await timer.delay()
-
     const redirectTo = getRedirectTo(request)
-    return redirect(redirectTo || `/dashboard/artworks/${artwork.id}`)
+
+    if (intent === "save-artwork-more") {
+      const { artwork } = await model.artwork.mutation.addNewArtwork()
+      if (redirectTo) {
+        return redirect(`/dashboard/artworks/${artwork.id}/edit?redirectTo=${redirectTo}`)
+      }
+      return redirect(`/dashboard/artworks/${artwork.id}/edit`)
+    }
+
+    if (intent === "save-artwork") {
+      return redirect(redirectTo || `/dashboard/artworks/${artwork.id}`)
+    }
+
+    return null
   }
 
   return null

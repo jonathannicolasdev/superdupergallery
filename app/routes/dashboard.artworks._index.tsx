@@ -4,7 +4,7 @@ import type { V2_MetaFunction } from "@remix-run/react"
 import { Form, Link, useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs"
-import { createArtworkSlug, formatTitle } from "~/utils"
+import { formatTitle } from "~/utils"
 import {
   Button,
   Card,
@@ -14,6 +14,7 @@ import {
   PaginationNavigation,
   PaginationSearch,
 } from "~/components"
+import { model } from "~/models"
 
 export const meta: V2_MetaFunction = () => [{ title: formatTitle(`All Artworks`) }]
 
@@ -57,7 +58,7 @@ export default function RouteComponent() {
         <p>Artworks</p>
         <Form method="POST">
           <Button type="submit" size="sm">
-            Add New
+            Add New Artwork
           </Button>
         </Form>
       </header>
@@ -107,21 +108,7 @@ export const action = async ({ request }: ActionArgs) => {
   const formData = await request.formData()
   const redirectTo = formData.get("redirectTo")?.toString()
 
-  const count = await prisma.artwork.count()
-
-  const number = count + 1
-  const title = `Artwork ${number}`
-
-  const artwork = await prisma.artwork.create({
-    data: {
-      title,
-      slug: createArtworkSlug(title, "unknown"),
-      year: 2023,
-      medium: "Canvas",
-      size: "20x20 inches",
-      price: 0,
-    },
-  })
+  const { artwork } = await model.artwork.mutation.addNewArtwork()
 
   if (redirectTo) return redirect(`${artwork.id}/edit?redirectTo=${redirectTo}`)
   return redirect(`${artwork.id}/edit`)
