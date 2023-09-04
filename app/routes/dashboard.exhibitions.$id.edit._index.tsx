@@ -2,8 +2,8 @@ import { useState } from "react"
 import type { ActionArgs, LoaderArgs } from "@remix-run/node"
 import { json, redirect } from "@remix-run/node"
 import { Form, useActionData, useLoaderData, useNavigation } from "@remix-run/react"
-import { conform, useForm } from "@conform-to/react"
-import { parse } from "@conform-to/zod"
+import { conform, parse, useForm } from "@conform-to/react"
+import { parse as parseZod } from "@conform-to/zod"
 import type { FileInfo } from "@uploadcare/react-widget"
 import type { MultiValue } from "react-select"
 import Select from "react-select"
@@ -28,7 +28,7 @@ import {
   UploadcareWidget,
   useUploadcareConfigs,
 } from "~/components"
-import { schemaExhibition } from "~/schemas/exhibition"
+import { schemaExhibition, schemaExhibitionImage } from "~/schemas"
 
 export async function loader({ request, params }: LoaderArgs) {
   const [exhibition, artists, artworks] = await prisma.$transaction([
@@ -77,7 +77,7 @@ export default function Route() {
     lastSubmission,
     // constraint: getFieldsetConstraint(schemaExhibition),
     onValidate({ formData }) {
-      return parse(formData, { schema: schemaExhibition })
+      return parseZod(formData, { schema: schemaExhibition })
     },
     defaultValue: {
       edition: exhibition.edition,
@@ -107,10 +107,14 @@ export default function Route() {
     })),
   )
 
-  const { isMultiple, handleUploaded, fileInfo } = useUploadcareConfigs({
+  const { isMultiple, handleUploaded, fileInfo, setFileInfo } = useUploadcareConfigs({
     isMultiple: false,
     defaultFileInfo: exhibition.images[0]?.url
-      ? { cdnUrl: exhibition.images[0].url, name: "" }
+      ? {
+          id: exhibition.images[0].id,
+          cdnUrl: exhibition.images[0].url,
+          name: "",
+        }
       : undefined,
   })
 
@@ -133,6 +137,7 @@ export default function Route() {
             <UploadcarePreview
               isMultiple={isMultiple}
               fileInfo={fileInfo}
+              setFileInfo={setFileInfo}
               previewText="Exhibition poster will be previewed here"
             />
 
@@ -227,7 +232,12 @@ export default function Route() {
               />
             </FormField>
 
-            <ButtonLoading isSubmitting={isSubmitting} submittingText="Saving Exhibition...">
+            <ButtonLoading
+              isSubmitting={isSubmitting}
+              submittingText="Saving Exhibition..."
+              name="intent"
+              value="edit-exhibition"
+            >
               Save Exhibition
             </ButtonLoading>
           </FormFieldSet>
@@ -244,48 +254,59 @@ export const action = async ({ request }: ActionArgs) => {
   const userSession = await authenticator.isAuthenticated(request)
   const formData = await clonedRequest.formData()
 
-  const submission = parse(formData, { schema: schemaExhibition })
-  if (!submission.value || submission.intent !== "submit") {
-    return badRequest(submission)
+  const parsed = parse(formData)
+  const { intent } = parsed.payload
+
+  console.log({ intent })
+
+  if (intent === "delete-image") {
+    const submission = parseZod(formData, { schema: schemaExhibitionImage })
+    await prisma.exhibitionImage.delete({ where: { id: submission.payload.imageId } })
+    return null
   }
 
-  const artists: { id: string }[] = JSON.parse(submission.payload.exhibitionArtists).map(
-    (artist: any) => ({
-      id: artist.value,
-    }),
-  )
+  if (intent === "edit-exhibition") {
+    const submission = parseZod(formData, { schema: schemaExhibition })
+    if (!submission.value || submission.intent !== "submit") {
+      return badRequest(submission)
+    }
 
-  const artworks: { id: string }[] = JSON.parse(submission.payload.exhibitionArtworks).map(
-    (artwork: any) => ({
-      id: artwork.value,
-    }),
-  )
+    const artists: { id: string }[] = JSON.parse(submission.payload.exhibitionArtists).map(
+      (artist: any) => ({ id: artist.value }),
+    )
 
-  await prisma.exhibition.update({
-    where: { id: submission.value.id },
-    data: { artists: { set: [] }, artworks: { set: [] } },
-  })
+    const artworks: { id: string }[] = JSON.parse(submission.payload.exhibitionArtworks).map(
+      (artwork: any) => ({ id: artwork.value }),
+    )
 
-  const { fileInfo, ...submissionValue } = submission.value
-  const parsedFileInfo: FileInfo | undefined = fileInfo ? JSON.parse(String(fileInfo)) : undefined
-  const imageURL = parsedFileInfo?.cdnUrl
+    await prisma.exhibition.update({
+      where: { id: submission.value.id },
+      data: { artists: { set: [] }, artworks: { set: [] } },
+    })
 
-  const exhibition = await prisma.exhibition.update({
-    where: { id: submission.value.id },
-    data: {
-      ...submissionValue,
-      userId: userSession?.id,
-      slug: createExhibitionSlug(submission.value.edition, submission.value.title),
-      artists: { connect: artists },
-      artworks: { connect: artworks },
-      images: imageURL ? { create: { url: imageURL } } : undefined,
-    },
-    include: {
-      artists: { select: { id: true, name: true } },
-      artworks: { select: { id: true, title: true } },
-    },
-  })
+    const { fileInfo, ...submissionValue } = submission.value
+    const parsedFileInfo: FileInfo | undefined = fileInfo ? JSON.parse(String(fileInfo)) : undefined
+    const imageURL = parsedFileInfo?.cdnUrl
 
-  await timer.delay()
-  return redirect(`/dashboard/exhibitions/${exhibition.id}`)
+    const exhibition = await prisma.exhibition.update({
+      where: { id: submission.value.id },
+      data: {
+        ...submissionValue,
+        userId: userSession?.id,
+        slug: createExhibitionSlug(submission.value.edition, submission.value.title),
+        artists: { connect: artists },
+        artworks: { connect: artworks },
+        images: imageURL ? { create: { url: imageURL } } : undefined,
+      },
+      include: {
+        artists: { select: { id: true, name: true } },
+        artworks: { select: { id: true, title: true } },
+      },
+    })
+
+    await timer.delay()
+    return redirect(`/dashboard/exhibitions/${exhibition.id}`)
+  }
+
+  return null
 }

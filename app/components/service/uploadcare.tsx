@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { json } from "@remix-run/node"
 import type { ActionArgs } from "@remix-run/node"
+import { Form } from "@remix-run/react"
 import { parse } from "@conform-to/zod"
 import { Widget } from "@uploadcare/react-widget"
 import type { FileGroup, FileInfo, WidgetProps } from "@uploadcare/react-widget"
@@ -25,8 +26,16 @@ import { uploadcareLocaleTranslations } from "./uploadcare.locale"
  * - https://uploadcare.com/docs/uploads/file-uploader
  */
 
-type ModifiedFileInfo = { cdnUrl: null | string; name: null | string }
-type ModifiedFileGroup = { cdnUrl: null | string; count: number }
+type ModifiedFileInfo = {
+  id?: string
+  cdnUrl: null | string
+  name: null | string
+}
+type ModifiedFileGroup = {
+  id?: string
+  cdnUrl: null | string
+  count: number
+}
 
 interface UploadcareWidgetProps extends Partial<WidgetProps> {
   handleUploaded?: (file: FileInfo | FileGroup) => void
@@ -99,6 +108,8 @@ interface UploadcarePreviewProps {
   fileGroup?: ModifiedFileGroup
   fileGroupNumbers?: number[]
   previewText?: string
+  setFileInfo?: React.Dispatch<React.SetStateAction<ModifiedFileInfo | undefined>>
+  setFileGroup?: React.Dispatch<React.SetStateAction<ModifiedFileGroup | undefined>>
 }
 
 export function UploadcarePreview({
@@ -107,6 +118,8 @@ export function UploadcarePreview({
   fileGroup,
   fileGroupNumbers,
   previewText,
+  setFileInfo,
+  setFileGroup,
 }: UploadcarePreviewProps) {
   return (
     <Card
@@ -127,13 +140,29 @@ export function UploadcarePreview({
 
       {/* If one file as a FileInfo */}
       {!isMultiple && fileInfo && (
-        <Anchor href={String(fileInfo?.cdnUrl)}>
-          <Image
-            src={String(fileInfo?.cdnUrl)}
-            alt={String(fileInfo?.name)}
-            className="max-h-32 max-w-xs object-cover"
-          />
-        </Anchor>
+        <div className="space-y-2">
+          <Anchor className="block" href={String(fileInfo?.cdnUrl)}>
+            <Image
+              src={String(fileInfo?.cdnUrl)}
+              alt={String(fileInfo?.name)}
+              className="max-h-32 max-w-xs object-cover"
+            />
+          </Anchor>
+          {fileInfo.id ? (
+            <Form method="DELETE">
+              <input type="hidden" name="imageId" defaultValue={fileInfo.id} />
+              <Button size="xs" variant="destructive" name="intent" value="delete-image">
+                Delete
+              </Button>
+            </Form>
+          ) : (
+            setFileInfo && (
+              <Button size="xs" variant="destructive" onClick={() => setFileInfo(undefined)}>
+                Delete
+              </Button>
+            )
+          )}
+        </div>
       )}
 
       {/* If multiple files as a FileGroup */}
@@ -143,6 +172,7 @@ export function UploadcarePreview({
             fileGroupNumbers?.length > 0 &&
             fileGroupNumbers.map(number => {
               const cdnUrl = `${fileGroup?.cdnUrl}nth/${number}/`
+
               return (
                 <Anchor key={cdnUrl} href={cdnUrl}>
                   <Image
@@ -194,6 +224,8 @@ export function useUploadcareConfigs({
     fileInfo,
     fileGroup,
     fileGroupNumbers,
+    setFileInfo,
+    setFileGroup,
   }
 }
 

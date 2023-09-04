@@ -47,3 +47,7 @@ export const schemaExhibition = zfd.formData({
   description,
   isPublished,
 })
+
+export const schemaExhibitionImage = zfd.formData({
+  imageId: id,
+})

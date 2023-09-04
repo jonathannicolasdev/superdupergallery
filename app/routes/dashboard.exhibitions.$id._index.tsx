@@ -62,7 +62,9 @@ export default function Route() {
         </div>
       </header>
 
-      <section className="flex flex-wrap items-start justify-between gap-4">
+      <section className="flex flex-wrap items-start gap-4">
+        <ImageExhibition className="max-w-xs object-contain">{exhibition}</ImageExhibition>
+
         <div className="space-y-2">
           <h1>{exhibition.title}</h1>
 
@@ -81,10 +83,8 @@ export default function Route() {
             </li>
           </ul>
 
-          <p>{exhibition.description}</p>
+          <p className="max-w-lg">{exhibition.description}</p>
         </div>
-
-        <ImageExhibition className="max-w-xs object-contain">{exhibition}</ImageExhibition>
       </section>
 
       {exhibition?.artists.length > 0 && (
