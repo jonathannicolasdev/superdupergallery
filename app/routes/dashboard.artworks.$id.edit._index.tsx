@@ -156,23 +156,6 @@ export default function Route() {
             </FormField>
 
             <FormField className="space-y-1">
-              <FormLabel>Artist</FormLabel>
-              <input
-                type="hidden"
-                name="artworkArtist"
-                defaultValue={JSON.stringify(selectedArtist)}
-              />
-              <ReactSelect
-                classNamePrefix="select"
-                options={artistsOptions}
-                defaultValue={selectedArtist}
-                onChange={value => {
-                  setSelectedArtist(value)
-                }}
-              />
-            </FormField>
-
-            <FormField className="space-y-1">
               <FormLabel>Status</FormLabel>
               <Select {...conform.input(statusSymbol)} defaultValue={artwork.status.symbol}>
                 <SelectTrigger className="w-full">
@@ -188,6 +171,23 @@ export default function Route() {
                   })}
                 </SelectContent>
               </Select>
+            </FormField>
+
+            <FormField className="space-y-1">
+              <FormLabel>Artist</FormLabel>
+              <input
+                type="hidden"
+                name="artworkArtist"
+                defaultValue={JSON.stringify(selectedArtist)}
+              />
+              <ReactSelect
+                classNamePrefix="select"
+                options={artistsOptions}
+                defaultValue={selectedArtist}
+                onChange={value => {
+                  setSelectedArtist(value)
+                }}
+              />
             </FormField>
 
             <FormField className="space-y-1">
@@ -277,9 +277,11 @@ export const action = async ({ request }: ActionArgs) => {
       const { artwork } = await model.artwork.mutation.addNewArtwork()
       if (!artwork) return null
 
-      redirectTo
-        ? redirect(`/dashboard/artworks/${artwork.id}/edit?redirectTo=${redirectTo}`)
-        : redirect(`/dashboard/artworks/${artwork.id}/edit`)
+      if (redirectTo) {
+        return redirect(`/dashboard/artworks/${artwork.id}/edit?redirectTo=${redirectTo}`)
+      } else {
+        return redirect(`/dashboard/artworks/${artwork.id}/edit`)
+      }
     }
 
     if (intent === "save-artwork") {

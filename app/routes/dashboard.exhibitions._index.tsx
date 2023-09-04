@@ -3,9 +3,8 @@ import { json, redirect } from "@remix-run/node"
 import type { V2_MetaFunction } from "@remix-run/react"
 import { Form, Link, useLoaderData } from "@remix-run/react"
 
-import { authenticator } from "~/services/auth.server"
 import { prisma } from "~/libs"
-import { createExhibitionSlug, formatDateAndRelative, formatTitle } from "~/utils"
+import { formatDateAndRelative, formatTitle } from "~/utils"
 import {
   Button,
   Card,
@@ -15,6 +14,7 @@ import {
   PaginationNavigation,
   PaginationSearch,
 } from "~/components"
+import { model } from "~/models"
 
 export const meta: V2_MetaFunction = () => [{ title: formatTitle(`All Exhibitions`) }]
 
@@ -109,27 +109,7 @@ export default function RouteComponent() {
 }
 
 export const action = async ({ request }: ActionArgs) => {
-  const userSession = await authenticator.isAuthenticated(request)
-
-  const lastExhibiton = await prisma.exhibition.findFirst({
-    orderBy: { edition: "desc" },
-  })
-  if (!lastExhibiton?.edition) return null
-
-  const edition = lastExhibiton?.edition + 1
-  const title = `Exhibition ${edition}`
-
-  const exhibition = await prisma.exhibition.create({
-    data: {
-      userId: userSession?.id,
-      edition: edition,
-      title: title,
-      slug: createExhibitionSlug(edition, title),
-      date: new Date(),
-      description: `Description of ${title}`,
-      isPublished: false,
-    },
-  })
-
+  const { exhibition } = await model.exhibition.mutation.addNewExhibition()
+  if (!exhibition) return null
   return redirect(`${exhibition.id}/edit`)
 }

@@ -1,10 +1,10 @@
 export function formatNumberToPHP(number: number | null) {
-  if (!number) return ""
-
   const formatter = new Intl.NumberFormat("en-PH", {
     style: "currency",
     currency: "PHP",
+    minimumFractionDigits: 0,
   })
 
+  if (!number) return formatter.format(0)
   return formatter.format(number)
 }

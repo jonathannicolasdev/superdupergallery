@@ -3,8 +3,8 @@ import { json, redirect } from "@remix-run/node"
 import type { V2_MetaFunction } from "@remix-run/react"
 import { Form, Link, useLoaderData } from "@remix-run/react"
 
-import { createAvatarImageURL, prisma } from "~/libs"
-import { createArtistSlug, formatTitle, getNameInitials } from "~/utils"
+import { prisma } from "~/libs"
+import { formatTitle, getNameInitials } from "~/utils"
 import {
   AvatarAuto,
   Button,
@@ -14,6 +14,7 @@ import {
   PaginationNavigation,
   PaginationSearch,
 } from "~/components"
+import { model } from "~/models"
 
 export const meta: V2_MetaFunction = () => [{ title: formatTitle(`All Artists`) }]
 
@@ -114,20 +115,12 @@ export const action = async ({ request }: ActionArgs) => {
   const formData = await request.formData()
   const redirectTo = formData.get("redirectTo")?.toString()
 
-  const count = await prisma.artist.count()
-  const number = count + 1
-  const name = `Artist Name ${number}`
+  const { artist } = await model.artist.mutation.addNewArtist()
+  if (!artist) return null
 
-  const slug = createArtistSlug(name)
-  const artist = await prisma.artist.create({
-    data: {
-      name,
-      slug: slug,
-      bio: `Bio of ${name}`,
-      image: { create: { url: createAvatarImageURL(slug) } },
-    },
-  })
-
-  if (redirectTo) return redirect(`${artist.id}/edit?redirectTo=${redirectTo}`)
-  return redirect(`${artist.id}/edit`)
+  if (redirectTo) {
+    return redirect(`${artist.id}/edit?redirectTo=${redirectTo}`)
+  } else {
+    return redirect(`${artist.id}/edit`)
+  }
 }

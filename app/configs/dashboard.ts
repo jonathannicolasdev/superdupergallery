@@ -1,5 +1,10 @@
 export const navItems = [
-  { to: "/dashboard", name: "Overview", icon: "dashboard", end: true },
+  {
+    to: "/dashboard",
+    name: "Overview",
+    icon: "dashboard",
+    end: true,
+  },
   {
     to: "users",
     name: "Users",
@@ -12,18 +17,21 @@ export const navItems = [
     name: "Exhibitions",
     icon: "exhibitions",
     isMetric: true,
+    intent: "add-exhibition",
   },
   {
     to: "artists",
     name: "Artists",
     icon: "artists",
     isMetric: true,
+    intent: "add-artist",
   },
   {
     to: "artworks",
     name: "Artworks",
     icon: "artworks",
     isMetric: true,
+    intent: "add-artwork",
     items: [
       { to: "artwork-statuses", name: "Artwork Statuses", icon: "artworkStatus" },
       { to: "artwork-images", name: "Artwork Images", icon: "artworkImage" },

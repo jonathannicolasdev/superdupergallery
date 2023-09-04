@@ -38,7 +38,7 @@ export const loader = async ({ request }: LoaderArgs) => {
       where,
       skip: config.skip,
       take: config.limitParam,
-      orderBy: { exhibition: { edition: "desc" } },
+      orderBy: { updatedAt: "desc" },
       include: { images: true, artist: true, status: true },
     }),
   ])
@@ -116,7 +116,9 @@ export const action = async ({ request }: ActionArgs) => {
   const { artwork } = await model.artwork.mutation.addNewArtwork()
   if (!artwork) return null
 
-  redirectTo
-    ? redirect(`${artwork.id}/edit?redirectTo=${redirectTo}`)
-    : redirect(`${artwork.id}/edit`)
+  if (redirectTo) {
+    return redirect(`${artwork.id}/edit?redirectTo=${redirectTo}`)
+  } else {
+    return redirect(`${artwork.id}/edit`)
+  }
 }

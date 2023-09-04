@@ -20,14 +20,15 @@ const buttonVariants = cva(
           "border-2 border-secondary bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
         ghost: "border-2 border-background hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        navlink: "text-xs hover:bg-pink-100 dark:hover:bg-pink-900 sm:text-sm",
+        navlink: "hover:bg-pink-100 dark:hover:bg-pink-900 sm:text-sm",
       },
       size: {
-        default: "h-9 px-4 py-2 text-base",
+        default: "h-9 px-4 py-2 text-base rounded",
         xs: "h-6 rounded px-2 text-xs",
         sm: "h-8 rounded px-3 text-xs",
         lg: "h-10 rounded px-8 text-lg",
-        icon: "h-9 w-9",
+        icon: "h-9 w-9 rounded",
+        navlink: "h-9 px-4 rounded",
       },
       align: {
         default: "items-center justify-center text-center",
