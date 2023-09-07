@@ -153,7 +153,7 @@ export default function Route() {
         )}
 
         {exhibition?.artworks.length > 0 && (
-          <section className="space-y-4">
+          <section className="space-y-4 w-full">
             <p>{formatPluralItems("artwork", exhibition.artworks.length)}</p>
             <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
               {exhibition.artworks.map(artwork => {
