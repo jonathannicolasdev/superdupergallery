@@ -10,7 +10,7 @@ export const meta: V2_MetaFunction = () => [{ title: formatTitle(`All User Roles
 
 export const loader = async ({ request }: LoaderArgs) => {
   const userRoles = await prisma.userRole.findMany({
-    orderBy: { createdAt: "asc" },
+    orderBy: { sequence: "asc" },
   })
   if (!userRoles) return json({ userRoles: [] })
   return json({ userRoles })
