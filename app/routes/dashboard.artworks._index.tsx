@@ -19,20 +19,43 @@ import { model } from "~/models"
 
 export const meta: V2_MetaFunction = () => [{ title: formatTitle(`All Artworks`) }]
 
+const getWhereStatement = (config: ReturnType<typeof getPaginationConfigs>) => {
+  if (config.queryParam && config.statusParam) {
+    return {
+      OR: [
+        { title: { contains: config.queryParam } },
+        { medium: { contains: config.queryParam } },
+        { status: { symbol: config.statusParam } },
+      ],
+    }
+  }
+
+  if (config.queryParam) {
+    return {
+      OR: [{ title: { contains: config.queryParam } }, { medium: { contains: config.queryParam } }],
+    }
+  }
+
+  if (config.statusParam) {
+    return {
+      OR: [{ status: { symbol: config.statusParam } }],
+    }
+  }
+
+  return {}
+}
+
 export const loader = async ({ request }: LoaderArgs) => {
   const config = getPaginationConfigs({ request, defaultLimit: 20 })
 
-  const where = !config.queryParam
-    ? {}
-    : {
-        OR: [
-          { title: { contains: config.queryParam } },
-          { medium: { contains: config.queryParam } },
-        ],
-      }
+  const where = getWhereStatement(config)
 
-  const [totalItems, items] = await prisma.$transaction([
+  const [totalItems, artworkStatuses, artworks] = await prisma.$transaction([
     prisma.artwork.count({ where }),
+
+    prisma.artworkStatus.findMany({
+      orderBy: { sequence: "asc" },
+    }),
 
     prisma.artwork.findMany({
       where,
@@ -45,13 +68,14 @@ export const loader = async ({ request }: LoaderArgs) => {
 
   return json({
     ...getPaginationOptions({ request, totalItems }),
-    artworks: items,
-    count: items.length,
+    count: artworks.length,
+    artworkStatuses,
+    artworks,
   })
 }
 
 export default function RouteComponent() {
-  const { count, artworks, ...loaderData } = useLoaderData<typeof loader>()
+  const { count, artworkStatuses, artworks, ...loaderData } = useLoaderData<typeof loader>()
 
   return (
     <>
@@ -74,35 +98,54 @@ export default function RouteComponent() {
 
       <PaginationNavigation {...loaderData} />
 
-      {count > 0 && (
-        <section>
-          <ul className="grid grid-cols-2 gap-4">
-            {artworks.map(artwork => {
+      <div className="flex gap-8">
+        <aside className="w-full max-w-[150px] space-y-2 ">
+          <p>Filter by status</p>
+          <ul className="space-y-1">
+            {artworkStatuses.map(artworkStatus => {
               return (
-                <li key={artwork.id}>
-                  <Link to={`/dashboard/artworks/${artwork.id}`}>
-                    <Card className="hover-opacity grid max-w-xl grid-cols-4 items-center gap-4">
-                      <ImageArtwork className="w-full object-contain">{artwork}</ImageArtwork>
-
-                      <div className="col-span-3">
-                        <h4>{artwork.title}</h4>
-                        <div className="text-sm text-muted-foreground">
-                          <p>{artwork.artist?.name}</p>
-                          <p>{formatNumberToPHP(artwork.price)}</p>
-                          <p className="space-x-2">
-                            <span>{artwork.isPublished ? "✅ Published" : "❌ Unpublished"}</span>
-                            {artwork.status?.name && <Badge>{artwork.status.name}</Badge>}
-                          </p>
-                        </div>
-                      </div>
+                <li key={artworkStatus.id}>
+                  <Link to={`/dashboard/artworks?status=${artworkStatus.symbol}`}>
+                    <Card withBorder className="px-2 py-1">
+                      <p>{artworkStatus.name}</p>
                     </Card>
                   </Link>
                 </li>
               )
             })}
           </ul>
-        </section>
-      )}
+        </aside>
+
+        {count > 0 && (
+          <section>
+            <ul className="grid grid-cols-2 gap-4">
+              {artworks.map(artwork => {
+                return (
+                  <li key={artwork.id}>
+                    <Link to={`/dashboard/artworks/${artwork.id}`}>
+                      <Card className="hover-opacity grid max-w-xl grid-cols-4 items-center gap-4">
+                        <ImageArtwork className="w-full object-contain">{artwork}</ImageArtwork>
+
+                        <div className="col-span-3">
+                          <h5>{artwork.title}</h5>
+                          <div className="text-sm text-muted-foreground">
+                            <p>{artwork.artist?.name}</p>
+                            <p>{formatNumberToPHP(artwork.price)}</p>
+                            <p className="space-x-2">
+                              <span>{artwork.isPublished ? "✅ Published" : "❌ Unpublished"}</span>
+                              {artwork.status?.name && <Badge>{artwork.status.name}</Badge>}
+                            </p>
+                          </div>
+                        </div>
+                      </Card>
+                    </Link>
+                  </li>
+                )
+              })}
+            </ul>
+          </section>
+        )}
+      </div>
 
       <PaginationNavigation {...loaderData} />
     </>

@@ -34,13 +34,13 @@ export default function Route() {
       <header className="space-y-4">
         <h1>Dashboard</h1>
         <div className="space-y-2">
-          <h2>Welcome, {userData.name}!</h2>
+          <p>Welcome, {userData.name}!</p>
           <Badge>{userData.role?.name}</Badge>
         </div>
       </header>
 
       <section className="px-layout space-y-2">
-        <h3>Database Metrics/Statistics</h3>
+        <p>Database Metrics/Statistics</p>
         <div className="grid max-w-3xl grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4">
           {metrics.map(metric => {
             return (

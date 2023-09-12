@@ -1,6 +1,6 @@
 import { json, type LoaderArgs } from "@remix-run/node"
 import type { V2_MetaFunction } from "@remix-run/react"
-import { useLoaderData } from "@remix-run/react"
+import { Link, useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs"
 import { formatPluralItems, formatTitle } from "~/utils"
@@ -27,14 +27,17 @@ export default function RouteComponent() {
         </p>
       </header>
 
-      <section>
-        <ul className="max-w-xs space-y-1">
+      <section className="space-y-2">
+        <p>Filter by status</p>
+        <ul className="max-w-[150px] space-y-1">
           {artworkStatuses.map(artworkStatus => {
             return (
               <li key={artworkStatus.id}>
-                <Card withBorder className="px-2 py-1">
-                  <h6>{artworkStatus.name}</h6>
-                </Card>
+                <Link to={`/dashboard/artworks?status=${artworkStatus.symbol}`}>
+                  <Card withBorder className="px-2 py-1">
+                    <p>{artworkStatus.name}</p>
+                  </Card>
+                </Link>
               </li>
             )
           })}

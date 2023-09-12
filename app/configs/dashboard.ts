@@ -37,7 +37,7 @@ export const navItems = [
       { to: "artwork-images", name: "Artwork Images", icon: "artworkImage" },
     ],
   },
-  { to: "/admin/search", name: "Search on Dashboard", icon: "searchDashboard" },
+  // { to: "/admin/search", name: "Search on Dashboard", icon: "searchDashboard" },
   { to: "/search", name: "Search on Site", icon: "search" },
   { to: "/", name: "Go to site", icon: "appWindow" },
 ]

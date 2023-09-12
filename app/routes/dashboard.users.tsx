@@ -24,7 +24,7 @@ export default function RouteComponent() {
   return (
     <>
       <header>
-        <h1>Users</h1>
+        <p>Users</p>
         <p className="text-muted-foreground">{formatPluralItems("user", users.length)}</p>
       </header>
 
