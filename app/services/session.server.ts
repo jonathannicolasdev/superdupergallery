@@ -4,10 +4,9 @@ function convertDaysToSeconds(days: number) {
   return 60 * 60 * 24 * days // seconds * minutes * hours * days
 }
 
-const remember = true // TODO: Integrate on register and login flow
+const remember = true // Can integrate with login flow later
 const maxAgeDays = 7
 
-// export the whole sessionStorage object
 export const sessionStorage = createCookieSessionStorage({
   cookie: {
     name: "_session", // use any name you want here
@@ -20,5 +19,4 @@ export const sessionStorage = createCookieSessionStorage({
   },
 })
 
-// you can also export the methods individually for your own usage
 export const { getSession, commitSession, destroySession } = sessionStorage

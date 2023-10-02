@@ -3,9 +3,15 @@ import type { ActionArgs, LoaderArgs } from "@remix-run/node"
 import { Form, Link, useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs"
-import { formatDateAndRelative, formatPluralItems, getNameInitials } from "~/utils"
+import {
+  formatDateAndRelative,
+  formatNumberToPHP,
+  formatPluralItems,
+  getNameInitials,
+} from "~/utils"
 import {
   AvatarAuto,
+  Badge,
   Button,
   ButtonLink,
   Card,
@@ -24,6 +30,7 @@ export async function loader({ request, params }: LoaderArgs) {
         include: {
           images: { select: { url: true } },
           artist: true,
+          status: true,
         },
       },
       artists: {
@@ -134,24 +141,23 @@ export default function Route() {
             {exhibition.artworks.map(artwork => {
               return (
                 <li key={artwork.id}>
-                  <Card className="flex items-center gap-4">
-                    <Link to={`/dashboard/artworks/${artwork.id}`} className="hover-opacity">
-                      <ImageArtwork className="h-32 w-32 object-contain">{artwork}</ImageArtwork>
-                    </Link>
-                    <div>
-                      <Link to={`/dashboard/artworks/${artwork.id}`} className="hover-opacity">
-                        <h6>{artwork.title}</h6>
-                      </Link>
-                      <p>
-                        <Link
-                          to={`/dashboard/artists/${artwork.artist?.id}`}
-                          className="hover-opacity"
-                        >
-                          {artwork.artist?.name}
-                        </Link>
-                      </p>
-                    </div>
-                  </Card>
+                  <Link to={`/dashboard/artworks/${artwork.id}`} className="hover-opacity">
+                    <Card className="hover-opacity grid max-w-xl grid-cols-4 items-center gap-4">
+                      <ImageArtwork className="w-full object-contain">{artwork}</ImageArtwork>
+
+                      <div className="col-span-3">
+                        <h5>{artwork.title}</h5>
+                        <div className="text-sm text-muted-foreground">
+                          <p>{artwork.artist?.name}</p>
+                          <p>{formatNumberToPHP(artwork.price)}</p>
+                          <p className="space-x-2">
+                            <span>{artwork.isPublished ? "✅ Published" : "❌ Unpublished"}</span>
+                            {artwork.status?.name && <Badge>{artwork.status.name}</Badge>}
+                          </p>
+                        </div>
+                      </div>
+                    </Card>
+                  </Link>
                 </li>
               )
             })}
