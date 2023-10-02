@@ -72,7 +72,7 @@ export function getPaginationConfigs({
 export function getPaginationOptions({
   request,
   totalItems,
-  defaultMaxPageLinks = 10,
+  defaultMaxPageLinks = 5,
 }: PaginationOptionsConfig) {
   const url = new URL(request.url)
   const { queryParam, limitParam, pageParam } = getPaginationConfigs({
