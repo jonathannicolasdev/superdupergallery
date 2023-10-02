@@ -78,7 +78,7 @@ export default function RouteComponent() {
 
       {count > 0 && (
         <section>
-          <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <ul className="grid grid-cols-2 gap-4 sm:grid-cols-2">
             {artists.map(artist => {
               return (
                 <li key={artist.id}>

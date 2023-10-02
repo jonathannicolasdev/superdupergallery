@@ -108,7 +108,7 @@ export function LandingArtworks() {
         </Link>
       </header>
 
-      <ul className="grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-8 md:grid-cols-3 lg:grid-cols-4">
+      <ul className="grid grid-cols-2 gap-8 sm:grid-cols-2 sm:gap-8 md:grid-cols-3 lg:grid-cols-4">
         {artworks.map(artwork => {
           return (
             <li key={artwork.id} className="w-full">
@@ -148,7 +148,7 @@ export function LandingExhibitions() {
         </Link>
       </header>
 
-      <ul className="grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-8 md:grid-cols-3 lg:grid-cols-4">
+      <ul className="grid grid-cols-2 gap-8 sm:grid-cols-2 sm:gap-8 md:grid-cols-3 lg:grid-cols-4">
         {exhibitions.map(exhibition => {
           return (
             <li key={exhibition.id} className="w-full">

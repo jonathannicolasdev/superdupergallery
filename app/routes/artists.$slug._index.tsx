@@ -77,7 +77,7 @@ export default function ArtistsRoute() {
 
         <section>
           {artist.artworks.length > 0 && (
-            <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
+            <ul className="grid grid-cols-2 gap-2 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
               {artist.artworks.map(artwork => {
                 return (
                   <li key={artwork.id} className="w-full">
