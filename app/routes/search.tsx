@@ -112,7 +112,7 @@ export default function Route() {
           <p className="text-muted-foreground">
             Found {formatPluralItems("artwork", count)} with keyword "{query}"
           </p>
-          <ul className="grid grid-cols-2 gap-2 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
+          <ul className="grid grid-cols-2 gap-4 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
             {artworks.map(artwork => {
               return (
                 <li key={artwork.id} className="w-full">
@@ -140,7 +140,7 @@ export default function Route() {
           <p className="text-muted-foreground">
             Found {formatPluralItems("artist", count)} with keyword "{query}"
           </p>
-          <ul className="grid grid-cols-2 gap-2 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
+          <ul className="grid grid-cols-2 gap-4 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
             {artists.map(artist => {
               return (
                 <li key={artist.id} className="w-full">

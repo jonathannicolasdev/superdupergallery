@@ -28,7 +28,7 @@ export default function RouteComponent() {
       </header>
 
       <section>
-        <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
+        <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
           {artworkImages.map(artworkImage => {
             return (
               <li key={artworkImage.id}>
