@@ -14,7 +14,7 @@ import {
 
 export function ContactForm() {
   return (
-    <Form>
+    <Form method="POST">
       <div className="space-y-6">
         <CardHeader className="p-0">
           <CardTitle>Send Us a Message</CardTitle>
@@ -24,7 +24,7 @@ export function ContactForm() {
         <CardContent className="space-y-6 p-0">
           <div className="grid gap-2">
             <Label htmlFor="subject">Subject</Label>
-            <Input id="subject" placeholder="I need help with..." />
+            <Input id="subject" placeholder="I need help with..." name="subject" />
           </div>
           <div className="grid gap-2">
             <Label htmlFor="description">Description</Label>
@@ -32,6 +32,7 @@ export function ContactForm() {
               id="description"
               placeholder="Please include all information relevant to your issue."
               className="min-h-[200px]"
+              name="description"
               rows={10}
             />
           </div>

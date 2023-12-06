@@ -1,3 +1,5 @@
+import type { ActionArgs } from "@remix-run/node"
+import { json } from "@remix-run/node"
 import type { V2_MetaFunction } from "@remix-run/react"
 
 import { formatTitle } from "~/utils"
@@ -21,4 +23,12 @@ export default function RouteComponent() {
       </div>
     </Layout>
   )
+}
+
+export async function action({ request }: ActionArgs) {
+  const body = await request.formData()
+  const subject = body.get("subject")
+  const description = body.get("description")
+  console.log({ subject, description })
+  return json({ message: `Hello, ${subject}` })
 }
