@@ -2,6 +2,7 @@ import type { ActionArgs } from "@remix-run/node"
 import { json } from "@remix-run/node"
 import { useActionData, useNavigation, type V2_MetaFunction } from "@remix-run/react"
 
+import { prisma } from "~/libs"
 import { formatTitle } from "~/utils"
 import { ContactForm, Layout } from "~/components"
 
@@ -32,8 +33,10 @@ export default function RouteComponent() {
 
 export async function action({ request }: ActionArgs) {
   const body = await request.formData()
-  const subject = body.get("subject")
-  const description = body.get("description")
+  const subject = String(body.get("subject"))
+  const description = String(body.get("description"))
   console.log({ subject, description })
+  await prisma.contactMessage.create({ data: { subject, description } })
+
   return json({ message: `Hello, thank you for sending a message` })
 }

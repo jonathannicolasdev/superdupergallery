@@ -269,3 +269,13 @@ model ExhibitionImage {
 
   @@index([exhibitionId])
 }
+
+model ContactMessage {
+  id String @id @default(cuid())
+
+  subject     String @db.Text
+  description String @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
