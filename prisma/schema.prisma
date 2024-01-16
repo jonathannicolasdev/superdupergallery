@@ -273,6 +273,8 @@ model ExhibitionImage {
 model ContactMessage {
   id String @id @default(cuid())
 
+  email       String
+  name        String
   subject     String @db.Text
   description String @db.Text
 

@@ -33,10 +33,12 @@ export default function RouteComponent() {
 
 export async function action({ request }: ActionArgs) {
   const body = await request.formData()
+  const email = String(body.get("email"))
+  const name = String(body.get("name"))
   const subject = String(body.get("subject"))
   const description = String(body.get("description"))
   console.log({ subject, description })
-  await prisma.contactMessage.create({ data: { subject, description } })
+  await prisma.contactMessage.create({ data: { subject, description, email, name } })
 
   return json({ message: `Hello, thank you for sending a message` })
 }

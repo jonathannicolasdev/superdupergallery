@@ -23,6 +23,14 @@ export function ContactForm() {
 
         <CardContent className="space-y-6 p-0">
           <div className="grid gap-2">
+            <Label htmlFor="email">Email</Label>
+            <Input id="email" placeholder="name@example.com" name="email" />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="name">Name</Label>
+            <Input id="name" placeholder="Name" name="name" />
+          </div>
+          <div className="grid gap-2">
             <Label htmlFor="subject">Subject</Label>
             <Input id="subject" placeholder="I need help with..." name="subject" />
           </div>
