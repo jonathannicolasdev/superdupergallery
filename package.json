@@ -4,7 +4,7 @@
   "private": true,
   "sideEffects": false,
   "scripts": {
-    "build": "remix build",
+    "build": "pnpm db:migrate:deploy && remix build",
     "dev": "remix dev",
     "typecheck": "tsc",
     "format": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache",
@@ -18,14 +18,17 @@
     "db:gen": "prisma generate",
     "db:push": "prisma db push",
     "db:migrate": "prisma migrate dev",
+    "db:migrate:deploy": "prisma migrate deploy",
     "db:seed": "prisma db seed",
     "db:studio": "prisma studio --browser none",
     "db:check": "tsx prisma/check.ts",
     "db:connect": "tsx prisma/connect.ts",
     "reveal": "remix reveal",
     "clean": "rm -rf build public/build",
-    "prebuild": "prisma db push",
     "postinstall": "prisma generate"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@ariakit/react": "0.2.16",
@@ -117,8 +120,5 @@
   },
   "engines": {
     "node": ">=14.0.0"
-  },
-  "prisma": {
-    "seed": "ts-node --require tsconfig-paths/register prisma/seed.ts"
   }
 }

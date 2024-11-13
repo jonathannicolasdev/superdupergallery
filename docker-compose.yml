@@ -1,18 +1,14 @@
 # https://docs.docker.com/engine/reference/commandline/compose_up
-version: "3.9"
-
 services:
-  mysql:
-    image: mysql:8
+  database:
+    image: postgres:alpine
     container_name: superdupergallery-database
-    hostname: database
-    restart: always
     volumes:
-      - mysql_data:/var/lib/mysql
+      - postgresql_data:/var/lib/postgresql/data
     ports:
-      - "3306:3306"
+      - "5432:5432"
     env_file:
       - .env
 
 volumes:
-  mysql_data:
+  postgresql_data:
