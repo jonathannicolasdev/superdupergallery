@@ -2,6 +2,8 @@ import type { User, UserProfile } from "@prisma/client"
 
 import type { DataUserTagSymbol } from "~/data"
 
+import usersCredentialsJSON from "./users-credentials.json"
+
 export type DataUser = Pick<User, "name" | "username"> & {
   nick?: User["nick"]
   tags?: DataUserTagSymbol[]
@@ -15,26 +17,9 @@ export type DataUserProfile = Pick<UserProfile, "headline" | "bio" | "modeName">
   sequence?: UserProfile["sequence"]
 }
 
-export const dataUsers: DataUser[] = [
-  {
-    name: "Administrator",
-    username: "admin",
-    nick: "Admin",
+export const dataUsers: DataUser[] = usersCredentialsJSON.map(user => {
+  return {
+    ...user,
     tags: ["TEAM"],
-    profiles: {
-      create: { headline: "The Ruler", bio: "I'm Admin.", modeName: "Admin" },
-    },
-  },
-  {
-    name: "Jonathan Nicolas",
-    username: "jo",
-    nick: "Jo",
-    tags: ["TEAM"],
-  },
-  {
-    name: "M Haidar Hanif",
-    username: "haidar",
-    nick: "Haidar",
-    tags: ["TEAM"],
-  },
-]
+  }
+})

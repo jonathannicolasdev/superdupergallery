@@ -15,14 +15,14 @@ import {
 import dataUsersCredentials from "~/data/users-credentials.json"
 
 // Enable and disable by commenting in/out the enabled items
-const enabledItems = [
-  "userRoles",
-  "userTags",
-  "artworkStatuses",
-  "users",
-  "exhibitions",
-  "artists",
-  "artworks",
+const enabledItems: any[] = [
+  // "userRoles",
+  // "userTags",
+  // "artworkStatuses",
+  // "users",
+  // "exhibitions",
+  // "artists",
+  // "artworks",
 ]
 
 async function main() {
@@ -160,9 +160,14 @@ async function seedExhibitions() {
   const user = await prisma.user.findFirst({
     where: { username: "admin" },
   })
-  if (!user) return null
+  if (!user) {
+    console.log(`User "admin" doesn't exist`)
+    return null
+  }
 
   for (const exhibition of dataExhibitions) {
+    console.log({ exhibition })
+
     const exhibitionData = {
       userId: user.id,
       edition: exhibition.edition,
@@ -194,7 +199,10 @@ async function seedArtists() {
   const user = await prisma.user.findFirst({
     where: { username: "admin" },
   })
-  if (!user) return null
+  if (!user) {
+    console.log(`User "admin" doesn't exist`)
+    return null
+  }
 
   for (const artist of dataArtists) {
     const slug = createArtistSlug(artist.name)
@@ -222,7 +230,10 @@ async function seedArtworks() {
   const user = await prisma.user.findFirst({
     where: { username: "admin" },
   })
-  if (!user) return null
+  if (!user) {
+    console.log(`User "admin" doesn't exist`)
+    return null
+  }
 
   const manyExhibitions = await prisma.exhibition.findMany()
   if (!manyExhibitions) return null
