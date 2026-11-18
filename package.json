@@ -5,6 +5,7 @@
   "sideEffects": false,
   "scripts": {
     "build": "pnpm db:migrate:deploy && remix build",
+    "build:local": "remix build",
     "dev": "remix dev",
     "typecheck": "tsc",
     "format": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache",
