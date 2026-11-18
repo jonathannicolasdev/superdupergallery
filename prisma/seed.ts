@@ -16,13 +16,13 @@ import dataUsersCredentials from "~/data/users-credentials.json"
 
 // Enable and disable by commenting in/out the enabled items
 const enabledItems: any[] = [
-  // "userRoles",
-  // "userTags",
-  // "artworkStatuses",
-  // "users",
-  // "exhibitions",
-  // "artists",
-  // "artworks",
+  "userRoles",
+  "userTags",
+  "artworkStatuses",
+  "users",
+  "exhibitions",
+  "artists",
+  "artworks",
 ]
 
 async function main() {
