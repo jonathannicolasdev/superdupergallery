@@ -173,11 +173,16 @@
 }
 .sd-hero__grid {
   display: grid;
-  grid-template-columns: 1.05fr 1fr;
-  gap: clamp(24px, 4vw, 64px);
-  align-items: center;
+  gap: clamp(28px, 5vh, 56px);
 }
 .sd-hero__text {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: clamp(24px, 4vw, 64px);
+  align-items: end;
+}
+.sd-hero__title,
+.sd-hero__side {
   display: flex;
   flex-direction: column;
   gap: 28px;
@@ -207,7 +212,7 @@
 }
 .sd-hero__photo {
   position: relative;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 1440 / 600;
   border-radius: 28px;
   overflow: hidden;
   background: var(--sd-wall-2);
@@ -216,7 +221,6 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 80% 50%;
 }
 .sd-sticker {
   position: absolute;
@@ -279,9 +283,9 @@
   transform: translateY(-2px);
 }
 .sd-now__poster img {
+  display: block;
   width: 100%;
-  aspect-ratio: 1;
-  object-fit: cover;
+  height: auto;
   transition: transform 0.4s ease;
 }
 .sd-now__poster:hover img {
@@ -301,9 +305,12 @@
 
 /* Artwork wall */
 .sd-wall {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: clamp(20px, 2.5vw, 36px);
+  columns: 4;
+  column-gap: clamp(20px, 2.5vw, 36px);
+}
+.sd-wall > li {
+  break-inside: avoid;
+  margin-bottom: clamp(28px, 3.5vw, 48px);
 }
 .sd-card {
   display: flex;
@@ -315,15 +322,14 @@
   transform: translateY(-2px);
 }
 .sd-card__frame {
-  aspect-ratio: 4 / 5;
   border-radius: 14px;
   overflow: hidden;
   background: var(--sd-wall-2);
 }
 .sd-card__frame img {
+  display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
   transition: transform 0.4s ease;
 }
 .sd-card:hover .sd-card__frame img {
@@ -357,13 +363,13 @@
 .sd-shows__grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  align-items: start;
   gap: clamp(20px, 2.5vw, 36px);
 }
 .sd-show {
-  display: grid;
-  grid-template-columns: 112px 1fr;
-  gap: 16px;
-  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
   padding: 12px;
   border-radius: 18px;
   background: var(--sd-wall);
@@ -375,12 +381,11 @@
 .sd-show__img {
   border-radius: 10px;
   overflow: hidden;
-  aspect-ratio: 1;
 }
 .sd-show__img img {
+  display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
   transition: transform 0.4s ease;
 }
 .sd-show:hover .sd-show__img img {
@@ -419,7 +424,7 @@
 /* Visit */
 .sd-visit__grid {
   display: grid;
-  grid-template-columns: 1fr 1.2fr;
+  grid-template-columns: 1fr 1.4fr;
   gap: clamp(24px, 5vw, 80px);
   align-items: center;
 }
@@ -434,9 +439,9 @@
   transform: translateY(-2px);
 }
 .sd-visit__map img {
+  display: block;
   width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
+  height: auto;
   transition: transform 0.4s ease;
 }
 .sd-visit__map:hover img {
@@ -527,7 +532,7 @@
 
 @media (width <= 1024px) {
   .sd-wall {
-    grid-template-columns: repeat(3, 1fr);
+    columns: 3;
   }
   .sd-shows__grid {
     grid-template-columns: repeat(2, 1fr);
@@ -535,16 +540,13 @@
 }
 
 @media (width <= 820px) {
-  .sd-hero__grid,
+  .sd-hero__text,
   .sd-now__grid,
   .sd-visit__grid {
     grid-template-columns: 1fr;
   }
-  .sd-hero__photo {
-    aspect-ratio: 4 / 3;
-  }
   .sd-wall {
-    grid-template-columns: repeat(2, 1fr);
+    columns: 2;
   }
   .sd-manifesto__grid {
     grid-template-columns: 1fr;
@@ -570,6 +572,19 @@
   .sd-shows__grid {
     grid-template-columns: 1fr;
   }
+  .sd-hero__photo {
+    aspect-ratio: auto;
+    overflow: visible;
+    background: none;
+  }
+  .sd-hero__photo img {
+    height: auto;
+    border-radius: 20px;
+  }
+  .sd-sticker {
+    position: static;
+    margin-top: 12px;
+  }
   .sd-hero__actions .sd-btn {
     width: 100%;
     justify-content: center;
@@ -586,6 +601,7 @@
 }
 
 .sd-home img[data-fallback] {
+  aspect-ratio: 1;
   object-fit: contain;
   background: var(--sd-pink);
   padding: 12%;

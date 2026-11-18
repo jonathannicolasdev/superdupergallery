@@ -150,43 +150,49 @@ function HomeHero({ data }: { data: LoaderData }) {
     <section className="sd-hero" aria-labelledby="hero-title">
       <div className="sd-wrap sd-hero__grid">
         <div className="sd-hero__text sd-enter">
-          <p className="sd-kicker">Contemporary art gallery · Diliman, Quezon City</p>
-          <h1 id="hero-title" className="sd-h1">
-            Quezon City&rsquo;s gallery for the <span className="sd-pink-word">super duper</span>
-          </h1>
-          <p className="sd-lead">
-            Solo and group shows by emerging and established artists, from the serious to the
-            whimsical. Come and see the work on the wall.
-          </p>
-          <div className="sd-hero__actions">
-            {latest && (
-              <Link to={`/exhibitions/${latest.slug}`} className="sd-btn sd-btn--solid">
-                See the latest show
-              </Link>
-            )}
-            <a href="#visit" className="sd-btn sd-btn--line">
-              Plan your visit
-            </a>
+          <div className="sd-hero__title">
+            <p className="sd-kicker">Contemporary art gallery · Diliman, Quezon City</p>
+            <h1 id="hero-title" className="sd-h1">
+              Quezon City&rsquo;s gallery for the <span className="sd-pink-word">super duper</span>
+            </h1>
           </div>
-          <div className="sd-facts">
-            <p>
-              <b>{exhibitionCount}</b>
-              <span>exhibitions</span>
+          <div className="sd-hero__side">
+            <p className="sd-lead">
+              Solo and group shows by emerging and established artists, from the serious to the
+              whimsical. Come and see the work on the wall.
             </p>
-            <p>
-              <b>{artistCount}</b>
-              <span>artists</span>
-            </p>
-            <p>
-              <b>{artworkCount}</b>
-              <span>artworks</span>
-            </p>
+            <div className="sd-hero__actions">
+              {latest && (
+                <Link to={`/exhibitions/${latest.slug}`} className="sd-btn sd-btn--solid">
+                  See the latest show
+                </Link>
+              )}
+              <a href="#visit" className="sd-btn sd-btn--line">
+                Plan your visit
+              </a>
+            </div>
+            <div className="sd-facts">
+              <p>
+                <b>{exhibitionCount}</b>
+                <span>exhibitions</span>
+              </p>
+              <p>
+                <b>{artistCount}</b>
+                <span>artists</span>
+              </p>
+              <p>
+                <b>{artworkCount}</b>
+                <span>artworks</span>
+              </p>
+            </div>
           </div>
         </div>
 
         <div className="sd-hero__photo sd-enter">
           <img
             src="/images/landing-cover.jpeg"
+            width={1440}
+            height={600}
             alt="Inside Super Duper Gallery: a long white room hung with colourful paintings"
           />
           {latest && (
@@ -387,6 +393,8 @@ function HomeVisit() {
         <a href={MAPS_URL} target="_blank" rel="noreferrer" className="sd-visit__map">
           <img
             src="/images/superdupergallery-maps.png"
+            width={1000}
+            height={500}
             alt="Map of Super Duper Gallery in Diliman, Quezon City"
             loading="lazy"
           />
