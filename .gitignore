@@ -17,3 +17,7 @@ node_modules
 /api/index.js
 /api/index.js.map
 /app/data/*.json
+
+# Agent skills (installed via skills CLI from skills-lock.json)
+.agents/
+.claude/
